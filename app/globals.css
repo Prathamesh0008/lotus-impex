@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f4efe7;
+  --foreground: #0b0b0b;
+  --font-body: Arial, Helvetica, sans-serif;
+  --font-heading: Georgia, serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+.font-heading {
+  font-family: var(--font-heading), Georgia, serif;
+  font-weight: 600;
+  text-transform: none !important;
+}
+
+p,
+a,
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+}
+
+a,
+button,
+summary,
+[role="button"],
+input[type="submit"],
+input[type="button"] {
+  cursor: pointer;
+}
+
+::selection {
+  background: #0b0b0b;
+  color: #ffffff;
+}
+
+/* Fix oversized headings */
+main h1 {
+  font-size: clamp(3rem, 6vw, 6.2rem) !important;
+  line-height: 0.95 !important;
+  letter-spacing: -0.045em !important;
+}
+
+main h2 {
+  font-size: clamp(2.3rem, 4.5vw, 4.8rem) !important;
+  line-height: 1 !important;
+  letter-spacing: -0.035em !important;
+}
+
+main h3 {
+  letter-spacing: -0.025em !important;
+}
+
+/* Product card heading control */
+article h3 {
+  font-size: clamp(1.5rem, 2vw, 2.25rem) !important;
+  line-height: 1 !important;
+}
+
+.image-overlay {
+  background:
+    linear-gradient(to top, rgba(0, 0, 0, 0.72), transparent 58%),
+    linear-gradient(to right, rgba(0, 0, 0, 0.38), transparent 62%);
+}
+
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee-left 28s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
