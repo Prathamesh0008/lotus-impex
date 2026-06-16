@@ -42,11 +42,11 @@ export default function HomePage() {
                 {siteConfig.tagline}
               </p>
 
-              <h1 className="max-w-6xl text-6xl font-black uppercase leading-[0.82] tracking-[-0.1em] text-white sm:text-7xl lg:text-8xl xl:text-[10rem]">
+              <h1 className="max-w-3xl text-2xl font-black uppercase leading-[0.82] tracking-[-0.1em] text-white sm:text-7xl lg:text-8xl xl:text-[10rem]">
                 Source. Export. Scale.
               </h1>
 
-              <p className="mt-8 max-w-2xl text-lg leading-8 text-white/72">
+              <p className="mt-8 max-w-2xl text-lg leading-8 text-white/78">
                 Lotus Impex connects international buyers with export-ready
                 garments, fabrics, accessories, machinery and general goods from
                 India.
@@ -85,9 +85,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      <CategoryMarquee />
-      <HomeCategoryShowcase/>
-      <HomePremiumSections/>
+      {/* <CategoryMarquee /> */}
+      <HomeCategoryShowcase />
+      <HomePremiumSections />
 
       
 
@@ -128,8 +128,8 @@ export default function HomePage() {
         <div className="mx-auto grid max-w-[1500px] gap-8 lg:grid-cols-[1fr_1fr] lg:items-center">
           <div className="relative h-[620px] overflow-hidden">
             <Image
-              src="https://images.unsplash.com/photo-1523381294911-8d3cead13475?auto=format&fit=crop&w=1500&q=85"
-              alt="Fashion apparel production and export sourcing"
+              src="/content-women-shopping-mall.jpg"
+              alt="Export package delivery and ecommerce sourcing"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover opacity-90"
@@ -217,7 +217,7 @@ export default function HomePage() {
       <section className="px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
         <div className="relative mx-auto min-h-[560px] max-w-[1500px] overflow-hidden bg-black">
           <Image
-            src="https://images.unsplash.com/photo-1494412651409-8963ce7935a7?auto=format&fit=crop&w=1600&q=85"
+            src="/product_category.jpg"
             alt="International export shipping containers"
             fill
             sizes="100vw"

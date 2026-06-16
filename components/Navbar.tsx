@@ -2,20 +2,161 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Logo from "@/components/Logo";
 import { exportCategories, navLinks } from "@/data/site";
+
+const CART_STORAGE_KEY = "lotus_impex_enquiry_basket";
+const CART_UPDATED_EVENT = "lotus-impex-cart-updated";
+const USER_STORAGE_KEY = "lotus_impex_user";
+const USER_UPDATED_EVENT = "lotus-impex-user-updated";
+
+type SignedInUser = {
+  name: string;
+  email: string;
+};
+
+function getCartCount() {
+  if (typeof window === "undefined") {
+    return 0;
+  }
+
+  const raw = window.localStorage.getItem(CART_STORAGE_KEY);
+
+  if (!raw) {
+    return 0;
+  }
+
+  try {
+    const items = JSON.parse(raw) as { quantity?: number }[];
+
+    return items.reduce((total, item) => total + (item.quantity ?? 1), 0);
+  } catch {
+    return 0;
+  }
+}
+
+function getSignedInUser() {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  const raw = window.localStorage.getItem(USER_STORAGE_KEY);
+
+  if (!raw) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(raw) as SignedInUser;
+  } catch {
+    window.localStorage.removeItem(USER_STORAGE_KEY);
+    return null;
+  }
+}
+
+function CartIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="size-5"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2.2"
+    >
+      <path d="M5 6h16l-2 8H7L5 3H3" />
+      <circle cx="9" cy="20" r="1.5" />
+      <circle cx="18" cy="20" r="1.5" />
+    </svg>
+  );
+}
+
+function UserIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="size-5"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2.2"
+    >
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 21c1.6-4.2 4.2-6 8-6s6.4 1.8 8 6" />
+    </svg>
+  );
+}
 
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
+  const [user, setUser] = useState<SignedInUser | null>(null);
+
+  useEffect(() => {
+    function updateCartCount() {
+      setCartCount(getCartCount());
+    }
+
+    updateCartCount();
+    window.addEventListener("storage", updateCartCount);
+    window.addEventListener(CART_UPDATED_EVENT, updateCartCount);
+    window.addEventListener("focus", updateCartCount);
+
+    return () => {
+      window.removeEventListener("storage", updateCartCount);
+      window.removeEventListener(CART_UPDATED_EVENT, updateCartCount);
+      window.removeEventListener("focus", updateCartCount);
+    };
+  }, []);
+
+  useEffect(() => {
+    function updateUser() {
+      setUser(getSignedInUser());
+    }
+
+    updateUser();
+    window.addEventListener("storage", updateUser);
+    window.addEventListener(USER_UPDATED_EVENT, updateUser);
+    window.addEventListener("focus", updateUser);
+
+    return () => {
+      window.removeEventListener("storage", updateUser);
+      window.removeEventListener(USER_UPDATED_EVENT, updateUser);
+      window.removeEventListener("focus", updateUser);
+    };
+  }, []);
+
+  const iconLinks = [
+    {
+      href: "/enquiry-basket",
+      label: "Cart",
+      icon: <CartIcon />,
+      count: cartCount,
+    },
+    {
+      href: "/sign-in",
+      label: user ? user.name : "Sign in",
+      icon: <UserIcon />,
+      count: 0,
+    },
+  ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-black/10 bg-[#f4efe7]/90 backdrop-blur-2xl">
-      <nav className="mx-auto flex max-w-[1500px] items-center justify-between px-5 py-4 sm:px-8 lg:px-10">
-        <Logo />
+    <header className="sticky top-0 z-50 border-b border-black/10 bg-[#f4efe7]/95 backdrop-blur-2xl">
+      <nav className="mx-auto grid h-20 max-w-[1500px] grid-cols-[1fr_auto] items-center px-5 sm:px-8 lg:h-24 lg:grid-cols-[minmax(360px,1fr)_auto_minmax(420px,1fr)] lg:px-10">
+        {/* LEFT LOGO */}
+        <div className="flex min-w-0 items-center justify-start">
+          <Logo />
+        </div>
 
-        <div className="hidden items-center gap-8 lg:flex">
+        {/* CENTER MENU */}
+        <div className="hidden items-center justify-center gap-9 lg:flex">
           {navLinks.map((link) => {
             const active =
               pathname === link.href ||
@@ -88,28 +229,53 @@ export default function Navbar() {
           })}
         </div>
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <Link
-            href="/products"
-            className="rounded-full border border-black/15 px-5 py-3 text-xs font-black uppercase tracking-[0.14em] text-black transition hover:bg-black hover:text-white"
-          >
-            Catalogue
-          </Link>
+        {/* RIGHT ACTIONS */}
+        <div className="hidden items-center justify-end gap-3 lg:flex">
+          {iconLinks.map((item) => {
+            const active = pathname === item.href;
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-label={item.label}
+                title={item.label}
+                className={`relative inline-flex h-12 items-center justify-center gap-2 rounded-full border text-lg transition ${
+                  active
+                    ? "border-black bg-black text-white"
+                    : "border-black/15 bg-white text-black hover:bg-black hover:text-white"
+                } ${user && item.href === "/sign-in" ? "px-4" : "w-12"}`}
+              >
+                {item.icon}
+                {user && item.href === "/sign-in" ? (
+                  <span className="max-w-28 truncate text-xs font-black uppercase tracking-[0.12em]">
+                    {user.name}
+                  </span>
+                ) : null}
+                {item.count > 0 ? (
+                  <span className="absolute -right-1 -top-1 grid min-w-5 place-items-center rounded-full bg-[#c9a16b] px-1.5 py-0.5 text-[10px] font-black leading-none text-black ring-2 ring-[#f4efe7]">
+                    {item.count > 99 ? "99+" : item.count}
+                  </span>
+                ) : null}
+              </Link>
+            );
+          })}
 
           <Link
             href="/contact"
-            className="rounded-full bg-black px-5 py-3 text-xs font-black uppercase tracking-[0.14em] text-white transition hover:bg-[#6b3f24]"
+            className="rounded-full bg-black px-7 py-3.5 text-xs font-black uppercase tracking-[0.14em] text-white transition hover:bg-[#6b3f24]"
           >
             Enquire
           </Link>
         </div>
 
+        {/* MOBILE BUTTON */}
         <button
           type="button"
           aria-label="Open navigation menu"
           aria-expanded={open}
           onClick={() => setOpen((value) => !value)}
-          className="grid size-11 place-items-center rounded-full border border-black/15 bg-transparent text-black lg:hidden"
+          className="col-start-2 grid size-11 place-items-center justify-self-end rounded-full border border-black/15 bg-transparent text-black lg:hidden"
         >
           <span className="relative block h-4 w-5">
             <span
@@ -144,6 +310,25 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+
+            <div className="grid grid-cols-2 gap-2">
+              {iconLinks.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className="relative flex items-center justify-center gap-3 rounded-2xl border border-black/10 bg-white px-4 py-4 text-sm font-black uppercase tracking-[0.14em] text-black"
+                >
+                  {item.icon}
+                  {item.label}
+                  {item.count > 0 ? (
+                    <span className="grid min-w-5 place-items-center rounded-full bg-[#c9a16b] px-1.5 py-0.5 text-[10px] font-black leading-none text-black">
+                      {item.count > 99 ? "99+" : item.count}
+                    </span>
+                  ) : null}
+                </Link>
+              ))}
+            </div>
 
             <div className="mt-4 border-t border-black/10 pt-4">
               <p className="mb-2 px-4 text-xs font-black uppercase tracking-[0.24em] text-black/40">

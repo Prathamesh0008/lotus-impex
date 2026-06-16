@@ -5,10 +5,10 @@ import { exportCategories, navLinks, siteConfig } from "@/data/site";
 export default function Footer() {
   return (
     <footer className="bg-black text-white">
-      <div className="mx-auto max-w-[1500px] px-5 py-16 sm:px-8 lg:px-10">
-        <div className="grid gap-12 lg:grid-cols-[1.2fr_0.7fr_1fr_1fr]">
-          <div>
-            <Logo dark={false} />
+      <div className="mx-auto max-w-[1500px] px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
+        <div className="grid items-start gap-12 lg:grid-cols-[minmax(360px,1.25fr)_minmax(180px,0.75fr)_minmax(240px,1fr)_minmax(300px,1fr)] lg:gap-14">
+          <div className="flex min-w-0 flex-col items-start">
+            <Logo size="footer" />
 
             <p className="mt-7 max-w-md text-sm leading-7 text-white/55">
               {siteConfig.description}
@@ -26,11 +26,11 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-xs font-black uppercase tracking-[0.24em] text-white/35">
+            <h3 className="text-xs font-black uppercase tracking-[0.28em] text-white/35">
               Navigation
             </h3>
 
-            <div className="mt-6 grid gap-4">
+            <div className="mt-7 grid gap-4">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -47,15 +47,21 @@ export default function Footer() {
               >
                 Privacy Policy
               </Link>
+              <Link
+                href="/terms-condition"
+                className="text-sm font-bold text-white/60 transition hover:text-white"
+              >
+                Terms & Conditions
+              </Link>
             </div>
           </div>
 
           <div>
-            <h3 className="text-xs font-black uppercase tracking-[0.24em] text-white/35">
+            <h3 className="text-xs font-black uppercase tracking-[0.28em] text-white/35">
               Product Categories
             </h3>
 
-            <div className="mt-6 grid gap-4">
+            <div className="mt-7 grid gap-4">
               {exportCategories.map((category) => (
                 <Link
                   key={category.slug}
@@ -69,24 +75,38 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-xs font-black uppercase tracking-[0.24em] text-white/35">
+            <h3 className="text-xs font-black uppercase tracking-[0.28em] text-white/35">
               Quick Actions
             </h3>
 
-            <div className="mt-6 grid gap-3">
+            <div className="mt-7 grid gap-4">
               <Link
                 href="/products"
-                className="border border-white/10 px-5 py-4 text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white hover:text-black"
+                className="inline-flex min-h-[68px] items-center border border-white/10 px-7 py-5 text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white hover:text-black"
               >
                 View Catalogue
               </Link>
 
               <Link
                 href="/contact"
-                className="bg-white px-5 py-4 text-sm font-black uppercase tracking-[0.16em] text-black transition hover:bg-[#c9a16b]"
+                className="inline-flex min-h-[68px] items-center bg-white px-7 py-5 text-sm font-black uppercase tracking-[0.16em] text-black transition hover:bg-[#c9a16b]"
               >
                 Request Quote
               </Link>
+              <div className="grid grid-cols-2 gap-3">
+                <Link
+                  href="/privacy"
+                  className="inline-flex min-h-12 items-center justify-center border border-white/10 px-4 py-3 text-[10px] font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white hover:text-black"
+                >
+                  Privacy
+                </Link>
+                <Link
+                  href="/terms-condition"
+                  className="inline-flex min-h-12 items-center justify-center border border-white/10 px-4 py-3 text-[10px] font-black uppercase tracking-[0.14em] text-white/70 transition hover:bg-white hover:text-black"
+                >
+                  Terms
+                </Link>
+              </div>
             </div>
           </div>
         </div>

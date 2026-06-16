@@ -17,13 +17,8 @@ export default function ProductCategoryClient({
   products,
 }: ProductCategoryClientProps) {
   const [search, setSearch] = useState("");
-  const [applicationFilter, setApplicationFilter] = useState("all");
+  const [typeFilter, setTypeFilter] = useState("all");
   const [sort, setSort] = useState("featured");
-
-  const allApplications = useMemo(() => {
-    const values = products.flatMap((product) => product.applications);
-    return Array.from(new Set(values));
-  }, [products]);
 
   const filteredProducts = useMemo(() => {
     let result = products.filter((product) => {
@@ -34,11 +29,9 @@ export default function ProductCategoryClient({
           option.toLowerCase().includes(search.toLowerCase())
         );
 
-      const applicationMatch =
-        applicationFilter === "all" ||
-        product.applications.includes(applicationFilter);
+      const typeMatch = typeFilter === "all" || product.type === typeFilter;
 
-      return searchMatch && applicationMatch;
+      return searchMatch && typeMatch;
     });
 
     if (sort === "name") {
@@ -50,7 +43,7 @@ export default function ProductCategoryClient({
     }
 
     return result;
-  }, [products, search, applicationFilter, sort]);
+  }, [products, search, typeFilter, sort]);
 
   return (
     <main className="bg-[#f4efe7] text-black">
@@ -107,41 +100,6 @@ export default function ProductCategoryClient({
               );
             })}
           </div>
-
-          <div className="mt-8 border-t border-black/10 pt-6">
-            <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-black/40">
-              Filter By Use
-            </p>
-
-            <div className="grid gap-2">
-              <button
-                type="button"
-                onClick={() => setApplicationFilter("all")}
-                className={`rounded-2xl px-4 py-3 text-left text-sm font-bold transition ${
-                  applicationFilter === "all"
-                    ? "bg-black text-white"
-                    : "bg-[#f4efe7] text-black/60 hover:bg-black hover:text-white"
-                }`}
-              >
-                All Uses
-              </button>
-
-              {allApplications.map((application) => (
-                <button
-                  key={application}
-                  type="button"
-                  onClick={() => setApplicationFilter(application)}
-                  className={`rounded-2xl px-4 py-3 text-left text-sm font-bold transition ${
-                    applicationFilter === application
-                      ? "bg-black text-white"
-                      : "bg-[#f4efe7] text-black/60 hover:bg-black hover:text-white"
-                  }`}
-                >
-                  {application}
-                </button>
-              ))}
-            </div>
-          </div>
         </aside>
 
         {/* CONTENT */}
@@ -187,14 +145,24 @@ export default function ProductCategoryClient({
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-              {category.items.map((item) => (
-                <div
-                  key={item}
-                  className="rounded-2xl border border-black/10 bg-[#f4efe7] px-4 py-4 transition hover:bg-black hover:text-white"
-                >
-                  <p className="text-sm font-black">{item}</p>
-                </div>
-              ))}
+              {category.items.map((item) => {
+                const active = typeFilter === item;
+
+                return (
+                  <button
+                    key={item}
+                    type="button"
+                    onClick={() => setTypeFilter(active ? "all" : item)}
+                    className={`rounded-2xl border border-black/10 px-4 py-4 text-left transition hover:bg-black hover:text-white ${
+                      active
+                        ? "bg-black text-white"
+                        : "bg-[#f4efe7] text-black"
+                    }`}
+                  >
+                    <p className="text-sm font-black">{item}</p>
+                  </button>
+                );
+              })}
             </div>
           </div>
 

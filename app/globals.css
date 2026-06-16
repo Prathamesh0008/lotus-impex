@@ -20,13 +20,15 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  font-size: 14px;
   overflow-x: hidden;
 }
 
 h1,
 h2,
 h3,
-.font-heading {
+.font-heading,
+.font-brand {
   font-family: var(--font-heading), Georgia, serif;
   font-weight: 600;
   text-transform: none !important;
@@ -50,6 +52,28 @@ input[type="button"] {
   cursor: pointer;
 }
 
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+}
+
+main :where(p, a, button, label, input, textarea, select, li),
+nav :where(a, button, label, input, textarea, select, li),
+footer :where(p, a, button, label, input, textarea, select, li) {
+  font-size: clamp(0.78rem, 0.85vw, 0.9rem) !important;
+  line-height: 1.55 !important;
+}
+
+main :where(a, button, summary, [role="button"]),
+nav :where(a, button, summary, [role="button"]),
+footer :where(a, button, summary, [role="button"]),
+article,
+details summary {
+  cursor: pointer;
+}
+
 ::selection {
   background: #0b0b0b;
   color: #ffffff;
@@ -57,25 +81,30 @@ input[type="button"] {
 
 /* Fix oversized headings */
 main h1 {
-  font-size: clamp(3rem, 6vw, 6.2rem) !important;
-  line-height: 0.95 !important;
-  letter-spacing: -0.045em !important;
+  font-size: clamp(2rem, 3.6vw, 3.8rem) !important;
+  line-height: 1.05 !important;
+  letter-spacing: 0 !important;
 }
 
 main h2 {
-  font-size: clamp(2.3rem, 4.5vw, 4.8rem) !important;
-  line-height: 1 !important;
-  letter-spacing: -0.035em !important;
+  font-size: clamp(1.55rem, 2.7vw, 2.8rem) !important;
+  line-height: 1.08 !important;
+  letter-spacing: 0 !important;
 }
 
 main h3 {
-  letter-spacing: -0.025em !important;
+  letter-spacing: 0 !important;
+}
+
+.font-heading {
+  font-size: clamp(1.4rem, 2.35vw, 2.45rem) !important;
+  line-height: 1.08 !important;
 }
 
 /* Product card heading control */
 article h3 {
-  font-size: clamp(1.5rem, 2vw, 2.25rem) !important;
-  line-height: 1 !important;
+  font-size: clamp(1.05rem, 1.25vw, 1.45rem) !important;
+  line-height: 1.12 !important;
 }
 
 .image-overlay {

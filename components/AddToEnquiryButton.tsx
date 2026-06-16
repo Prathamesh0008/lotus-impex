@@ -13,6 +13,7 @@ type AddToEnquiryButtonProps = {
 };
 
 const STORAGE_KEY = "lotus_impex_enquiry_basket";
+const CART_UPDATED_EVENT = "lotus-impex-cart-updated";
 
 export default function AddToEnquiryButton({
   product,
@@ -41,6 +42,7 @@ export default function AddToEnquiryButton({
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextItems));
     }
 
+    window.dispatchEvent(new Event(CART_UPDATED_EVENT));
     setAdded(true);
   }
 
@@ -48,11 +50,11 @@ export default function AddToEnquiryButton({
     return (
       <Link
         href="/enquiry-basket"
-        className={`inline-flex items-center justify-center rounded-full bg-[#c9a16b] px-6 py-4 text-xs font-black uppercase tracking-[0.16em] text-black transition hover:bg-white ${
+        className={`inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-full bg-[#c9a16b] px-4 py-3 text-[11px] font-black uppercase tracking-[0.08em] text-black transition hover:bg-white ${
           fullWidth ? "w-full" : ""
         }`}
       >
-        View Enquiry Basket
+        View Cart
       </Link>
     );
   }
@@ -61,11 +63,11 @@ export default function AddToEnquiryButton({
     <button
       type="button"
       onClick={addToBasket}
-      className={`inline-flex items-center justify-center rounded-full bg-black px-6 py-4 text-xs font-black uppercase tracking-[0.16em] text-white transition hover:bg-[#6b3f24] ${
+      className={`inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-full bg-black px-4 py-3 text-[11px] font-black uppercase tracking-[0.08em] text-white transition hover:bg-[#6b3f24] ${
         fullWidth ? "w-full" : ""
       }`}
     >
-      Add To Enquiry
+      Add To Cart
     </button>
   );
 }

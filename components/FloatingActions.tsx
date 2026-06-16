@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { siteConfig } from "@/data/site";
 
 export default function FloatingActions() {
@@ -8,41 +7,22 @@ export default function FloatingActions() {
   );
 
   return (
-    <div className="fixed bottom-5 right-5 z-40 hidden flex-col gap-3 sm:flex">
-      <a
-        href={`https://wa.me/${phoneNumber}?text=${whatsappText}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Chat with Lotus Impex on WhatsApp"
-        className="group flex items-center gap-3 rounded-full bg-[#25D366] px-5 py-4 text-sm font-black uppercase tracking-[0.14em] text-black shadow-2xl shadow-black/20 transition hover:-translate-y-1"
+    <a
+      href={`https://wa.me/${phoneNumber}?text=${whatsappText}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Chat with Lotus Impex on WhatsApp"
+      title="WhatsApp"
+      className="fixed bottom-6 right-5 z-40 grid size-16 place-items-center rounded-full border-4 border-white bg-[#25D366] text-white shadow-2xl shadow-black/30 transition hover:-translate-y-1 sm:bottom-7 sm:right-7 sm:size-[72px]"
+    >
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 16 16"
+        className="size-9 sm:size-10"
+        fill="currentColor"
       >
-        <span className="grid size-8 place-items-center rounded-full bg-white">
-          WA
-        </span>
-        <span className="hidden lg:inline">WhatsApp</span>
-      </a>
-
-      <Link
-        href="/enquiry-basket"
-        aria-label="Open enquiry basket"
-        className="group flex items-center gap-3 rounded-full bg-white px-5 py-4 text-sm font-black uppercase tracking-[0.14em] text-black shadow-2xl shadow-black/20 transition hover:-translate-y-1"
-      >
-        <span className="grid size-8 place-items-center rounded-full bg-black text-white">
-          +
-        </span>
-        <span className="hidden lg:inline">Basket</span>
-      </Link>
-
-      <Link
-        href="/contact"
-        aria-label="Send export enquiry"
-        className="group flex items-center gap-3 rounded-full bg-black px-5 py-4 text-sm font-black uppercase tracking-[0.14em] text-white shadow-2xl shadow-black/20 transition hover:-translate-y-1 hover:bg-[#6b3f24]"
-      >
-        <span className="grid size-8 place-items-center rounded-full bg-white text-black">
-          →
-        </span>
-        <span className="hidden lg:inline">Enquire</span>
-      </Link>
-    </div>
+        <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93a7.9 7.9 0 0 0-2.327-5.607M7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.955-6.58 6.591-6.58a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.958 6.588-6.592 6.588m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.397 2.132 3.383 2.992.473.205.842.327 1.13.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
+      </svg>
+    </a>
   );
 }

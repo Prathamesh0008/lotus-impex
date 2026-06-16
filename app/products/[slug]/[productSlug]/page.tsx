@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import AddToEnquiryButton from "@/components/AddToEnquiryButton";
 import CatalogProductCard from "@/components/CatalogProductCard";
+import ProductImageGallery from "@/components/ProductImageGallery";
 import { exportCategories, siteConfig } from "@/data/site";
 import {
   exportProducts,
@@ -117,49 +117,23 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
       {/* PRODUCT DETAIL TOP */}
       <section className="mx-auto grid max-w-[1500px] gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[90px_1.05fr_0.95fr] lg:px-10 lg:py-12">
-        {/* THUMBNAILS */}
-        <div className="hidden gap-3 lg:grid">
-          {[product.image, category.image, product.image].map((image, index) => (
-            <div
-              key={`${image}-${index}`}
-              className="relative h-24 overflow-hidden rounded-2xl border border-black/10 bg-white"
-            >
-              <Image
-                src={image}
-                alt={product.imageAlt}
-                fill
-                sizes="90px"
-                className="object-cover"
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* MAIN IMAGE */}
-        <div className="relative min-h-[620px] overflow-hidden rounded-[32px] bg-black">
-          <Image
-            src={product.image}
-            alt={product.imageAlt}
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover opacity-95"
-          />
-
-          <div className="absolute left-6 top-6 rounded-full bg-white px-5 py-3 text-xs font-black uppercase tracking-[0.18em] text-black">
-            {product.type}
-          </div>
-        </div>
+        <ProductImageGallery
+          image={product.image}
+          imageAlt={product.imageAlt}
+          categoryImage={category.image}
+          categorySlug={product.categorySlug}
+          type={product.type}
+        />
 
         {/* PRODUCT INFO */}
-        <aside className="h-fit rounded-[32px] border border-black/10 bg-white p-6 shadow-sm lg:sticky lg:top-28">
+        <aside className="h-fit rounded-[24px] border border-black/10 bg-white p-5 shadow-sm lg:sticky lg:top-28">
           <div className="flex items-start justify-between gap-5">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.24em] text-black/40">
                 Export Product
               </p>
 
-              <h1 className="mt-3 text-6xl uppercase leading-[0.86] tracking-[-0.06em] text-black sm:text-7xl">
+              <h1 className="mt-3 text-3xl uppercase leading-tight text-black sm:text-4xl">
                 {product.name}
               </h1>
             </div>
@@ -173,7 +147,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
             </button>
           </div>
 
-          <p className="mt-5 text-base leading-8 text-black/60">
+          <p className="mt-4 text-sm leading-7 text-black/60">
             {product.description}
           </p>
 
@@ -231,7 +205,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
               Product Details
             </p>
 
-            <h2 className="text-6xl uppercase leading-[0.88] tracking-[-0.06em] sm:text-7xl">
+            <h2 className="text-3xl uppercase leading-tight sm:text-4xl">
               Specification overview.
             </h2>
           </div>
@@ -256,7 +230,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
       </section>
 
       {/* APPLICATIONS */}
-      <section className="bg-black px-5 py-20 text-white sm:px-8 lg:px-10 lg:py-28">
+      <section className="bg-black px-5 py-16 text-white sm:px-8 lg:px-10">
         <div className="mx-auto max-w-[1500px]">
           <div className="mb-12 grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
             <div>
@@ -264,12 +238,12 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 Suitable For
               </p>
 
-              <h2 className="text-6xl uppercase leading-[0.88] tracking-[-0.06em] sm:text-7xl lg:text-8xl">
+              <h2 className="text-3xl uppercase leading-tight sm:text-4xl">
                 Buyer applications.
               </h2>
             </div>
 
-            <p className="max-w-2xl text-lg leading-8 text-white/60 lg:ml-auto">
+            <p className="max-w-2xl text-sm leading-7 text-white/60 lg:ml-auto">
               This product is suitable for different buyer types depending on
               quantity, market, packaging and final use.
             </p>
@@ -279,9 +253,9 @@ export default async function ProductDetailPage({ params }: PageProps) {
             {product.applications.map((application) => (
               <div
                 key={application}
-                className="rounded-[24px] border border-white/10 p-6 transition hover:bg-white hover:text-black"
+                className="rounded-[18px] border border-white/10 p-5 transition hover:bg-white hover:text-black"
               >
-                <h3 className="text-3xl uppercase tracking-[-0.05em]">
+                <h3 className="text-xl uppercase leading-tight">
                   {application}
                 </h3>
               </div>
@@ -292,7 +266,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
       {/* RELATED PRODUCTS */}
       {relatedProducts.length > 0 ? (
-        <section className="px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
+        <section className="px-5 py-16 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-[1500px]">
             <div className="mb-10 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
               <div>
@@ -300,7 +274,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                   Related Products
                 </p>
 
-                <h2 className="text-6xl uppercase leading-[0.88] tracking-[-0.06em] sm:text-7xl">
+                <h2 className="text-3xl uppercase leading-tight sm:text-4xl">
                   More in {category.title}.
                 </h2>
               </div>

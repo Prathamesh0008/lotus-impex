@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import AddToEnquiryButton from "@/components/AddToEnquiryButton";
 import type { ExportProduct } from "@/data/products";
 
@@ -9,16 +10,30 @@ type CatalogProductCardProps = {
   product: ExportProduct;
 };
 
+const fallbackImages: Record<string, string> = {
+  "ladies-garments": "/content-women-shopping-mall.jpg",
+  "mens-garments": "/fast-fashion.jpg",
+  fabrics: "/product_category.jpg",
+  accessories: "/online-marketing.jpg",
+  machinery: "/product_category.jpg",
+  "general-goods": "/e-commerce.jpg",
+};
+
 export default function CatalogProductCard({ product }: CatalogProductCardProps) {
+  const fallbackImage =
+    fallbackImages[product.categorySlug] || "/product_category.jpg";
+  const [imageSrc, setImageSrc] = useState(product.image || fallbackImage);
+
   return (
     <article className="group overflow-hidden rounded-[22px] border border-black/10 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/10">
       <Link href={`/products/${product.categorySlug}/${product.slug}`}>
         <div className="relative h-[310px] overflow-hidden bg-[#f3f3f3]">
           <Image
-            src={product.image}
+            src={imageSrc}
             alt={product.imageAlt}
             fill
             sizes="(max-width: 768px) 100vw, 33vw"
+            onError={() => setImageSrc(fallbackImage)}
             className="object-cover transition duration-700 group-hover:scale-105"
           />
 
@@ -71,10 +86,10 @@ export default function CatalogProductCard({ product }: CatalogProductCardProps)
           </div>
         </div>
 
-        <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        <div className="mt-5 grid grid-cols-2 gap-2">
           <Link
             href={`/products/${product.categorySlug}/${product.slug}`}
-            className="inline-flex items-center justify-center rounded-full border border-black/15 px-5 py-4 text-xs font-black uppercase tracking-[0.14em] text-black transition hover:bg-black hover:text-white"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-black/15 px-4 py-3 text-[11px] font-black uppercase tracking-[0.08em] text-black transition hover:bg-black hover:text-white"
           >
             Details
           </Link>

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import clientPromise from "@/app/lib/mongodb";
 
 type EnquiryPayload = {
   name?: string;
@@ -75,19 +76,13 @@ export async function POST(request: NextRequest) {
       quantity,
       country,
       message,
-      createdAt: new Date().toISOString(),
+      status: "new",
+      createdAt: new Date(),
     };
 
-    console.log("New Lotus Impex enquiry:", enquiry);
-
-    /*
-      Later database connection will go here.
-
-      Example:
-      await db.collection("enquiries").insertOne(enquiry);
-
-      Later email notification will also go here.
-    */
+    const client = await clientPromise;
+    const db = client.db(process.env.MONGODB_DB || "lotus_impex");
+    await db.collection("enquiries").insertOne(enquiry);
 
     return NextResponse.json(
       {

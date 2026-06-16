@@ -35,8 +35,7 @@ export const heroSlides = [
   {
     label: "Fashion Export",
     title: "Garments For Global Buyers",
-    image:
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1800&q=85",
+    image: "/fast-fashion.jpg",
   },
   {
     label: "Textile Sourcing",
@@ -62,9 +61,8 @@ export const exportCategories: ExportCategory[] = [
       "Export-ready ladies apparel for boutiques, wholesalers, retail chains and private-label buyers.",
     description:
       "We source ladies garments including dresses, tops, modest wear, ethnic styles, co-ord sets and seasonal collections with attention to finishing, sizing and packaging.",
-    image:
-      "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1400&q=85",
-    imageAlt: "Premium ladies garments on retail display",
+    image: "/content-women-shopping-mall.jpg",
+    imageAlt: "Ecommerce package delivery for export order",
     items: [
       "Dresses and gowns",
       "Tops and shirts",
@@ -87,8 +85,8 @@ export const exportCategories: ExportCategory[] = [
     description:
       "We help buyers source formal shirts, casual wear, t-shirts, polos, trousers, workwear and uniforms with consistent sizing and quality.",
     image:
-      "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=85",
-    imageAlt: "Mens fashion garments and apparel",
+      "https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=1400&q=85",
+    imageAlt: "Mens formal shirts and apparel for export",
     items: [
       "Formal shirts",
       "Casual shirts",
@@ -223,10 +221,10 @@ export const processSteps = [
 ];
 
 export const trustPoints = [
-  "Garments, fabrics, accessories and machinery",
-  "Export documentation coordination",
-  "B2B sourcing for international buyers",
-  "Quality-focused supplier communication",
+  // "Garments, fabrics, accessories and machinery",
+  // "Export documentation coordination",
+  // "B2B sourcing for international buyers",
+  // "Quality-focused supplier communication",
 ];
 
 export const internalLinks = [

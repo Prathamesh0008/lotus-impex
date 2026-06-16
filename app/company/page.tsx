@@ -18,7 +18,7 @@ export default function CompanyPage() {
     <main className="bg-[#f4efe7] text-black">
       <section className="relative min-h-[620px] overflow-hidden bg-black">
         <Image
-          src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1800&q=85"
+          src="/online-marketing.jpg"
           alt="Lotus Impex business export team"
           fill
           priority
@@ -95,7 +95,7 @@ export default function CompanyPage() {
         <div className="mx-auto grid max-w-[1500px] gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
           <div className="relative h-[620px] overflow-hidden">
             <Image
-              src="https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?auto=format&fit=crop&w=1400&q=85"
+              src="/product_category.jpg"
               alt="Export logistics and shipment coordination"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"

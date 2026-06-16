@@ -3,19 +3,23 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack -H 0.0.0.0 -p 3001",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "bcryptjs": "^3.0.3",
+    "mongodb": "^7.3.0",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "latest",
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",

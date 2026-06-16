@@ -19,12 +19,12 @@ export default function ProductsPage() {
     <main className="bg-[#f4efe7] text-black">
       <section className="relative min-h-[560px] overflow-hidden bg-black">
         <Image
-          src="https://images.unsplash.com/photo-1523381294911-8d3cead13475?auto=format&fit=crop&w=1800&q=85"
-          alt="Lotus Impex export product catalogue"
+          src="/product_category.jpg"
+          alt="Lotus Impex online product catalogue"
           fill
           priority
           sizes="100vw"
-          className="object-cover opacity-65"
+          className="object-cover opacity-[0.72]"
         />
 
         <div className="absolute inset-0 image-overlay" />
