@@ -11,9 +11,24 @@ export default function HomeCategoryShowcase() {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const dragState = useRef({ left: 0, startX: 0 });
   const didDrag = useRef(false);
+ const restartTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const [isDragging, setIsDragging] = useState(false);
   const [isInteracting, setIsInteracting] = useState(false);
+
   const categories = useMemo(() => [...exportCategories, ...exportCategories], []);
+
+  function pauseThenRestart() {
+    setIsInteracting(true);
+
+    if (restartTimer.current) {
+      clearTimeout(restartTimer.current);
+    }
+
+    restartTimer.current = setTimeout(() => {
+      setIsInteracting(false);
+    }, 3000);
+  }
 
   useEffect(() => {
     let animationFrame = 0;
@@ -37,32 +52,34 @@ export default function HomeCategoryShowcase() {
 
     animationFrame = requestAnimationFrame(autoScroll);
 
-    return () => cancelAnimationFrame(animationFrame);
+    return () => {
+      cancelAnimationFrame(animationFrame);
+
+      if (restartTimer.current) {
+        clearTimeout(restartTimer.current);
+      }
+    };
   }, [isDragging, isInteracting]);
 
   function handlePointerDown(event: PointerEvent<HTMLDivElement>) {
     const scroller = scrollerRef.current;
+    if (!scroller) return;
 
-    if (!scroller) {
-      return;
-    }
-
+    pauseThenRestart();
     setIsDragging(true);
-    setIsInteracting(true);
     didDrag.current = false;
+
     dragState.current = {
       left: scroller.scrollLeft,
       startX: event.clientX,
     };
+
     scroller.setPointerCapture(event.pointerId);
   }
 
   function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
     const scroller = scrollerRef.current;
-
-    if (!scroller || !isDragging) {
-      return;
-    }
+    if (!scroller || !isDragging) return;
 
     const distance = event.clientX - dragState.current.startX;
     didDrag.current = Math.abs(distance) > 6;
@@ -72,17 +89,15 @@ export default function HomeCategoryShowcase() {
   function handlePointerUp(event: PointerEvent<HTMLDivElement>) {
     scrollerRef.current?.releasePointerCapture(event.pointerId);
     setIsDragging(false);
+    pauseThenRestart();
   }
 
   return (
     <section className="bg-[#f4efe7] px-5 py-10 sm:px-8 lg:px-10">
       <div
         ref={scrollerRef}
-        onMouseEnter={() => setIsInteracting(true)}
-        onMouseLeave={() => {
-          setIsInteracting(false);
-          setIsDragging(false);
-        }}
+        onMouseEnter={pauseThenRestart}
+        onMouseLeave={pauseThenRestart}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
@@ -133,15 +148,9 @@ export default function HomeCategoryShowcase() {
                 {category.summary}
               </p>
 
-              <span
-                className={`mx-auto grid size-9 place-items-center rounded-full text-base text-white transition group-hover:bg-[#b58a52] ${
-                  index % exportCategories.length === 0
-                    ? "bg-[#b58a52]"
-                    : "bg-black"
-                }`}
-              >
-                →
-              </span>
+              <span className="mx-auto grid size-9 place-items-center rounded-full bg-black text-base text-white transition group-hover:bg-black">
+  →
+</span>
             </div>
           </Link>
         ))}

@@ -1,9 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Cinzel, Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import FloatingActions from "@/components/FloatingActions";
+import AppShell from "@/components/AppShell";
 import { siteConfig } from "@/data/site";
 
 const bodyFont = Inter({
@@ -44,10 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${bodyFont.variable} ${headingFont.variable}`}>
-        <Navbar />
-        {children}
-        <Footer />
-        <FloatingActions />
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

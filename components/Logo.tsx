@@ -25,7 +25,7 @@ export default function Logo({ dark = false, size = "nav" }: LogoProps) {
         }`}
       >
         <Image
-          src="/lotus-final-logo-wide.png"
+          src="/Lotus_Final_Logo1.png"
           alt="Lotus Impex Global Exporters"
           fill
           priority

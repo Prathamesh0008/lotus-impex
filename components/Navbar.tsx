@@ -17,19 +17,13 @@ type SignedInUser = {
 };
 
 function getCartCount() {
-  if (typeof window === "undefined") {
-    return 0;
-  }
+  if (typeof window === "undefined") return 0;
 
   const raw = window.localStorage.getItem(CART_STORAGE_KEY);
-
-  if (!raw) {
-    return 0;
-  }
+  if (!raw) return 0;
 
   try {
     const items = JSON.parse(raw) as { quantity?: number }[];
-
     return items.reduce((total, item) => total + (item.quantity ?? 1), 0);
   } catch {
     return 0;
@@ -37,15 +31,10 @@ function getCartCount() {
 }
 
 function getSignedInUser() {
-  if (typeof window === "undefined") {
-    return null;
-  }
+  if (typeof window === "undefined") return null;
 
   const raw = window.localStorage.getItem(USER_STORAGE_KEY);
-
-  if (!raw) {
-    return null;
-  }
+  if (!raw) return null;
 
   try {
     return JSON.parse(raw) as SignedInUser;
@@ -148,14 +137,12 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-black/10 bg-[#f4efe7]/95 backdrop-blur-2xl">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-black/95 text-white backdrop-blur-2xl">
       <nav className="mx-auto grid h-20 max-w-[1500px] grid-cols-[1fr_auto] items-center px-5 sm:px-8 lg:h-24 lg:grid-cols-[minmax(360px,1fr)_auto_minmax(420px,1fr)] lg:px-10">
-        {/* LEFT LOGO */}
         <div className="flex min-w-0 items-center justify-start">
           <Logo />
         </div>
 
-        {/* CENTER MENU */}
         <div className="hidden items-center justify-center gap-9 lg:flex">
           {navLinks.map((link) => {
             const active =
@@ -164,28 +151,27 @@ export default function Navbar() {
 
             if (link.href === "/products") {
               return (
-                <div key={link.href} className="group relative">
+           <div key={link.href} className="group relative py-8">
                   <Link
                     href="/products"
                     className={`relative text-sm font-black uppercase tracking-[0.14em] transition ${
-                      active ? "text-black" : "text-black/50 hover:text-black"
+                      active ? "text-white" : "text-white/60 hover:text-white"
                     }`}
                   >
                     Products
                     {active ? (
-                      <span className="absolute -bottom-2 left-0 h-0.5 w-full bg-black" />
+                      <span className="absolute -bottom-2 left-0 h-0.5 w-full bg-white" />
                     ) : null}
                   </Link>
 
-                  <div className="invisible absolute left-1/2 top-full z-50 mt-7 w-[720px] -translate-x-1/2 border border-black/10 bg-[#f4efe7] p-4 opacity-0 shadow-2xl shadow-black/15 transition group-hover:visible group-hover:opacity-100">
-                    <div className="grid grid-cols-2 gap-3">
+<div className="invisible absolute left-1/2 top-full z-50 mt-4 w-[720px] -translate-x-1/2 border border-white/10 bg-black p-4 opacity-0 shadow-2xl shadow-black/30 transition-all duration-200 group-hover:visible group-hover:opacity-100">                    <div className="grid grid-cols-2 gap-3">
                       {exportCategories.map((category) => (
                         <Link
                           key={category.slug}
                           href={`/products/${category.slug}`}
-                          className="group/item border border-black/10 bg-[#ebe3d7] p-5 transition hover:bg-black hover:text-white"
+                          className="group/item border border-white/10 bg-neutral-950 p-5 text-white transition hover:bg-white hover:text-black"
                         >
-                          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-black/45 transition group-hover/item:text-white/45">
+                          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/45 transition group-hover/item:text-black/45">
                             {category.eyebrow}
                           </p>
 
@@ -193,7 +179,7 @@ export default function Navbar() {
                             {category.title}
                           </h3>
 
-                          <p className="mt-3 line-clamp-2 text-xs leading-6 text-black/55 transition group-hover/item:text-white/60">
+                          <p className="mt-3 line-clamp-2 text-xs leading-6 text-white/55 transition group-hover/item:text-black/60">
                             {category.summary}
                           </p>
                         </Link>
@@ -202,7 +188,7 @@ export default function Navbar() {
 
                     <Link
                       href="/products"
-                      className="mt-3 flex items-center justify-between bg-black px-5 py-4 text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-[#6b3f24]"
+                      className="mt-3 flex items-center justify-between bg-white px-5 py-4 text-sm font-black uppercase tracking-[0.16em] text-black transition hover:bg-[#c9a16b]"
                     >
                       View Complete Catalogue
                       <span>→</span>
@@ -217,19 +203,18 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={`relative text-sm font-black uppercase tracking-[0.14em] transition ${
-                  active ? "text-black" : "text-black/50 hover:text-black"
+                  active ? "text-white" : "text-white/60 hover:text-white"
                 }`}
               >
                 {link.label}
                 {active ? (
-                  <span className="absolute -bottom-2 left-0 h-0.5 w-full bg-black" />
+                  <span className="absolute -bottom-2 left-0 h-0.5 w-full bg-white" />
                 ) : null}
               </Link>
             );
           })}
         </div>
 
-        {/* RIGHT ACTIONS */}
         <div className="hidden items-center justify-end gap-3 lg:flex">
           {iconLinks.map((item) => {
             const active = pathname === item.href;
@@ -242,18 +227,20 @@ export default function Navbar() {
                 title={item.label}
                 className={`relative inline-flex h-12 items-center justify-center gap-2 rounded-full border text-lg transition ${
                   active
-                    ? "border-black bg-black text-white"
-                    : "border-black/15 bg-white text-black hover:bg-black hover:text-white"
+                    ? "border-white bg-white text-black"
+                    : "border-white/20 bg-black text-white hover:bg-white hover:text-black"
                 } ${user && item.href === "/sign-in" ? "px-4" : "w-12"}`}
               >
                 {item.icon}
+
                 {user && item.href === "/sign-in" ? (
                   <span className="max-w-28 truncate text-xs font-black uppercase tracking-[0.12em]">
                     {user.name}
                   </span>
                 ) : null}
+
                 {item.count > 0 ? (
-                  <span className="absolute -right-1 -top-1 grid min-w-5 place-items-center rounded-full bg-[#c9a16b] px-1.5 py-0.5 text-[10px] font-black leading-none text-black ring-2 ring-[#f4efe7]">
+                  <span className="absolute -right-1 -top-1 grid min-w-5 place-items-center rounded-full bg-[#c9a16b] px-1.5 py-0.5 text-[10px] font-black leading-none text-black ring-2 ring-black">
                     {item.count > 99 ? "99+" : item.count}
                   </span>
                 ) : null}
@@ -263,19 +250,18 @@ export default function Navbar() {
 
           <Link
             href="/contact"
-            className="rounded-full bg-black px-7 py-3.5 text-xs font-black uppercase tracking-[0.14em] text-white transition hover:bg-[#6b3f24]"
+            className="rounded-full bg-white px-7 py-3.5 text-xs font-black uppercase tracking-[0.14em] text-black transition hover:bg-[#c9a16b]"
           >
             Enquire
           </Link>
         </div>
 
-        {/* MOBILE BUTTON */}
         <button
           type="button"
           aria-label="Open navigation menu"
           aria-expanded={open}
           onClick={() => setOpen((value) => !value)}
-          className="col-start-2 grid size-11 place-items-center justify-self-end rounded-full border border-black/15 bg-transparent text-black lg:hidden"
+          className="col-start-2 grid size-11 place-items-center justify-self-end rounded-full border border-white/20 bg-transparent text-white lg:hidden"
         >
           <span className="relative block h-4 w-5">
             <span
@@ -298,14 +284,14 @@ export default function Navbar() {
       </nav>
 
       {open ? (
-        <div className="border-t border-black/10 bg-[#f4efe7] px-5 py-5 lg:hidden">
+        <div className="border-t border-white/10 bg-black px-5 py-5 lg:hidden">
           <div className="mx-auto grid max-w-[1500px] gap-2">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="rounded-2xl px-4 py-4 text-sm font-black uppercase tracking-[0.14em] text-black hover:bg-white"
+                className="rounded-2xl px-4 py-4 text-sm font-black uppercase tracking-[0.14em] text-white hover:bg-white/10"
               >
                 {link.label}
               </Link>
@@ -317,10 +303,11 @@ export default function Navbar() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="relative flex items-center justify-center gap-3 rounded-2xl border border-black/10 bg-white px-4 py-4 text-sm font-black uppercase tracking-[0.14em] text-black"
+                  className="relative flex items-center justify-center gap-3 rounded-2xl border border-white/10 bg-neutral-950 px-4 py-4 text-sm font-black uppercase tracking-[0.14em] text-white"
                 >
                   {item.icon}
                   {item.label}
+
                   {item.count > 0 ? (
                     <span className="grid min-w-5 place-items-center rounded-full bg-[#c9a16b] px-1.5 py-0.5 text-[10px] font-black leading-none text-black">
                       {item.count > 99 ? "99+" : item.count}
@@ -330,8 +317,8 @@ export default function Navbar() {
               ))}
             </div>
 
-            <div className="mt-4 border-t border-black/10 pt-4">
-              <p className="mb-2 px-4 text-xs font-black uppercase tracking-[0.24em] text-black/40">
+            <div className="mt-4 border-t border-white/10 pt-4">
+              <p className="mb-2 px-4 text-xs font-black uppercase tracking-[0.24em] text-white/40">
                 Categories
               </p>
 
@@ -340,7 +327,7 @@ export default function Navbar() {
                   key={category.slug}
                   href={`/products/${category.slug}`}
                   onClick={() => setOpen(false)}
-                  className="block rounded-2xl px-4 py-3 text-sm font-bold text-black/70 hover:bg-white hover:text-black"
+                  className="block rounded-2xl px-4 py-3 text-sm font-bold text-white/70 hover:bg-white/10 hover:text-white"
                 >
                   {category.title}
                 </Link>
@@ -350,7 +337,7 @@ export default function Navbar() {
             <Link
               href="/contact"
               onClick={() => setOpen(false)}
-              className="mt-2 rounded-2xl bg-black px-4 py-4 text-center text-sm font-black uppercase tracking-[0.14em] text-white"
+              className="mt-2 rounded-2xl bg-white px-4 py-4 text-center text-sm font-black uppercase tracking-[0.14em] text-black"
             >
               Enquire Now
             </Link>

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import CategoryMarquee from "@/components/CategoryMarquee";
 import InternalLinkSection from "@/components/InternalLinkSection";
-import ProductCard from "@/components/ProductCard";
+import HeroBanner from "@/components/HeroBanner";
 import {
   exportCategories,
   heroSlides,
@@ -11,6 +11,7 @@ import {
   trustPoints,
 } from "@/data/site";
 import HomeCategoryShowcase from "@/components/HomeCategoryShowcase";
+import HomeProductScroller from "@/components/HomeProductScroller";
 import HomePremiumSections from "@/components/HomePremiumSections";
 
 export default function HomePage() {
@@ -18,8 +19,12 @@ export default function HomePage() {
 
   return (
     <main className="bg-[#f4efe7] text-black">
+       
       {/* HERO */}
-      <section className="relative min-h-[calc(100vh-81px)] overflow-hidden bg-black">
+      {/* <section className="relative min-h-[calc(100vh-81px)] overflow-hidden bg-black">
+        
+        
+
         <Image
           src={hero.image}
           alt="Lotus Impex global export sourcing"
@@ -28,6 +33,7 @@ export default function HomePage() {
           sizes="100vw"
           className="object-cover opacity-72"
         />
+        
 
         <div className="absolute inset-0 image-overlay" />
 
@@ -44,6 +50,7 @@ export default function HomePage() {
 
               <h1 className="max-w-3xl text-2xl font-black uppercase leading-[0.82] tracking-[-0.1em] text-white sm:text-7xl lg:text-8xl xl:text-[10rem]">
                 Source. Export. Scale.
+            
               </h1>
 
               <p className="mt-8 max-w-2xl text-lg leading-8 text-white/78">
@@ -83,45 +90,14 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </section>
-
+      </section> */}
+<HeroBanner />
       {/* <CategoryMarquee /> */}
       <HomeCategoryShowcase />
+      <HomeProductScroller />
       <HomePremiumSections />
 
       
-
-      {/* CATEGORY SHOWCASE */}
-      <section className="px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
-        <div className="mx-auto max-w-[1500px]">
-          <div className="mb-12 grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
-            <div>
-              <p className="mb-4 text-xs font-black uppercase tracking-[0.3em] text-black/45">
-                Product Divisions
-              </p>
-
-              <h2 className="text-5xl font-black uppercase leading-[0.9] tracking-[-0.08em] text-black sm:text-6xl lg:text-7xl">
-                Built for serious buyers.
-              </h2>
-            </div>
-
-            <p className="max-w-2xl text-lg leading-8 text-black/60 lg:ml-auto">
-              Explore export divisions for apparel, textiles, finishing goods,
-              industrial requirements and flexible global trade sourcing.
-            </p>
-          </div>
-
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {exportCategories.map((category, index) => (
-              <ProductCard
-                key={category.slug}
-                category={category}
-                index={index}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* HIGH ENERGY SPLIT */}
       <section className="bg-black px-5 py-20 text-white sm:px-8 lg:px-10 lg:py-28">

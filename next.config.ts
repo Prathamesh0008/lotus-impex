@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
   compress: true,
   reactStrictMode: true,
 
+  allowedDevOrigins: ["192.168.1.38"],
+
   images: {
     remotePatterns: [
       {

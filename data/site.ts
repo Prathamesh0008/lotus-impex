@@ -37,6 +37,18 @@ export const heroSlides = [
     title: "Garments For Global Buyers",
     image: "/fast-fashion.jpg",
   },
+
+  {
+    label: "Textile Sourcing",
+    title: "Premium Fabrics For International Markets",
+    image: "/Banner-3.png",
+  },
+
+  {
+    label: "Global Trade",
+    title: "Trusted Export Partner From India",
+    image: "/Banner-1.png",
+  },
   {
     label: "Textile Sourcing",
     title: "Fabrics, Finishes And Accessories",

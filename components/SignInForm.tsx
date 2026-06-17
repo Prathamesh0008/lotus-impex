@@ -1,5 +1,7 @@
 "use client";
 
+"use client";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
@@ -14,6 +16,8 @@ type SignedInUser = {
 
 export default function SignInForm() {
   const router = useRouter();
+
+  const [rememberMe, setRememberMe] = useState(false);
   const [user, setUser] = useState<SignedInUser | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState("");
@@ -131,7 +135,7 @@ export default function SignInForm() {
         <input
           required
           name="password"
-          type="password"
+       type={rememberMe ? "text" : "password"}
           defaultValue=""
           autoComplete="new-password"
           placeholder="Enter password"
@@ -140,14 +144,16 @@ export default function SignInForm() {
       </label>
 
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3 text-sm font-bold">
-        <label className="flex items-center gap-2 text-black/60">
-          <input
-            name="rememberMe"
-            type="checkbox"
-            className="size-4 accent-black"
-          />
-          Remember me
-        </label>
+     <label className="flex items-center gap-2 text-black/60">
+  <input
+    name="rememberMe"
+    type="checkbox"
+    checked={rememberMe}
+    onChange={(e) => setRememberMe(e.target.checked)}
+    className="size-4 accent-black"
+  />
+  Remember me
+</label>
         <Link href="/contact" className="text-black hover:text-[#6b3f24]">
           Need help?
         </Link>
