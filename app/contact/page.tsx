@@ -19,30 +19,32 @@ export default function ContactPage() {
   return (
     <main className="bg-[#f4efe7] text-black">
       {/* HERO SECTION */}
-      <section className="relative min-h-[560px] overflow-hidden bg-black">
+      <section className="relative min-h-[520px] overflow-hidden bg-black lg:min-h-[600px]">
         <Image
-          src="/content-women-shopping-mall.jpg"
+          src="/Contact_us.png"
           alt="Lotus Impex export enquiry office"
           fill
           priority
           sizes="100vw"
-          className="object-cover opacity-[0.58]"
+          className="object-cover opacity-75"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/82 via-black/45 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/15" />
 
-        <div className="relative z-10 mx-auto flex min-h-[560px] max-w-[1500px] items-end px-5 py-14 sm:px-8 lg:px-10">
-          <div className="max-w-5xl">
-            <p className="mb-5 text-xs font-black uppercase tracking-[0.34em] text-[#d6b85a]">
+        <div className="relative z-10 mx-auto flex min-h-[520px] max-w-[1500px] items-center px-5 py-16 sm:px-8 lg:min-h-[600px] lg:px-10">
+          <div className="max-w-4xl">
+            <div className="mb-6 h-1 w-16 rounded-full bg-[#d6b85a]" />
+
+            <p className="mb-5 text-xs font-black uppercase tracking-[0.34em] text-[#f0cf6d]">
               Contact Lotus Impex
             </p>
 
-            <h1 className="font-serif text-6xl uppercase leading-[0.9] tracking-[-0.04em] text-white sm:text-7xl lg:text-8xl">
+            <h1 className="max-w-4xl font-serif text-5xl uppercase leading-[0.95] tracking-[-0.03em] text-white sm:text-6xl lg:text-7xl">
               Start Export Enquiry.
             </h1>
 
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-white/75">
+            <p className="mt-6 max-w-2xl text-base font-medium leading-8 text-white/78 sm:text-lg">
               Share your product, quantity, destination country and packaging
               requirement. We will review the enquiry and prepare the next
               sourcing step.

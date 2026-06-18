@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Logo from "@/components/Logo";
 import { exportCategories, navLinks } from "@/data/site";
 
@@ -86,6 +86,8 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [user, setUser] = useState<SignedInUser | null>(null);
+  const [isHidden, setIsHidden] = useState(false);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     function updateCartCount() {
@@ -121,6 +123,32 @@ export default function Navbar() {
     };
   }, []);
 
+  useEffect(() => {
+    lastScrollY.current = window.scrollY;
+    setIsHidden(false);
+
+    function updateNavbarVisibility() {
+      const currentScrollY = window.scrollY;
+      const scrollDifference = currentScrollY - lastScrollY.current;
+
+      if (currentScrollY < 40 || open) {
+        setIsHidden(false);
+      } else if (scrollDifference > 8) {
+        setIsHidden(true);
+      } else if (scrollDifference < -4) {
+        setIsHidden(false);
+      }
+
+      lastScrollY.current = currentScrollY;
+    }
+
+    window.addEventListener("scroll", updateNavbarVisibility, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", updateNavbarVisibility);
+    };
+  }, [open, pathname]);
+
   const iconLinks = [
     {
       href: "/enquiry-basket",
@@ -137,7 +165,11 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-black/95 text-white backdrop-blur-2xl">
+    <header
+      className={`fixed left-0 right-0 top-0 z-[100] border-b border-white/10 bg-black/95 text-white backdrop-blur-2xl transition-transform duration-300 ${
+        isHidden ? "-translate-y-full" : "translate-y-0"
+      }`}
+    >
       <nav className="mx-auto grid h-20 max-w-[1500px] grid-cols-[1fr_auto] items-center px-5 sm:px-8 lg:h-24 lg:grid-cols-[minmax(360px,1fr)_auto_minmax(420px,1fr)] lg:px-10">
         <div className="flex min-w-0 items-center justify-start">
           <Logo />

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import SignInForm from "@/components/SignInForm";
 
 export const metadata: Metadata = {
@@ -12,18 +11,9 @@ export const metadata: Metadata = {
 
 export default function SignInPage() {
   return (
-    <main className="min-h-screen bg-[#f4efe7] px-5 py-8 text-black sm:px-8 lg:px-10">
-      <div className="mx-auto mb-10 max-w-[1200px]">
-        <Link
-          href="/"
-          className="inline-flex rounded-full bg-black px-6 py-3 text-xs font-black uppercase tracking-[0.16em] text-white transition hover:bg-[#c9a16b] hover:text-black"
-        >
-          ← Back To Home
-        </Link>
-      </div>
-
-      <section className="mx-auto grid max-w-[1200px] gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-center">
-        <div>
+    <main className="grid min-h-screen place-items-center bg-[#f4efe7] px-5 py-10 text-black sm:px-8 lg:px-10">
+      <section className="mx-auto grid w-full max-w-[1200px] items-center gap-10 lg:grid-cols-[0.82fr_1fr]">
+        <div className="mx-auto max-w-xl text-center lg:mx-0 lg:text-left">
           <p className="mb-4 text-xs font-black uppercase tracking-[0.3em] text-[#b58a52]">
             Buyer Account
           </p>
@@ -38,7 +28,9 @@ export default function SignInPage() {
           </p>
         </div>
 
-        <SignInForm />
+        <div className="mx-auto w-full max-w-[640px]">
+          <SignInForm />
+        </div>
       </section>
     </main>
   );

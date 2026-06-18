@@ -85,19 +85,6 @@ export default function HeroBanner() {
           </div>
         </div>
       </div>
-
-      <div className="absolute bottom-8 left-1/2 z-30 flex -translate-x-1/2 gap-3">
-        {heroSlides.map((_, index) => (
-          <button
-            key={index}
-            type="button"
-            onClick={() => setActiveSlide(index)}
-            className={`h-2.5 rounded-full transition-all ${
-              activeSlide === index ? "w-10 bg-white" : "w-2.5 bg-white/40"
-            }`}
-          />
-        ))}
-      </div>
     </section>
   );
 }

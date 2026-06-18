@@ -45,7 +45,13 @@ export default function FeaturedCollectionsCarousel() {
     }
 
     setIsInteracting(false);
-    event.currentTarget.releasePointerCapture(event.pointerId);
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+  }
+
+  function stopButtonPointerEvent(event: PointerEvent<HTMLButtonElement>) {
+    event.stopPropagation();
   }
 
   return (
@@ -106,9 +112,12 @@ export default function FeaturedCollectionsCarousel() {
       <button
         type="button"
         aria-label="Previous collection"
-        onPointerDown={(event) => event.stopPropagation()}
+        onPointerDown={stopButtonPointerEvent}
+        onPointerUp={stopButtonPointerEvent}
+        onPointerCancel={stopButtonPointerEvent}
         onClick={(event) => {
           event.stopPropagation();
+          setIsInteracting(false);
           goToSlide(activeIndex - 1);
         }}
         className="absolute left-5 top-1/2 z-10 grid size-10 -translate-y-1/2 place-items-center rounded-full bg-white/85 text-2xl text-black shadow-sm transition hover:bg-black hover:text-white"
@@ -119,33 +128,18 @@ export default function FeaturedCollectionsCarousel() {
       <button
         type="button"
         aria-label="Next collection"
-        onPointerDown={(event) => event.stopPropagation()}
+        onPointerDown={stopButtonPointerEvent}
+        onPointerUp={stopButtonPointerEvent}
+        onPointerCancel={stopButtonPointerEvent}
         onClick={(event) => {
           event.stopPropagation();
+          setIsInteracting(false);
           goToSlide(activeIndex + 1);
         }}
         className="absolute right-5 top-1/2 z-10 grid size-10 -translate-y-1/2 place-items-center rounded-full bg-white/85 text-2xl text-black shadow-sm transition hover:bg-black hover:text-white"
       >
         ›
       </button>
-
-      <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2">
-        {exportCategories.map((category, index) => (
-          <button
-            key={category.slug}
-            type="button"
-            aria-label={`Show ${category.title}`}
-            onPointerDown={(event) => event.stopPropagation()}
-            onClick={(event) => {
-              event.stopPropagation();
-              goToSlide(index);
-            }}
-            className={`h-1.5 rounded-full transition ${
-              activeIndex === index ? "w-10 bg-[#b58a52]" : "w-8 bg-black/20"
-            }`}
-          />
-        ))}
-      </div>
     </div>
   );
 }
