@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
-  const hideNavbarFooter = pathname === "/sign-in";
+  const hideNavbarFooter = pathname === "/sign-in" || pathname === "/sign-up";
 
   return (
     <>

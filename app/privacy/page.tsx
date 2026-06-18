@@ -102,34 +102,7 @@ export default function PrivacyPage() {
           </div>
         </div>
 
-        <div className="grid gap-3">
-          {faqs.map((item, index) => (
-            <details
-              key={item.q}
-              className="group rounded-[8px] border border-black/10 bg-white shadow-sm"
-              open={index === 0}
-            >
-              <summary className="flex items-center justify-between gap-4 px-5 py-4 text-left">
-                <span>
-                  <span className="mb-2 block text-[11px] font-black uppercase tracking-[0.22em] text-[#b58a52]">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="block text-lg font-black leading-snug tracking-[-0.01em] sm:text-xl">
-                    {item.q}
-                  </span>
-                </span>
-                <span className="grid size-8 shrink-0 place-items-center rounded-full bg-[#f4efe7] text-base font-black transition group-open:rotate-45">
-                  +
-                </span>
-              </summary>
-              <div className="border-t border-black/10 px-5 py-4">
-                <p className="text-sm leading-7 text-black/60">{item.a}</p>
-              </div>
-            </details>
-          ))}
-        </div>
-
-        <div className="mt-12 grid gap-8 border-t border-black/10 pt-10 lg:grid-cols-[240px_1fr]">
+        <div className="grid gap-8 border-t border-black/10 pt-10 lg:grid-cols-[240px_1fr]">
           <aside className="h-fit rounded-[8px] border border-black/10 bg-[#f8f4ed] p-5 lg:sticky lg:top-32">
             <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-black/40">
               More Information
@@ -189,6 +162,44 @@ export default function PrivacyPage() {
             Contact Lotus Impex
           </Link>
         </div>
+
+        <section className="mt-12 border-t border-black/10 pt-10">
+          <div className="mb-6 text-center">
+            <p className="mb-3 text-xs font-black uppercase tracking-[0.24em] text-[#b58a52]">
+              Privacy FAQ
+            </p>
+            <h2 className="text-3xl font-black tracking-[-0.04em] sm:text-4xl">
+              Frequently Asked Questions
+            </h2>
+          </div>
+
+          <div className="grid gap-3">
+            {faqs.map((item, index) => (
+              <details
+                key={item.q}
+                className="group rounded-[8px] border border-black/10 bg-white shadow-sm"
+                open={index === 0}
+              >
+                <summary className="flex items-center justify-between gap-4 px-5 py-4 text-left">
+                  <span>
+                    <span className="mb-2 block text-[11px] font-black uppercase tracking-[0.22em] text-[#b58a52]">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="block text-lg font-black leading-snug tracking-[-0.01em] sm:text-xl">
+                      {item.q}
+                    </span>
+                  </span>
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-[#f4efe7] text-base font-black transition group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <div className="border-t border-black/10 px-5 py-4">
+                  <p className="text-sm leading-7 text-black/60">{item.a}</p>
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
       </section>
     </main>
   );

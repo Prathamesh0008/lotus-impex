@@ -87,6 +87,7 @@ export default function Navbar() {
   const [cartCount, setCartCount] = useState(0);
   const [user, setUser] = useState<SignedInUser | null>(null);
   const [isHidden, setIsHidden] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
   const lastScrollY = useRef(0);
 
   useEffect(() => {
@@ -125,7 +126,6 @@ export default function Navbar() {
 
   useEffect(() => {
     lastScrollY.current = window.scrollY;
-    setIsHidden(false);
 
     function updateNavbarVisibility() {
       const currentScrollY = window.scrollY;
@@ -183,9 +183,15 @@ export default function Navbar() {
 
             if (link.href === "/products") {
               return (
-           <div key={link.href} className="group relative py-8">
+           <div
+                  key={link.href}
+                  className="relative py-8"
+                  onMouseEnter={() => setProductsOpen(true)}
+                  onMouseLeave={() => setProductsOpen(false)}
+                >
                   <Link
                     href="/products"
+                    onClick={() => setProductsOpen(false)}
                     className={`relative text-sm font-black uppercase tracking-[0.14em] transition ${
                       active ? "text-white" : "text-white/60 hover:text-white"
                     }`}
@@ -196,11 +202,16 @@ export default function Navbar() {
                     ) : null}
                   </Link>
 
-<div className="invisible absolute left-1/2 top-full z-50 mt-4 w-[720px] -translate-x-1/2 border border-white/10 bg-black p-4 opacity-0 shadow-2xl shadow-black/30 transition-all duration-200 group-hover:visible group-hover:opacity-100">                    <div className="grid grid-cols-2 gap-3">
+<div className={`absolute left-1/2 top-full z-50 mt-4 w-[720px] -translate-x-1/2 border border-white/10 bg-black p-4 shadow-2xl shadow-black/30 transition-all duration-200 ${
+                    productsOpen
+                      ? "visible opacity-100"
+                      : "invisible opacity-0"
+                  }`}>                    <div className="grid grid-cols-2 gap-3">
                       {exportCategories.map((category) => (
                         <Link
                           key={category.slug}
                           href={`/products/${category.slug}`}
+                          onClick={() => setProductsOpen(false)}
                           className="group/item border border-white/10 bg-neutral-950 p-5 text-white transition hover:bg-white hover:text-black"
                         >
                           <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/45 transition group-hover/item:text-black/45">
@@ -220,6 +231,7 @@ export default function Navbar() {
 
                     <Link
                       href="/products"
+                      onClick={() => setProductsOpen(false)}
                       className="mt-3 flex items-center justify-between bg-white px-5 py-4 text-sm font-black uppercase tracking-[0.16em] text-black transition hover:bg-[#c9a16b]"
                     >
                       View Complete Catalogue

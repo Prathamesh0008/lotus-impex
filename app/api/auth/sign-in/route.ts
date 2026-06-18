@@ -36,11 +36,17 @@ export async function POST(request: NextRequest) {
     const body = (await request.json()) as {
       email?: string;
       password?: string;
+      firstName?: string;
+      lastName?: string;
+      authMode?: "signIn" | "signUp";
       rememberMe?: boolean;
     };
 
     const email = clean(body.email).toLowerCase();
     const password = clean(body.password);
+    const firstName = clean(body.firstName);
+    const lastName = clean(body.lastName);
+    const authMode = body.authMode || "signIn";
     const rememberMe = Boolean(body.rememberMe);
 
     if (!email || !isValidEmail(email)) {
@@ -64,6 +70,13 @@ export async function POST(request: NextRequest) {
     const now = new Date();
 
     if (existingBuyer) {
+      if (authMode === "signUp") {
+        return NextResponse.json(
+          { success: false, message: "This email is already registered." },
+          { status: 409 }
+        );
+      }
+
       const passwordMatches = await bcrypt.compare(
         password,
         existingBuyer.passwordHash
@@ -99,9 +112,23 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    if (authMode !== "signUp") {
+      return NextResponse.json(
+        { success: false, message: "Account not found. Please sign up first." },
+        { status: 404 }
+      );
+    }
+
+    if (!firstName || !lastName) {
+      return NextResponse.json(
+        { success: false, message: "Please enter first name and last name." },
+        { status: 400 }
+      );
+    }
+
     const buyer: BuyerAccount = {
       email,
-      name: nameFromEmail(email),
+      name: `${firstName} ${lastName}`.trim() || nameFromEmail(email),
       passwordHash: await bcrypt.hash(password, 12),
       rememberMe,
       signInCount: 1,

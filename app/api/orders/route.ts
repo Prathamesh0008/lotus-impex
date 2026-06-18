@@ -61,13 +61,22 @@ function isMongoConnectionError(error: unknown) {
   );
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const email = clean(request.nextUrl.searchParams.get("email")).toLowerCase();
+    const filter = email
+      ? {
+          $or: [
+            { "account.email": email },
+            { "buyer.email": email },
+          ],
+        }
+      : {};
     const client = await clientPromise;
     const db = client.db(process.env.MONGODB_DB || "lotus_impex");
     const orders = await db
       .collection("orders")
-      .find({})
+      .find(filter)
       .sort({ createdAt: -1 })
       .limit(100)
       .toArray();

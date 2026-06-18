@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import FeaturedCollectionsCarousel from "@/components/FeaturedCollectionsCarousel";
-import { exportCategories, processSteps } from "@/data/site";
+import { exportCategories } from "@/data/site";
 
 const whyItems = [
   "Verified sourcing coordination",
@@ -34,6 +34,29 @@ const industries = [
   "Fashion Brands",
   "Factories",
   "Trading Companies",
+];
+
+const shoppingSteps = [
+  {
+    title: "Browse",
+    text: "Explore product categories, compare details and open product pages for MOQ, material and sourcing information.",
+  },
+  {
+    title: "Add Cart",
+    text: "Save selected products to your cart so every requirement stays ready for review before checkout.",
+  },
+  {
+    title: "Checkout",
+    text: "Enter buyer details, delivery address, destination country and preferred payment method in one place.",
+  },
+  {
+    title: "Account",
+    text: "Sign in to view saved products, submitted orders, profile information and address details.",
+  },
+  {
+    title: "Support",
+    text: "Send questions to our team for product availability, bulk quantity, packing or export coordination.",
+  },
 ];
 
 const faqs = [
@@ -227,15 +250,15 @@ export default function HomePremiumSections() {
         <div className="mx-auto max-w-[1500px]">
           <div className="mb-10 max-w-4xl">
             <p className="mb-3 text-xs font-black uppercase tracking-[0.28em] text-[#b58a52]">
-              Export Process
+              Shopping Process
             </p>
             <h2 className="text-3xl leading-tight text-black sm:text-4xl lg:text-5xl">
-              From requirement to shipment coordination.
+              From product browsing to buyer support.
             </h2>
           </div>
 
           <div className="grid gap-4 lg:grid-cols-5">
-            {processSteps.map((step, index) => (
+            {shoppingSteps.map((step, index) => (
               <div
                 key={step.title}
                 className="rounded-[18px] border border-black/10 bg-white p-5"

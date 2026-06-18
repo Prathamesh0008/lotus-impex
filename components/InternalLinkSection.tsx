@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { internalLinks } from "@/data/site";
 
 type InternalLinkSectionProps = {
   currentSlug?: string;
@@ -7,12 +6,55 @@ type InternalLinkSectionProps = {
   description?: string;
 };
 
+const companyInfoLinks = [
+  {
+    title: "Company Overview",
+    href: "/company",
+    text: "Learn how Lotus Impex supports buyers with sourcing, coordination and export-ready planning.",
+  },
+  {
+    title: "Sourcing Network",
+    href: "/company",
+    text: "Understand our India-based supplier coordination for garments, fabrics, accessories and general goods.",
+  },
+  {
+    title: "Quality Focus",
+    href: "/company",
+    text: "See how product requirements, finishing, packing and buyer expectations are organized before orders move ahead.",
+  },
+  {
+    title: "Product Divisions",
+    href: "/products",
+    text: "Explore the main categories Lotus Impex handles for international buyers and trading companies.",
+  },
+  {
+    title: "Buyer Communication",
+    href: "/company",
+    text: "Our process keeps enquiries, product details, samples, quantities and delivery expectations clearly aligned.",
+  },
+  {
+    title: "Export Readiness",
+    href: "/company",
+    text: "We help coordinate packing, documentation support and shipment preparation for export-focused buyers.",
+  },
+  {
+    title: "Buyer Support",
+    href: "/buyers",
+    text: "Find buyer-focused information about enquiries, product requirements and support after contact.",
+  },
+  {
+    title: "Contact Team",
+    href: "/contact",
+    text: "Share your business requirement, destination market and product details with the Lotus Impex team.",
+  },
+];
+
 export default function InternalLinkSection({
   currentSlug,
-  title = "Explore More Export Categories",
-  description = "Move across our product divisions and discover sourcing options for garments, fabrics, accessories, machinery and general goods.",
+  title = "Company & Export Support",
+  description = "Learn more about Lotus Impex, our sourcing coordination, buyer communication, export readiness and product divisions.",
 }: InternalLinkSectionProps) {
-  const links = internalLinks.filter((link) => {
+  const links = companyInfoLinks.filter((link) => {
     if (!currentSlug) return true;
     return !link.href.endsWith(currentSlug);
   });
@@ -23,7 +65,7 @@ export default function InternalLinkSection({
         <div className="mb-10 grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
           <div>
             <p className="mb-4 text-xs font-black uppercase tracking-[0.3em] text-black/45">
-              Internal Links
+              Company Links
             </p>
 
             <h2 className="text-4xl font-black uppercase leading-[0.9] tracking-[-0.08em] text-black sm:text-5xl lg:text-6xl">

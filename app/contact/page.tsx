@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
-import InternalLinkSection from "@/components/InternalLinkSection";
-import { exportCategories, siteConfig } from "@/data/site";
+import { siteConfig } from "@/data/site";
 
 
 export const metadata: Metadata = {
@@ -34,8 +32,6 @@ export default function ContactPage() {
 
         <div className="relative z-10 mx-auto flex min-h-[520px] max-w-[1500px] items-center px-5 py-16 sm:px-8 lg:min-h-[600px] lg:px-10">
           <div className="max-w-4xl">
-            <div className="mb-6 h-1 w-16 rounded-full bg-[#d6b85a]" />
-
             <p className="mb-5 text-xs font-black uppercase tracking-[0.34em] text-[#f0cf6d]">
               Contact Lotus Impex
             </p>
@@ -133,53 +129,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* CATEGORIES SECTION */}
-      <section className="bg-black px-5 py-16 text-white sm:px-8 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-[1500px]">
-          <div className="mb-10 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-            <div>
-              <p className="mb-4 text-xs font-black uppercase tracking-[0.3em] text-[#d6b85a]">
-                Enquiry Categories
-              </p>
-
-              <h2 className="font-serif text-5xl uppercase leading-[0.95] tracking-[-0.04em] sm:text-6xl">
-                Select the right division.
-              </h2>
-            </div>
-
-            <Link
-              href="/products"
-              className="w-fit rounded-full bg-white px-7 py-4 text-sm font-black uppercase tracking-[0.16em] text-black transition hover:bg-[#d6b85a]"
-            >
-              View Catalogue
-            </Link>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {exportCategories.map((category) => (
-              <Link
-                key={category.slug}
-                href={`/products/${category.slug}`}
-                className="group rounded-2xl border border-white/10 p-6 transition hover:bg-white hover:text-black"
-              >
-                <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/35 transition group-hover:text-black/35">
-                  {category.eyebrow}
-                </p>
-
-                <h3 className="mt-3 font-serif text-2xl uppercase tracking-[-0.04em]">
-                  {category.title}
-                </h3>
-
-                <p className="mt-4 text-sm leading-7 text-white/55 transition group-hover:text-black/55">
-                  {category.summary}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <InternalLinkSection />
     </main>
   );
 }

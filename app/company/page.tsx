@@ -13,6 +13,45 @@ export const metadata: Metadata = {
   },
 };
 
+const divisionDetails = [
+  {
+    slug: "ladies-garments",
+    title: "Ladies Garments",
+    eyebrow: "Fashion Export",
+    text: "We manufacture premium ladies garments including dresses, tops, ethnic wear, uniforms, and fashion apparel. Our production facilities support bulk export orders, OEM manufacturing, and private-label requirements for global buyers. We use high-quality fabrics and advanced production techniques to ensure superior finishing and durability. Our experienced team manages everything from design development to final packaging. We offer customized production solutions based on buyer specifications and international fashion trends. Strict quality control procedures are implemented at every stage of manufacturing. We serve wholesalers, retailers, distributors, and fashion brands across global markets.",
+  },
+  {
+    slug: "mens-garments",
+    title: "Mens Garments",
+    eyebrow: "Ready-to-Wear",
+    text: "We manufacture high-quality menswear including shirts, t-shirts, trousers, uniforms, jackets, and workwear. With modern production units and strict quality standards, we deliver reliable export solutions worldwide. Our facilities are equipped to handle both small and large-volume orders efficiently. We provide custom branding, labeling, and packaging services for international buyers. Every garment undergoes rigorous quality inspections before shipment. Our production processes focus on comfort, durability, and consistent sizing standards. We cater to distributors, corporate buyers, retailers, and private-label brands globally.",
+  },
+  {
+    slug: "fabrics",
+    title: "Fabrics",
+    eyebrow: "Textile Manufacturing",
+    text: "We manufacture and source cotton, polyester, blended, woven, knitted, and printed fabrics for garment production. Our fabric solutions meet international quality standards and support custom buyer specifications. We work closely with textile mills and production partners to ensure consistent quality and timely delivery. Various fabric weights, finishes, and dyeing options are available to meet specific requirements. We provide fabrics suitable for apparel, uniforms, home textiles, and industrial applications. Continuous quality testing ensures color fastness, strength, and performance. Our export-ready fabric solutions support manufacturers and brands worldwide.",
+  },
+  {
+    slug: "accessories",
+    title: "Accessories",
+    eyebrow: "Finishing Goods",
+    text: "We manufacture and supply garment accessories including labels, tags, trims, buttons, zippers, packaging materials, and promotional accessories. We provide complete sourcing solutions for export-ready products. Our accessory range is designed to enhance product presentation and brand value. Custom designs, logos, and packaging options can be developed according to client requirements. We maintain strong supplier networks to ensure quality consistency and competitive pricing. Every product is carefully inspected before dispatch. Our solutions help buyers streamline procurement and simplify supply chain management.",
+  },
+  {
+    slug: "machinery",
+    title: "Machinery",
+    eyebrow: "Industrial Export",
+    text: "We manufacture and export selected industrial equipment, machinery components, spare parts, and engineering products. Our solutions are tailored for industrial buyers, distributors, and project-based procurement needs. We focus on precision manufacturing, reliability, and long-term performance. Products are developed according to international standards and customer specifications. Our engineering capabilities allow us to support custom manufacturing projects across various industries. We ensure thorough testing and quality assurance before export. Timely delivery and technical support remain key priorities for our industrial clients worldwide.",
+  },
+  {
+    slug: "general-goods",
+    title: "General Goods",
+    eyebrow: "Multi-Category Manufacturing",
+    text: "We manufacture and export a wide range of consumer and industrial products through our trusted production network. From customized products to bulk orders, we support international sourcing and private-label requirements. Our diverse product portfolio enables buyers to source multiple categories from a single trusted partner. We focus on quality, competitive pricing, and dependable supply chain management. Flexible manufacturing capabilities allow us to meet unique market demands and project requirements. Every order is managed with attention to detail and international compliance standards. We work closely with importers, wholesalers, distributors, and retailers across global markets.",
+  },
+];
+
 export default function CompanyPage() {
   return (
     <main className="bg-[#f4efe7] text-black">
@@ -91,47 +130,80 @@ export default function CompanyPage() {
         </div>
       </section>
 
-      <section className="bg-black px-5 py-20 text-white sm:px-8 lg:px-10 lg:py-28">
-        <div className="mx-auto grid max-w-[1500px] gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
-          <div className="relative h-[620px] overflow-hidden">
-            <Image
-              src="/product_category.jpg"
-              alt="Export logistics and shipment coordination"
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover opacity-90"
-            />
+      <section className="bg-[#fffaf2] px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
+        <div className="mx-auto max-w-[1500px]">
+          <div className="mb-14 grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+            <div>
+              <p className="mb-4 text-xs font-black uppercase tracking-[0.3em] text-black/45">
+                Manufacturing Divisions
+              </p>
+
+              <h2 className="text-5xl font-black uppercase leading-[0.9] tracking-[-0.08em] sm:text-6xl lg:text-7xl">
+                Product strength for global buyers.
+              </h2>
+            </div>
+
+            <p className="max-w-3xl text-lg leading-8 text-black/60 lg:justify-self-end">
+              Lotus Impex works across apparel, textiles, accessories,
+              machinery and multi-category goods with export-focused planning,
+              buyer communication and quality control.
+            </p>
           </div>
 
-          <div className="lg:pl-14">
-            <p className="mb-5 text-xs font-black uppercase tracking-[0.3em] text-white/45">
-              Our Position
-            </p>
+          <div className="grid gap-10">
+            {divisionDetails.map((division, index) => {
+              const category = exportCategories.find(
+                (item) => item.slug === division.slug,
+              );
+              const reverse = index % 2 === 1;
 
-            <h2 className="text-5xl font-black uppercase leading-[0.86] tracking-[-0.09em] sm:text-6xl lg:text-8xl">
-              Modern export, not old trading.
-            </h2>
-
-            <p className="mt-7 text-lg leading-8 text-white/60">
-              Lotus Impex is shaped for today’s buyer expectations: fast
-              response, clean presentation, category clarity, better sourcing
-              communication and professional export flow.
-            </p>
-
-            <div className="mt-10 grid gap-4">
-              {exportCategories.slice(0, 4).map((category) => (
-                <Link
-                  key={category.slug}
-                  href={`/products/${category.slug}`}
-                  className="group flex items-center justify-between border border-white/10 px-5 py-5 transition hover:bg-white hover:text-black"
+              return (
+                <article
+                  key={division.slug}
+                  className="grid overflow-hidden border border-black/10 bg-[#f4efe7] lg:grid-cols-2"
                 >
-                  <span className="text-sm font-black uppercase tracking-[0.16em]">
-                    {category.title}
-                  </span>
-                  <span className="transition group-hover:translate-x-1">→</span>
-                </Link>
-              ))}
-            </div>
+                  <div
+                    className={`relative min-h-[360px] ${
+                      reverse ? "lg:order-2" : ""
+                    }`}
+                  >
+                    <Image
+                      src={category?.image ?? "/product_category.jpg"}
+                      alt={category?.imageAlt ?? `${division.title} export products`}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover"
+                    />
+                  </div>
+
+                  <div
+                    className={`flex flex-col justify-center p-7 sm:p-10 lg:p-14 ${
+                      reverse ? "lg:order-1" : ""
+                    }`}
+                  >
+                    <p className="mb-5 text-xs font-black uppercase tracking-[0.3em] text-black/45">
+                      {division.eyebrow}
+                    </p>
+
+                    <h3 className="text-4xl font-black uppercase leading-[0.9] tracking-[-0.07em] sm:text-5xl">
+                      {division.title}
+                    </h3>
+
+                    <p className="mt-7 text-base leading-8 text-black/62 sm:text-lg">
+                      {division.text}
+                    </p>
+
+                    <Link
+                      href={`/products/${division.slug}`}
+                      className="mt-8 inline-flex w-fit items-center gap-4 bg-black px-6 py-4 text-xs font-black uppercase tracking-[0.18em] text-white transition hover:bg-[#b4884d]"
+                    >
+                      View Products
+                      <span aria-hidden="true">→</span>
+                    </Link>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
