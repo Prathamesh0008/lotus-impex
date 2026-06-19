@@ -39,12 +39,17 @@ export default function ContactForm() {
 
       formRef.current.reset();
       setSubmitted(true);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("EmailJS error:", error);
 
+      const emailError =
+        error && typeof error === "object"
+          ? (error as { text?: string; message?: string })
+          : null;
+
       setErrorMessage(
-        error?.text ||
-          error?.message ||
+        emailError?.text ||
+          emailError?.message ||
           "Email not sent. Please check EmailJS setup."
       );
     } finally {

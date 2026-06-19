@@ -23,8 +23,10 @@ function Field({
   children: ReactNode;
 }) {
   return (
-    <label className="grid gap-2 text-sm font-bold text-black/60">
-      {label}
+    <label className="block">
+      <span className="mb-2 block text-xs font-black uppercase tracking-[0.18em] text-black/50">
+        {label}
+      </span>
       {children}
     </label>
   );
@@ -50,14 +52,13 @@ function TextInput({
       autoCorrect="off"
       spellCheck={false}
       placeholder={placeholder}
-      className="h-14 rounded-[8px] border border-black/15 bg-white px-5 text-base font-semibold text-black outline-none transition placeholder:text-black/35 focus:border-black"
+      className="h-14 w-full rounded-2xl border border-black/10 bg-[#f9f6ef] px-5 text-sm font-semibold text-black outline-none transition placeholder:text-black/35 focus:border-black focus:bg-white"
     />
   );
 }
 
 export default function SignInForm({ authView = "signIn" }: { authView?: AuthView }) {
   const [mode, setMode] = useState<AuthMode>("signIn");
-  const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState("");
@@ -68,7 +69,8 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
     setError("");
     setMessage("");
 
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     const email = String(formData.get("email") || "").trim();
     const authMode = String(formData.get("authMode") || "signIn") as AuthSubmitMode;
 
@@ -95,7 +97,7 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
           firstName: String(formData.get("firstName") || ""),
           lastName: String(formData.get("lastName") || ""),
           authMode,
-          rememberMe,
+          rememberMe: false,
         }),
       });
       const result = (await response.json()) as {
@@ -115,7 +117,7 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
           ? "Account created successfully."
           : "Login successful.",
       );
-      event.currentTarget.reset();
+      form.reset();
     } catch (submitError) {
       setError(
         submitError instanceof Error
@@ -132,53 +134,55 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
       <form
         autoComplete="off"
         onSubmit={handleAuthSubmit}
-        className="rounded-[8px] border border-black bg-white p-6 shadow-sm sm:p-8"
+        className="rounded-[28px] border border-black/10 bg-white p-6 shadow-xl shadow-black/5 lg:p-8"
       >
         <input type="hidden" name="authMode" value="signUp" />
 
-        <div className="mb-6 border-b border-black pb-5">
-          <p className="text-xs font-black uppercase tracking-[0.24em] text-[#b58a52]">
+        <div className="mb-8 border-b border-black/10 pb-6">
+          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#b58a52]">
             New User
           </p>
-          <p className="mt-2 text-3xl font-semibold leading-tight">
+          <h2 className="mt-3 font-serif text-4xl uppercase leading-[0.95] tracking-[-0.04em] text-black sm:text-5xl">
             Create Account
-          </p>
-          <p className="mt-3 text-sm leading-6 text-black/55">
+          </h2>
+          <p className="mt-4 max-w-2xl text-sm leading-7 text-black/55">
             Fill in your name, email and password to create a buyer account.
           </p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-5 md:grid-cols-2">
           <Field label="First name">
             <TextInput name="firstName" placeholder="First name" />
           </Field>
           <Field label="Last name">
             <TextInput name="lastName" placeholder="Last name" />
           </Field>
-          <div className="sm:col-span-2">
+          <div className="md:col-span-2">
             <Field label="Email address">
-              <TextInput name="email" type="email" placeholder="you@example.com" />
+              <TextInput name="email" type="email" placeholder="Enter email address" />
             </Field>
           </div>
-          <div className="sm:col-span-2">
+          <div className="md:col-span-2">
             <PasswordField showPassword={showPassword} setShowPassword={setShowPassword} />
           </div>
         </div>
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="mt-7 w-full rounded-[6px] border border-black bg-black px-6 py-4 text-xs font-black uppercase tracking-[0.16em] text-white transition hover:bg-white hover:text-black disabled:cursor-not-allowed disabled:bg-black/40"
-        >
-          {isSubmitting ? "Please wait..." : "Create Account"}
-        </button>
+        <div className="mt-7 grid gap-4 border-t border-black/10 pt-6">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="rounded-full bg-black px-8 py-4 text-xs font-black uppercase tracking-[0.18em] text-white transition hover:bg-[#6b3f24] disabled:cursor-not-allowed disabled:bg-black/50"
+          >
+            {isSubmitting ? "Please wait..." : "Create Account"}
+          </button>
 
-        <Link
-          href="/sign-in"
-          className="mt-4 inline-flex w-full justify-center rounded-[6px] border border-black px-6 py-4 text-xs font-black uppercase tracking-[0.16em] text-black transition hover:bg-black hover:text-white"
-        >
-          Already have account? Sign In
-        </Link>
+          <Link
+            href="/sign-in"
+            className="inline-flex justify-center rounded-full border border-black/15 px-8 py-4 text-xs font-black uppercase tracking-[0.18em] text-black transition hover:border-black hover:bg-black hover:text-white"
+          >
+            Already have account? Sign In
+          </Link>
+        </div>
 
         <AuthMessage error={error} message={message} />
       </form>
@@ -189,7 +193,7 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
     <form
       autoComplete="off"
       onSubmit={handleAuthSubmit}
-      className="rounded-[8px] border border-black bg-white p-6 shadow-sm sm:p-8"
+      className="rounded-[28px] border border-black/10 bg-white p-6 shadow-xl shadow-black/5 lg:p-8"
     >
       <input
         type="hidden"
@@ -197,26 +201,39 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
         value={mode === "forgot" ? "forgot" : "signIn"}
       />
 
-      <div className="mb-6 border-b border-black pb-5">
-        <p className="text-xs font-black uppercase tracking-[0.24em] text-[#b58a52]">
+      <div className="mb-8 border-b border-black/10 pb-6">
+        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#b58a52]">
           Existing User
         </p>
-        <p className="mt-2 text-3xl font-semibold leading-tight">
+        <h2 className="mt-3 font-serif text-4xl uppercase leading-[0.95] tracking-[-0.04em] text-black sm:text-5xl">
           {mode === "forgot" ? "Forgot password" : "Sign in"}
-        </p>
-        <p className="mt-3 text-sm leading-6 text-black/55">
+        </h2>
+        <p className="mt-4 max-w-2xl text-sm leading-7 text-black/55">
           {mode === "forgot"
             ? "Enter your account email and we will guide you through password reset support."
-            : "Sign in with your buyer account to view profile, cart products and orders."}
+            : "Fill in your name, email and password to access your buyer account."}
         </p>
       </div>
 
-      <Field label="Email address">
-        <TextInput name="email" type="email" placeholder="you@example.com" />
-      </Field>
+      {mode === "forgot" ? null : (
+        <div className="mb-5 grid gap-5 md:grid-cols-2">
+          <Field label="First name">
+            <TextInput name="firstName" placeholder="First name" />
+          </Field>
+          <Field label="Last name">
+            <TextInput name="lastName" placeholder="Last name" />
+          </Field>
+        </div>
+      )}
+
+      <div className={mode === "forgot" ? "" : "mb-5"}>
+        <Field label="Email address">
+          <TextInput name="email" type="email" placeholder="Enter email address" />
+        </Field>
+      </div>
 
       {mode === "forgot" ? (
-        <p className="mt-4 rounded-[8px] border border-black bg-[#f8f4ed] px-4 py-3 text-sm text-black/60">
+        <p className="mt-5 rounded-2xl border border-black/10 bg-[#f9f6ef] px-5 py-4 text-sm font-semibold leading-7 text-black/60">
           Enter your account email and we will guide you through password reset
           support.
         </p>
@@ -227,17 +244,7 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
             setShowPassword={setShowPassword}
           />
 
-          <div className="mt-5 flex flex-wrap items-center justify-between gap-3 text-sm font-bold">
-            <label className="flex items-center gap-2 text-black/60">
-              <input
-                name="rememberMe"
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(event) => setRememberMe(event.target.checked)}
-                className="size-4 accent-black"
-              />
-              Remember me
-            </label>
+          <div className="mt-5 flex justify-end">
             <button
               type="button"
               onClick={() => {
@@ -245,7 +252,7 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
                 setError("");
                 setMessage("");
               }}
-              className="rounded-[6px] border border-black px-4 py-2 text-xs font-black uppercase tracking-[0.12em] transition hover:bg-black hover:text-white"
+              className="rounded-full border border-black/15 px-5 py-3 text-xs font-black uppercase tracking-[0.14em] transition hover:border-black hover:bg-black hover:text-white"
             >
               Forgot password?
             </button>
@@ -253,38 +260,40 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
         </>
       )}
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="mt-7 w-full rounded-[6px] border border-black bg-black px-6 py-4 text-xs font-black uppercase tracking-[0.16em] text-white transition hover:bg-white hover:text-black disabled:cursor-not-allowed disabled:bg-black/40"
-      >
-        {isSubmitting
-          ? "Please wait..."
-          : mode === "forgot"
-            ? "Reset Password"
-            : "Sign In"}
-      </button>
-
-      {mode === "forgot" ? (
+      <div className="mt-7 grid gap-4 border-t border-black/10 pt-6">
         <button
-          type="button"
-          onClick={() => {
-            setMode("signIn");
-            setError("");
-            setMessage("");
-          }}
-          className="mt-3 w-full rounded-[6px] border border-black px-6 py-4 text-xs font-black uppercase tracking-[0.16em] text-black transition hover:bg-black hover:text-white"
+          type="submit"
+          disabled={isSubmitting}
+          className="rounded-full bg-black px-8 py-4 text-xs font-black uppercase tracking-[0.18em] text-white transition hover:bg-[#6b3f24] disabled:cursor-not-allowed disabled:bg-black/50"
         >
-          Back To Sign In
+          {isSubmitting
+            ? "Please wait..."
+            : mode === "forgot"
+              ? "Reset Password"
+              : "Sign In"}
         </button>
-      ) : (
-        <Link
-          href="/sign-up"
-          className="mt-3 inline-flex w-full justify-center rounded-[6px] border border-black px-6 py-4 text-xs font-black uppercase tracking-[0.16em] text-black transition hover:bg-black hover:text-white"
-        >
-          Create New Account
-        </Link>
-      )}
+
+        {mode === "forgot" ? (
+          <button
+            type="button"
+            onClick={() => {
+              setMode("signIn");
+              setError("");
+              setMessage("");
+            }}
+            className="rounded-full border border-black/15 px-8 py-4 text-xs font-black uppercase tracking-[0.18em] text-black transition hover:border-black hover:bg-black hover:text-white"
+          >
+            Back To Sign In
+          </button>
+        ) : (
+          <Link
+            href="/sign-up"
+            className="inline-flex justify-center rounded-full border border-black/15 px-8 py-4 text-xs font-black uppercase tracking-[0.18em] text-black transition hover:border-black hover:bg-black hover:text-white"
+          >
+            Create New Account
+          </Link>
+        )}
+      </div>
 
       <AuthMessage error={error} message={message} />
     </form>
@@ -300,19 +309,19 @@ function PasswordField({
 }) {
   return (
     <Field label="Password">
-      <div className="flex overflow-hidden rounded-[8px] border border-black bg-white">
+      <div className="flex overflow-hidden rounded-2xl border border-black/10 bg-[#f9f6ef] transition focus-within:border-black focus-within:bg-white">
         <input
           required
           name="password"
           type={showPassword ? "text" : "password"}
           autoComplete="current-password"
           placeholder="Enter password"
-          className="h-14 min-w-0 flex-1 px-5 text-base font-semibold text-black outline-none placeholder:text-black/35"
+          className="h-14 min-w-0 flex-1 bg-transparent px-5 text-sm font-semibold text-black outline-none placeholder:text-black/35"
         />
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="border-l border-black px-5 text-xs font-black uppercase tracking-[0.12em] hover:bg-black hover:text-white"
+          className="border-l border-black/10 bg-white/70 px-5 text-xs font-black uppercase tracking-[0.14em] text-black/60 transition hover:bg-black hover:text-white"
         >
           {showPassword ? "Hide" : "Show"}
         </button>
