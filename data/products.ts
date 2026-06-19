@@ -27,6 +27,9 @@ const categoryImageSets: Record<string, string[]> = {
     "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1400&q=85",
     "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1400&q=85",
     "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=1400&q=85",
   ],
   fabrics: [
     "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&w=1400&q=85",
@@ -64,6 +67,129 @@ const categoryImageSets: Record<string, string[]> = {
     "/online-marketing.jpg",
   ],
 };
+
+const productTypeImageSets: Record<string, string[]> = {
+  "Tops and shirts": [
+    "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=85",
+  ],
+  "Kurtis and ethnic wear": [
+    "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=85",
+  ],
+  "Co-ord sets": [
+    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=85",
+  ],
+  "Modest wear": [
+    "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=1400&q=85",
+  ],
+  "Seasonal collections": [
+    "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=1400&q=85",
+  ],
+  "Cotton fabrics": [
+    "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1534639077088-d702bcf685e7?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1476683874822-744764a2438f?auto=format&fit=crop&w=1400&q=85",
+  ],
+  "Polyester blends": [
+    "https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1517146783983-418c681b56c5?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1534639077088-d702bcf685e7?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1476683874822-744764a2438f?auto=format&fit=crop&w=1400&q=85",
+  ],
+  "Printed fabrics": [
+    "https://images.unsplash.com/photo-1506629905607-d9c297d127bf?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1534639077088-d702bcf685e7?auto=format&fit=crop&w=1400&q=85",
+  ],
+  "Knitted fabrics": [
+    "https://images.unsplash.com/photo-1534639077088-d702bcf685e7?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1476683874822-744764a2438f?auto=format&fit=crop&w=1400&q=85",
+  ],
+  "Woven fabrics": [
+    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1476683874822-744764a2438f?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1534639077088-d702bcf685e7?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1517146783983-418c681b56c5?auto=format&fit=crop&w=1400&q=85",
+  ],
+  "Custom textile sourcing": [
+    "https://images.unsplash.com/photo-1530731141654-5993c3016c77?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1524292332709-b33366a7f165?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1660980041852-230420b8f99f?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1741176506261-73218298e4d8?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1673201229733-69d19c5c4a87?auto=format&fit=crop&w=1400&q=85",
+  ],
+  "General machinery": [
+    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1400&q=85",
+  ],
+  "Textile machinery": [
+    "https://images.unsplash.com/photo-1660980041852-230420b8f99f?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1524292332709-b33366a7f165?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1610891015188-5369212db097?auto=format&fit=crop&w=1400&q=85",
+  ],
+};
+
+const ladiesGeneratedImages = [
+  "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1512316609839-ce289d3eba0a?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1524255684952-d7185b5095715?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1524638431109-93d95c968f03?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1495385794356-15371f348c31?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1525450824786-227cbef70703?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1524503033411-c9566986fc8f?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=1400&q=85",
+];
 
 const generatedProductTypes = [
   ["ladies-garments", "Tops and shirts"],
@@ -121,8 +247,16 @@ function createGeneratedProduct(
   typeIndex: number
 ): ExportProduct {
   const name = variant ? `${variant} ${type}` : type;
-  const images = categoryImageSets[categorySlug] ?? categoryImageSets["general-goods"];
-  const imageIndex = (typeIndex * productVariants.length + variantIndex) % images.length;
+  const images =
+    categorySlug === "ladies-garments"
+      ? ladiesGeneratedImages
+      : productTypeImageSets[type] ??
+    categoryImageSets[categorySlug] ??
+    categoryImageSets["general-goods"];
+  const imageIndex =
+    categorySlug === "ladies-garments"
+      ? (typeIndex * productVariants.length + variantIndex + 5) % images.length
+      : (typeIndex * productVariants.length + variantIndex) % images.length;
 
   return {
     slug: variant ? `${toSlug(type)}-${toSlug(variant)}` : toSlug(type),
@@ -174,7 +308,40 @@ const generatedProducts: ExportProduct[] = generatedProductTypes.flatMap(
   }
 );
 
-export const exportProducts: ExportProduct[] = [
+const mensCatalogueImageOverrides: Record<string, string> = {
+  "classic-formal-shirts": "/catalogue-mens/classic-formal-shirts.png",
+  "slim-fit-formal-shirts": "/catalogue-mens/slim-fit-formal-shirts.png",
+  "striped-formal-shirts": "/catalogue-mens/striped-formal-shirts.png",
+  "checked-formal-shirts": "/catalogue-mens/checked-formal-shirts.png",
+  "corporate-uniform-shirts": "/catalogue-mens/corporate-uniform-shirts.png",
+  "casual-cotton-shirts": "/catalogue-mens/casual-cotton-shirts.png",
+  "denim-shirts": "/catalogue-mens/denim-shirts.png",
+  "printed-casual-shirts": "/catalogue-mens/printed-casual-shirts.png",
+  "linen-casual-shirts": "/catalogue-mens/linen-casual-shirts.png",
+  "flannel-casual-shirts": "/catalogue-mens/flannel-casual-shirts.png",
+  "round-neck-tshirts": "/catalogue-mens/round-neck-tshirts.png",
+  "polo-tshirts": "/catalogue-mens/polo-tshirts.png",
+  "v-neck-tshirts": "/catalogue-mens/v-neck-tshirts.png",
+  "oversized-tshirts": "/catalogue-mens/oversized-tshirts.png",
+  "printed-tshirts": "/catalogue-mens/printed-tshirts.png",
+  "formal-trousers": "/catalogue-mens/formal-trousers.png",
+  "casual-trousers": "/catalogue-mens/casual-trousers.png",
+  chinos: "/catalogue-mens/chinos.png",
+  "cargo-pants": "/catalogue-mens/cargo-pants.png",
+  "jeans-denim-bottoms": "/catalogue-mens/jeans-denim-bottoms.png",
+  "industrial-work-shirts": "/catalogue-mens/industrial-work-shirts.png",
+  "industrial-work-trousers": "/catalogue-mens/industrial-work-trousers.png",
+  "safety-jackets": "/catalogue-mens/safety-jackets.png",
+  "industrial-coveralls": "/catalogue-mens/industrial-coveralls.png",
+  "aprons-workwear": "/catalogue-mens/aprons-workwear.png",
+  "school-uniforms": "/catalogue-mens/school-uniforms.png",
+  "corporate-uniforms": "/catalogue-mens/corporate-uniforms.png",
+  "hotel-uniforms": "/catalogue-mens/hotel-uniforms.png",
+  "hospital-uniforms": "/catalogue-mens/hospital-uniforms.png",
+  "security-uniforms": "/catalogue-mens/security-uniforms.png",
+};
+
+const baseExportProducts: ExportProduct[] = [
   /* ===================== FORMAL SHIRTS ===================== */
   {
     slug: "classic-formal-shirts",
@@ -1218,7 +1385,7 @@ export const exportProducts: ExportProduct[] = [
     shortName: "Maxi Dresses",
     type: "Dresses and gowns",
     image:
-      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1400&q=85",
+      "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=1400&q=85",
     imageAlt: "Maxi dresses export",
     summary: "Maxi dresses for resort wear, boutiques and seasonal collections.",
     description:
@@ -1309,6 +1476,20 @@ export const exportProducts: ExportProduct[] = [
   },
   ...generatedProducts,
 ];
+
+export const exportProducts: ExportProduct[] = baseExportProducts.map((product) => {
+  const catalogueImage = mensCatalogueImageOverrides[product.slug];
+
+  if (!catalogueImage) {
+    return product;
+  }
+
+  return {
+    ...product,
+    image: catalogueImage,
+    imageAlt: `${product.name} from Lotus Impex mens catalogue`,
+  };
+});
 
 export function getProductsByCategory(categorySlug: string) {
   return exportProducts.filter(

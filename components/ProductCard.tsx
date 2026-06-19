@@ -55,7 +55,7 @@ export default function ProductCard({ category, index }: ProductCardProps) {
             <span className="text-xs font-black uppercase tracking-[0.18em] text-black">
               View Category
             </span>
-            <span className="grid size-9 place-items-center rounded-full bg-black text-white transition group-hover:translate-x-1">
+            <span className="grid size-9 place-items-center rounded-full bg-black text-white transition group-hover:translate-x-1 group-hover:bg-[#b58a52]">
               →
             </span>
           </div>

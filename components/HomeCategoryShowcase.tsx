@@ -37,7 +37,7 @@ export default function HomeCategoryShowcase() {
                 {category.summary}
               </p>
 
-              <span className="mx-auto grid size-8 place-items-center rounded-full bg-black text-sm text-white transition group-hover:bg-black">
+              <span className="mx-auto grid size-8 place-items-center rounded-full bg-black text-sm text-white transition group-hover:bg-[#b58a52]">
                 &rarr;
               </span>
             </div>

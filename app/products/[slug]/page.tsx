@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ProductCategoryClient from "@/components/ProductCategoryClient";
 import { exportCategories, siteConfig } from "@/data/site";
-import { getProductsByCategory } from "@/data/products";
+import { exportProducts, getProductsByCategory } from "@/data/products";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -84,7 +84,11 @@ export default async function ProductCategoryPage({ params }: PageProps) {
         }}
       />
 
-      <ProductCategoryClient category={category} products={products} />
+      <ProductCategoryClient
+        category={category}
+        products={products}
+        allProducts={exportProducts}
+      />
     </>
   );
 }

@@ -182,13 +182,21 @@ export default function HomeProductScroller() {
                   }}
                   className="block"
                 >
-                  <div className="relative h-[210px] overflow-hidden bg-black">
+                  <div className="relative h-[210px] overflow-hidden bg-[#f3f3f3]">
+                    <Image
+                      src={imageSrc}
+                      alt=""
+                      aria-hidden="true"
+                      fill
+                      sizes="(max-width: 640px) 260px, 300px"
+                      className="object-cover object-center opacity-55 blur-xl scale-110"
+                    />
                     <Image
                       src={imageSrc}
                       alt={product.imageAlt}
                       fill
                       sizes="(max-width: 640px) 260px, 300px"
-                      className="object-cover opacity-90 transition duration-700 group-hover:scale-105 group-hover:opacity-100"
+                      className="object-contain object-center opacity-95 transition duration-700 group-hover:opacity-100"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/72 via-black/10 to-transparent" />
                     <span className="absolute left-4 top-4 rounded-full bg-white px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-black">
@@ -219,7 +227,7 @@ export default function HomeProductScroller() {
                     <span className="text-xs font-black uppercase tracking-[0.16em] text-black">
                       View Product
                     </span>
-                    <span className="grid size-9 place-items-center rounded-full bg-black text-xs font-black text-white transition group-hover:bg-[#6b3f24]">
+                    <span className="grid size-9 place-items-center rounded-full bg-black text-xs font-black text-white transition group-hover:bg-[#b58a52]">
                       Go
                     </span>
                   </Link>

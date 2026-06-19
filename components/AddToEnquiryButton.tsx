@@ -10,6 +10,7 @@ type AddToEnquiryButtonProps = {
     "slug" | "categorySlug" | "name" | "image" | "summary" | "minOrder"
   >;
   fullWidth?: boolean;
+  tone?: "default" | "myntra";
 };
 
 const STORAGE_KEY = "lotus_impex_enquiry_basket";
@@ -18,6 +19,7 @@ const CART_UPDATED_EVENT = "lotus-impex-cart-updated";
 export default function AddToEnquiryButton({
   product,
   fullWidth = false,
+  tone = "default",
 }: AddToEnquiryButtonProps) {
   const [added, setAdded] = useState(false);
 
@@ -50,7 +52,11 @@ export default function AddToEnquiryButton({
     return (
       <Link
         href="/enquiry-basket"
-        className={`inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-full bg-[#c9a16b] px-4 py-3 text-[11px] font-black uppercase tracking-[0.08em] text-black transition hover:bg-white ${
+        className={`inline-flex min-h-11 items-center justify-center whitespace-nowrap ${
+          tone === "myntra"
+            ? "rounded-[4px] bg-[#c9a16b] px-6 py-4 text-sm text-white hover:bg-[#b88d55]"
+            : "rounded-full bg-[#c9a16b] px-4 py-3 text-[11px] tracking-[0.08em] text-black hover:bg-white"
+        } font-black uppercase transition ${
           fullWidth ? "w-full" : ""
         }`}
       >
@@ -63,7 +69,11 @@ export default function AddToEnquiryButton({
     <button
       type="button"
       onClick={addToBasket}
-      className={`inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-full bg-black px-4 py-3 text-[11px] font-black uppercase tracking-[0.08em] text-white transition hover:bg-[#6b3f24] ${
+      className={`inline-flex min-h-11 items-center justify-center whitespace-nowrap ${
+        tone === "myntra"
+          ? "rounded-[4px] bg-[#c9a16b] px-6 py-4 text-sm hover:bg-[#b88d55]"
+          : "rounded-full bg-black px-4 py-3 text-[11px] tracking-[0.08em] hover:bg-[#6b3f24]"
+      } font-black uppercase text-white transition ${
         fullWidth ? "w-full" : ""
       }`}
     >
@@ -71,3 +81,4 @@ export default function AddToEnquiryButton({
     </button>
   );
 }
+

@@ -38,11 +38,6 @@ const companyInfoLinks = [
     text: "We help coordinate packing, documentation support and shipment preparation for export-focused buyers.",
   },
   {
-    title: "Buyer Support",
-    href: "/buyers",
-    text: "Find buyer-focused information about enquiries, product requirements and support after contact.",
-  },
-  {
     title: "Contact Team",
     href: "/contact",
     text: "Share your business requirement, destination market and product details with the Lotus Impex team.",

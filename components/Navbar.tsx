@@ -16,6 +16,99 @@ type SignedInUser = {
   email: string;
 };
 
+const fashionMenuColumns = [
+  {
+    title: "Men",
+    groups: [
+      {
+        title: "Topwear",
+        href: "/products/mens-garments",
+        items: [
+          "T-Shirts",
+          "Casual Shirts",
+          "Formal Shirts",
+          "Sweatshirts",
+          "Jackets",
+          "Blazers & Coats",
+        ],
+      },
+      {
+        title: "Bottomwear",
+        href: "/products/mens-garments",
+        items: ["Trousers", "Workwear", "Uniform Styles"],
+      },
+    ],
+  },
+  {
+    title: "Women",
+    groups: [
+      {
+        title: "Indian & Fusion Wear",
+        href: "/products/ladies-garments",
+        items: [
+          "Kurtis and Ethnic Wear",
+          "Dresses and Gowns",
+          "Co-ord Sets",
+          "Modest Wear",
+        ],
+      },
+      {
+        title: "Western Wear",
+        href: "/products/ladies-garments",
+        items: ["Tops and Shirts", "Seasonal Collections"],
+      },
+    ],
+  },
+  {
+    title: "Textiles",
+    groups: [
+      {
+        title: "Fabric Sourcing",
+        href: "/products/fabrics",
+        items: [
+          "Cotton Fabrics",
+          "Polyester Blends",
+          "Printed Fabrics",
+          "Knitted Fabrics",
+          "Woven Fabrics",
+        ],
+      },
+    ],
+  },
+  {
+    title: "Accessories",
+    groups: [
+      {
+        title: "Fashion Accessories",
+        href: "/products/accessories",
+        items: [
+          "Scarves and Stoles",
+          "Belts",
+          "Bags",
+          "Labels and Tags",
+          "Packaging Accessories",
+        ],
+      },
+    ],
+  },
+  {
+    title: "Industrial",
+    groups: [
+      {
+        title: "Machinery & Goods",
+        href: "/products/machinery",
+        items: [
+          "General Machinery",
+          "Textile Machinery",
+          "Machine Parts",
+          "Retail Goods",
+          "Household Goods",
+        ],
+      },
+    ],
+  },
+];
+
 function getCartCount() {
   if (typeof window === "undefined") return 0;
 
@@ -192,7 +285,7 @@ export default function Navbar() {
                   <Link
                     href="/products"
                     onClick={() => setProductsOpen(false)}
-                    className={`relative text-sm font-black uppercase tracking-[0.14em] transition ${
+                    className={`relative text-sm font-semibold uppercase tracking-[0.14em] transition ${
                       active ? "text-white" : "text-white/60 hover:text-white"
                     }`}
                   >
@@ -202,29 +295,65 @@ export default function Navbar() {
                     ) : null}
                   </Link>
 
-<div className={`absolute left-1/2 top-full z-50 mt-4 w-[720px] -translate-x-1/2 border border-white/10 bg-black p-4 shadow-2xl shadow-black/30 transition-all duration-200 ${
+<div className={`absolute left-1/2 top-full z-50 mt-4 w-[1180px] -translate-x-1/2 overflow-hidden border border-black/10 bg-white p-0 text-[#282c3f] shadow-2xl shadow-black/20 transition-all duration-200 ${
                     productsOpen
                       ? "visible opacity-100"
                       : "invisible opacity-0"
-                  }`}>                    <div className="grid grid-cols-2 gap-3">
+                  }`}>
+                    <div className="grid grid-cols-5">
+                      {fashionMenuColumns.map((column, columnIndex) => (
+                        <div
+                          key={column.title}
+                          className={`min-h-[420px] px-8 py-7 ${
+                            columnIndex % 2 === 1 ? "bg-[#fbfbfc]" : "bg-white"
+                          }`}
+                        >
+                          <p className="mb-5 text-sm font-semibold uppercase tracking-[0.08em] text-[#c9a16b]">
+                            {column.title}
+                          </p>
+
+                          {column.groups.map((group) => (
+                            <div key={group.title} className="mb-6">
+                              <Link
+                                href={group.href}
+                                onClick={() => setProductsOpen(false)}
+                                className="mb-2 block text-sm font-semibold text-[#c9a16b]"
+                              >
+                                {group.title}
+                              </Link>
+                              <div className="space-y-2">
+                                {group.items.map((item) => (
+                                  <Link
+                                    key={item}
+                                    href={group.href}
+                                    onClick={() => setProductsOpen(false)}
+                                    className="block text-sm font-medium text-[#282c3f] transition hover:text-[#c9a16b]"
+                                  >
+                                    {item}
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="grid grid-cols-6 border-t border-black/10 bg-[#f8f8f8]">
                       {exportCategories.map((category) => (
                         <Link
                           key={category.slug}
                           href={`/products/${category.slug}`}
                           onClick={() => setProductsOpen(false)}
-                          className="group/item border border-white/10 bg-neutral-950 p-5 text-white transition hover:bg-white hover:text-black"
+                          className="group/item border-r border-black/10 px-5 py-4 transition hover:bg-white"
                         >
-                          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/45 transition group-hover/item:text-black/45">
+                          <p className="text-[10px] font-black uppercase tracking-[0.18em] text-black/35">
                             {category.eyebrow}
                           </p>
 
-                          <h3 className="mt-2 text-xl font-black uppercase tracking-[-0.05em]">
+                          <h3 className="mt-1 text-sm font-semibold uppercase text-black transition group-hover/item:text-[#c9a16b]">
                             {category.title}
                           </h3>
-
-                          <p className="mt-3 line-clamp-2 text-xs leading-6 text-white/55 transition group-hover/item:text-black/60">
-                            {category.summary}
-                          </p>
                         </Link>
                       ))}
                     </div>
@@ -232,7 +361,7 @@ export default function Navbar() {
                     <Link
                       href="/products"
                       onClick={() => setProductsOpen(false)}
-                      className="mt-3 flex items-center justify-between bg-white px-5 py-4 text-sm font-black uppercase tracking-[0.16em] text-black transition hover:bg-[#c9a16b]"
+                      className="flex items-center justify-between bg-black px-8 py-4 text-sm font-semibold uppercase tracking-[0.16em] text-white transition hover:bg-[#c9a16b]"
                     >
                       View Complete Catalogue
                       <span>→</span>
@@ -246,7 +375,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative text-sm font-black uppercase tracking-[0.14em] transition ${
+                className={`relative text-sm font-semibold uppercase tracking-[0.14em] transition ${
                   active ? "text-white" : "text-white/60 hover:text-white"
                 }`}
               >
@@ -278,7 +407,7 @@ export default function Navbar() {
                 {item.icon}
 
                 {user && item.href === "/sign-in" ? (
-                  <span className="max-w-28 truncate text-xs font-black uppercase tracking-[0.12em]">
+                  <span className="max-w-28 truncate text-xs font-semibold uppercase tracking-[0.12em]">
                     {user.name}
                   </span>
                 ) : null}
@@ -294,7 +423,7 @@ export default function Navbar() {
 
           <Link
             href="/contact"
-            className="rounded-full bg-white px-7 py-3.5 text-xs font-black uppercase tracking-[0.14em] text-black transition hover:bg-[#c9a16b]"
+            className="rounded-full bg-white px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.14em] text-black transition hover:bg-[#c9a16b]"
           >
             Enquire
           </Link>
@@ -335,7 +464,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="rounded-2xl px-4 py-4 text-sm font-black uppercase tracking-[0.14em] text-white hover:bg-white/10"
+                className="rounded-2xl px-4 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-white hover:bg-white/10"
               >
                 {link.label}
               </Link>
@@ -347,7 +476,7 @@ export default function Navbar() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="relative flex items-center justify-center gap-3 rounded-2xl border border-white/10 bg-neutral-950 px-4 py-4 text-sm font-black uppercase tracking-[0.14em] text-white"
+                  className="relative flex items-center justify-center gap-3 rounded-2xl border border-white/10 bg-neutral-950 px-4 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-white"
                 >
                   {item.icon}
                   {item.label}
@@ -381,7 +510,7 @@ export default function Navbar() {
             <Link
               href="/contact"
               onClick={() => setOpen(false)}
-              className="mt-2 rounded-2xl bg-white px-4 py-4 text-center text-sm font-black uppercase tracking-[0.14em] text-black"
+              className="mt-2 rounded-2xl bg-white px-4 py-4 text-center text-sm font-semibold uppercase tracking-[0.14em] text-black"
             >
               Enquire Now
             </Link>
@@ -391,3 +520,4 @@ export default function Navbar() {
     </header>
   );
 }
+
