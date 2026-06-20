@@ -464,6 +464,13 @@ export default function ProductCategoryClient({
               <p className="mb-4 text-sm font-black uppercase text-black">
                 Departments
               </p>
+              <Link
+                href="/products"
+                className="mb-3 flex items-center justify-between text-sm font-black text-[#c9a16b] transition hover:text-black"
+              >
+                <span>All Categories</span>
+                <span className="text-xs text-black/35">{allProducts.length}</span>
+              </Link>
               {allCategories.map((item) => (
                 <Link
                   key={item.slug}
@@ -562,7 +569,70 @@ export default function ProductCategoryClient({
         </aside>
 
         <div className="min-w-0 bg-white px-5 py-7 sm:px-8">
+          {storeMode ? (
+            <section className="mb-10 border-b border-black/10 pb-8">
+              <div className="mb-5">
+                <p className="text-xs font-black uppercase tracking-[0.24em] text-[#c9a16b]">
+                  Product Categories
+                </p>
+                <h2 className="mt-2 text-3xl font-black leading-tight text-[#282c3f]">
+                  Shop All Categories
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+                {allCategories.map((item) => (
+                  <Link
+                    key={item.slug}
+                    href={`/products/${item.slug}`}
+                    className="group overflow-hidden border border-black/10 bg-white transition hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10"
+                  >
+                    <div className="relative aspect-[4/3] overflow-hidden bg-[#f5f5f6]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={item.image}
+                        alt={item.imageAlt}
+                        className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="p-4">
+                      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#c9a16b]">
+                        {item.eyebrow}
+                      </p>
+                      <h3 className="mt-2 text-lg font-black text-[#282c3f]">
+                        {item.title}
+                      </h3>
+                      <p className="mt-2 text-sm leading-6 text-black/55">
+                        {
+                          allProducts.filter(
+                            (product) => product.categorySlug === item.slug
+                          ).length
+                        }{" "}
+                        products
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
           <div className="mb-6 flex flex-wrap gap-3">
+            {storeMode ? (
+              <Link
+                href="/products"
+                className="rounded-full border border-[#c9a16b] bg-[#c9a16b] px-4 py-2 text-sm font-black text-black transition hover:bg-black hover:text-white"
+              >
+                All Categories
+              </Link>
+            ) : (
+              <Link
+                href="/products"
+                className="rounded-full border border-black/15 px-4 py-2 text-sm font-semibold text-black/70 transition hover:border-[#c9a16b] hover:text-[#c9a16b]"
+              >
+                All Categories
+              </Link>
+            )}
             {(storeMode ? allCategories : [category]).map((item) => (
               <Link
                 key={item.slug}

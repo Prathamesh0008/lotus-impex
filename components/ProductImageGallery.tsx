@@ -21,6 +21,8 @@ const fallbackImages: Record<string, string> = {
   "mens-garments": "/fast-fashion.jpg",
   fabrics: "/product_category.jpg",
   accessories: "/online-marketing.jpg",
+  footwear:
+    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=80",
   machinery: "/product_category.jpg",
   "general-goods": "/e-commerce.jpg",
 };
@@ -49,7 +51,7 @@ function SafeImage({
         sizes="(max-width: 768px) 100vw, 38vw"
         priority={priority}
         onError={() => setImageSrc(fallback)}
-        className="object-cover object-center"
+        className="object-cover object-top"
       />
     );
   }
@@ -84,7 +86,44 @@ export default function ProductImageGallery({
 
   return (
     <div className="w-full min-w-0">
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="sm:hidden">
+        <div className="relative h-[min(120vw,560px)] overflow-hidden bg-[#f5f5f6]">
+          <SafeImage
+            src={images[0].src}
+            fallback={fallback}
+            alt={images[0].alt}
+            priority
+            fill
+          />
+          {images[0].caption ? (
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent p-5">
+              <p className="max-w-xs text-xl font-black uppercase leading-tight tracking-[0.02em] text-white">
+                {images[0].caption}
+              </p>
+            </div>
+          ) : null}
+        </div>
+
+        {images.length > 1 ? (
+          <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+            {images.slice(0, 4).map((item, index) => (
+              <div
+                key={`${item.src}-thumb-${index}`}
+                className="relative size-16 shrink-0 overflow-hidden rounded-xl border border-black/10 bg-[#f5f5f6]"
+              >
+                <SafeImage
+                  src={item.src}
+                  fallback={fallback}
+                  alt={item.alt}
+                  fill
+                />
+              </div>
+            ))}
+          </div>
+        ) : null}
+      </div>
+
+      <div className="hidden gap-3 sm:grid sm:grid-cols-2">
         {images.slice(0, 4).map((item, index) => (
           <div
             key={`${item.src}-${index}`}

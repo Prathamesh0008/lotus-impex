@@ -160,6 +160,30 @@ export const exportCategories: ExportCategory[] = [
     gradient: "from-neutral-900 to-stone-700",
   },
   {
+    slug: "footwear",
+    title: "Footwear",
+    shortTitle: "Footwear",
+    eyebrow: "Shoe export",
+    summary:
+      "Casual shoes, sneakers, sandals and sliders sourced for retail and wholesale export.",
+    description:
+      "We source footwear including sneakers, casual shoes, sports shoes, sandals, sliders and private-label shoe collections for international buyers.",
+    image:
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1400&q=85",
+    imageAlt: "Sneakers and footwear for export",
+    items: [
+      "Sneakers",
+      "Casual shoes",
+      "Sports shoes",
+      "Sandals and sliders",
+      "Formal shoes",
+      "Private-label footwear",
+    ],
+    highlights: ["Retail ready", "Size runs", "Private label"],
+    markets: ["Retailers", "Footwear importers", "Wholesalers", "Trading firms"],
+    gradient: "from-neutral-950 to-zinc-800",
+  },
+  {
     slug: "machinery",
     title: "Machinery",
     shortTitle: "Machinery",

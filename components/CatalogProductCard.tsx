@@ -17,6 +17,8 @@ const fallbackImages: Record<string, string> = {
   "mens-garments": "/fast-fashion.jpg",
   fabrics: "/product_category.jpg",
   accessories: "/online-marketing.jpg",
+  footwear:
+    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=80",
   machinery: "/product_category.jpg",
   "general-goods": "/e-commerce.jpg",
 };

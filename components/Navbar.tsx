@@ -339,7 +339,7 @@ export default function Navbar() {
                       ))}
                     </div>
 
-                    <div className="grid grid-cols-6 border-t border-black/10 bg-[#f8f8f8]">
+                    <div className="grid grid-cols-7 border-t border-black/10 bg-[#f8f8f8]">
                       {exportCategories.map((category) => (
                         <Link
                           key={category.slug}
