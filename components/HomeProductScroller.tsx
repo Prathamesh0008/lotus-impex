@@ -182,23 +182,23 @@ export default function HomeProductScroller() {
                   }}
                   className="block"
                 >
-                  <div className="relative h-[210px] overflow-hidden bg-[#f3f3f3]">
+                  <div className="relative h-[315px] overflow-hidden bg-[#f5f5f6] sm:h-[340px]">
                     <Image
                       src={imageSrc}
                       alt=""
                       aria-hidden="true"
                       fill
                       sizes="(max-width: 640px) 260px, 300px"
-                      className="object-cover object-center opacity-55 blur-xl scale-110"
+                      className="scale-110 object-cover object-center opacity-35 blur-xl"
                     />
                     <Image
                       src={imageSrc}
                       alt={product.imageAlt}
                       fill
                       sizes="(max-width: 640px) 260px, 300px"
-                      className="object-contain object-center opacity-95 transition duration-700 group-hover:opacity-100"
+                      className="object-contain object-center p-3 opacity-100 transition duration-700 group-hover:scale-[1.02]"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/72 via-black/10 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/28 to-transparent" />
                     <span className="absolute left-4 top-4 rounded-full bg-white px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-black">
                       {categoryName}
                     </span>
