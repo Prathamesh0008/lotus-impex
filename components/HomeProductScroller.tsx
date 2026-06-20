@@ -116,8 +116,8 @@ export default function HomeProductScroller() {
   }
 
   return (
-    <section className="bg-[#f4efe7] px-5 pb-16 sm:px-8 lg:px-10">
-      <div className="mx-auto max-w-[1500px]">
+    <section className="w-full max-w-full overflow-hidden bg-[#f4efe7] px-4 pb-16 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-[1500px]">
         <div className="mb-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <div>
             <p className="mb-3 text-xs font-black uppercase tracking-[0.28em] text-[#b58a52]">
@@ -169,7 +169,7 @@ export default function HomeProductScroller() {
             return (
               <article
                 key={`${product.categorySlug}-${product.slug}-${index}`}
-                className="group flex w-[260px] shrink-0 flex-col overflow-hidden rounded-[22px] border border-black/10 bg-white shadow-[0_14px_34px_rgba(0,0,0,0.07)] transition hover:-translate-y-1 hover:shadow-[0_22px_45px_rgba(0,0,0,0.12)] sm:w-[300px]"
+                className="group flex w-[240px] shrink-0 flex-col overflow-hidden rounded-[22px] border border-black/10 bg-white shadow-[0_14px_34px_rgba(0,0,0,0.07)] transition hover:-translate-y-1 hover:shadow-[0_22px_45px_rgba(0,0,0,0.12)] sm:w-[300px]"
               >
                 <Link
                   href={`/products/${product.categorySlug}/${product.slug}`}

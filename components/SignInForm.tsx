@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FormEvent, ReactNode, useState } from "react";
 
 const USER_STORAGE_KEY = "lotus_impex_user";
@@ -37,18 +38,20 @@ function TextInput({
   type = "text",
   placeholder,
   required = true,
+  autoComplete,
 }: {
   name: string;
   type?: string;
   placeholder: string;
   required?: boolean;
+  autoComplete?: string;
 }) {
   return (
     <input
       required={required}
       name={name}
       type={type}
-      autoComplete="off"
+      autoComplete={autoComplete || "off"}
       autoCorrect="off"
       spellCheck={false}
       placeholder={placeholder}
@@ -58,6 +61,7 @@ function TextInput({
 }
 
 export default function SignInForm({ authView = "signIn" }: { authView?: AuthView }) {
+  const router = useRouter();
   const [mode, setMode] = useState<AuthMode>("signIn");
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -110,14 +114,17 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
         throw new Error(result.message || "Unable to continue.");
       }
 
+      form.reset();
+
+      if (authMode === "signUp") {
+        setMessage("Account created successfully. Redirecting to sign in...");
+        window.setTimeout(() => router.push("/sign-in"), 900);
+        return;
+      }
+
       window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(result.user));
       window.dispatchEvent(new Event(USER_UPDATED_EVENT));
-      setMessage(
-        authMode === "signUp"
-          ? "Account created successfully."
-          : "Login successful.",
-      );
-      form.reset();
+      setMessage("Login successful.");
     } catch (submitError) {
       setError(
         submitError instanceof Error
@@ -134,7 +141,7 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
       <form
         autoComplete="off"
         onSubmit={handleAuthSubmit}
-        className="rounded-[28px] border border-black/10 bg-white p-6 shadow-xl shadow-black/5 lg:p-8"
+        className="mx-auto w-full max-w-[760px] rounded-[28px] border border-black/10 bg-white p-6 shadow-xl shadow-black/5 lg:p-8"
       >
         <input type="hidden" name="authMode" value="signUp" />
 
@@ -152,18 +159,35 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
 
         <div className="grid gap-5 md:grid-cols-2">
           <Field label="First name">
-            <TextInput name="firstName" placeholder="First name" />
+            <TextInput
+              name="firstName"
+              placeholder="First name"
+              autoComplete="given-name"
+            />
           </Field>
           <Field label="Last name">
-            <TextInput name="lastName" placeholder="Last name" />
+            <TextInput
+              name="lastName"
+              placeholder="Last name"
+              autoComplete="family-name"
+            />
           </Field>
           <div className="md:col-span-2">
             <Field label="Email address">
-              <TextInput name="email" type="email" placeholder="Enter email address" />
+              <TextInput
+                name="email"
+                type="email"
+                placeholder="Enter email address"
+                autoComplete="email"
+              />
             </Field>
           </div>
           <div className="md:col-span-2">
-            <PasswordField showPassword={showPassword} setShowPassword={setShowPassword} />
+            <PasswordField
+              autoComplete="new-password"
+              showPassword={showPassword}
+              setShowPassword={setShowPassword}
+            />
           </div>
         </div>
 
@@ -193,7 +217,7 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
     <form
       autoComplete="off"
       onSubmit={handleAuthSubmit}
-      className="rounded-[28px] border border-black/10 bg-white p-6 shadow-xl shadow-black/5 lg:p-8"
+      className="mx-auto w-full max-w-[760px] rounded-[28px] border border-black/10 bg-white p-6 shadow-xl shadow-black/5 lg:p-8"
     >
       <input
         type="hidden"
@@ -211,24 +235,18 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
         <p className="mt-4 max-w-2xl text-sm leading-7 text-black/55">
           {mode === "forgot"
             ? "Enter your account email and we will guide you through password reset support."
-            : "Fill in your name, email and password to access your buyer account."}
+            : "Enter your email and password to access your buyer account."}
         </p>
       </div>
 
-      {mode === "forgot" ? null : (
-        <div className="mb-5 grid gap-5 md:grid-cols-2">
-          <Field label="First name">
-            <TextInput name="firstName" placeholder="First name" />
-          </Field>
-          <Field label="Last name">
-            <TextInput name="lastName" placeholder="Last name" />
-          </Field>
-        </div>
-      )}
-
       <div className={mode === "forgot" ? "" : "mb-5"}>
         <Field label="Email address">
-          <TextInput name="email" type="email" placeholder="Enter email address" />
+          <TextInput
+            name="email"
+            type="email"
+            placeholder="Enter email address"
+            autoComplete="email"
+          />
         </Field>
       </div>
 
@@ -240,6 +258,7 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
       ) : (
         <>
           <PasswordField
+            autoComplete="current-password"
             showPassword={showPassword}
             setShowPassword={setShowPassword}
           />
@@ -301,9 +320,11 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
 }
 
 function PasswordField({
+  autoComplete = "current-password",
   showPassword,
   setShowPassword,
 }: {
+  autoComplete?: string;
   showPassword: boolean;
   setShowPassword: (value: boolean) => void;
 }) {
@@ -314,7 +335,8 @@ function PasswordField({
           required
           name="password"
           type={showPassword ? "text" : "password"}
-          autoComplete="current-password"
+          autoComplete={autoComplete}
+          minLength={4}
           placeholder="Enter password"
           className="h-14 min-w-0 flex-1 bg-transparent px-5 text-sm font-semibold text-black outline-none placeholder:text-black/35"
         />

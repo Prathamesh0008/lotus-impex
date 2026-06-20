@@ -250,8 +250,8 @@ export default function Navbar() {
       count: cartCount,
     },
     {
-      href: "/sign-in",
-      label: user ? user.name : "Sign in",
+      href: user ? "/sign-in" : "/sign-up",
+      label: user ? user.name : "Sign up",
       icon: <UserIcon />,
       count: 0,
     },
@@ -263,12 +263,12 @@ export default function Navbar() {
         isHidden ? "-translate-y-full" : "translate-y-0"
       }`}
     >
-      <nav className="mx-auto grid h-20 max-w-[1500px] grid-cols-[1fr_auto] items-center px-5 sm:px-8 lg:h-24 lg:grid-cols-[minmax(360px,1fr)_auto_minmax(420px,1fr)] lg:px-10">
+      <nav className="mx-auto grid h-[74px] max-w-[1500px] grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-3 sm:h-20 sm:px-8 xl:h-24 xl:grid-cols-[minmax(360px,1fr)_auto_minmax(420px,1fr)] xl:px-10">
         <div className="flex min-w-0 items-center justify-start">
           <Logo />
         </div>
 
-        <div className="hidden items-center justify-center gap-9 lg:flex">
+        <div className="hidden items-center justify-center gap-9 xl:flex">
           {navLinks.map((link) => {
             const active =
               pathname === link.href ||
@@ -388,7 +388,7 @@ export default function Navbar() {
           })}
         </div>
 
-        <div className="hidden items-center justify-end gap-3 lg:flex">
+        <div className="hidden items-center justify-end gap-3 xl:flex">
           {iconLinks.map((item) => {
             const active = pathname === item.href;
 
@@ -434,7 +434,7 @@ export default function Navbar() {
           aria-label="Open navigation menu"
           aria-expanded={open}
           onClick={() => setOpen((value) => !value)}
-          className="col-start-2 grid size-11 place-items-center justify-self-end rounded-full border border-white/20 bg-transparent text-white lg:hidden"
+          className="col-start-2 grid size-10 shrink-0 place-items-center justify-self-end rounded-full border border-white/20 bg-transparent text-white sm:size-11 xl:hidden"
         >
           <span className="relative block h-4 w-5">
             <span
@@ -457,7 +457,7 @@ export default function Navbar() {
       </nav>
 
       {open ? (
-        <div className="border-t border-white/10 bg-black px-5 py-5 lg:hidden">
+        <div className="border-t border-white/10 bg-black px-5 py-5 xl:hidden">
           <div className="mx-auto grid max-w-[1500px] gap-2">
             {navLinks.map((link) => (
               <Link

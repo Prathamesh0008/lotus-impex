@@ -13,7 +13,7 @@ const heroSlides = [
   {
     label: "Textile Sourcing",
     title: "Premium Fabrics For International Markets",
-    image: "/Contact_.png",
+    image: "/Banner_2.png",
   },
   {
     label: "Global Trade",
@@ -36,7 +36,7 @@ export default function HeroBanner() {
   const slide = heroSlides[activeSlide];
 
   return (
-    <section className="relative min-h-[620px] overflow-hidden bg-black">
+    <section className="relative w-full max-w-full overflow-hidden bg-black">
       {heroSlides.map((item, index) => (
         <Image
           key={item.image}
@@ -45,7 +45,7 @@ export default function HeroBanner() {
           fill
           priority={index === 0}
           sizes="100vw"
-          className={`object-cover transition-opacity duration-1000 ${
+          className={`object-cover object-center transition-opacity duration-1000 sm:object-center ${
             activeSlide === index ? "opacity-70" : "opacity-0"
           }`}
         />
@@ -53,32 +53,32 @@ export default function HeroBanner() {
 
       <div className="absolute inset-0 z-10 bg-black/45" />
 
-      <div className="relative z-20 mx-auto flex min-h-[620px] max-w-[1500px] items-center px-5 sm:px-8 lg:px-10">
-        <div className="max-w-4xl">
-          <p className="mb-5 text-xs font-black uppercase tracking-[0.35em] text-white/70">
+      <div className="relative z-20 mx-auto flex min-h-[460px] w-full max-w-[1500px] items-center px-4 py-10 sm:min-h-[560px] sm:px-8 xl:min-h-[620px] xl:px-10">
+        <div className="w-full max-w-4xl">
+          <p className="mb-4 text-[11px] font-black uppercase tracking-[0.28em] text-white/70 sm:mb-5 sm:text-xs sm:tracking-[0.35em]">
             {slide.label}
           </p>
 
-          <h1 className="text-5xl font-black uppercase leading-[0.9] tracking-[-0.08em] text-white sm:text-7xl lg:text-8xl">
+          <h1 className="max-w-4xl text-[2.35rem] font-black uppercase leading-[0.95] text-white sm:text-5xl md:text-6xl xl:text-7xl">
             {slide.title}
           </h1>
 
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-white/75">
+          <p className="mt-5 max-w-2xl text-base leading-7 text-white/75 sm:mt-6 sm:text-lg sm:leading-8">
             Lotus Impex connects global buyers with reliable Indian sourcing,
             export coordination and quality-focused product supply.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-7 grid gap-3 sm:mt-8 sm:flex sm:flex-wrap">
             <Link
               href="/products"
-              className="rounded-full bg-white px-7 py-4 text-sm font-black uppercase tracking-[0.16em] text-black transition hover:bg-[#c9a16b]"
+              className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 py-3 text-center text-xs font-black uppercase tracking-[0.14em] text-black transition hover:bg-[#c9a16b] sm:px-7 sm:py-4 sm:text-sm sm:tracking-[0.16em]"
             >
               Explore Products
             </Link>
 
             <Link
               href="/contact"
-              className="rounded-full border border-white/30 px-7 py-4 text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white hover:text-black"
+              className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/30 px-6 py-3 text-center text-xs font-black uppercase tracking-[0.14em] text-white transition hover:bg-white hover:text-black sm:px-7 sm:py-4 sm:text-sm sm:tracking-[0.16em]"
             >
               Send Enquiry
             </Link>

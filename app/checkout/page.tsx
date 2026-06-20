@@ -144,16 +144,16 @@ export default function CheckoutPage() {
 
   if (orderNumber) {
     return (
-      <main className="min-h-screen bg-[#f4efe7] px-5 py-12 text-black sm:px-8 lg:px-10">
-        <section className="mx-auto grid min-h-[70vh] max-w-[900px] place-items-center">
-          <div className="rounded-[8px] border border-black/10 bg-white p-8 text-center shadow-sm sm:p-12">
-            <p className="mx-auto grid size-16 place-items-center rounded-full bg-[#c9a16b] text-2xl font-black text-black">
-              ✓
+      <main className="grid min-h-[calc(100vh-74px)] place-items-center bg-[#f4efe7] px-5 py-10 text-black sm:min-h-[calc(100vh-80px)] sm:px-8 xl:min-h-[calc(100vh-96px)]">
+        <section className="w-full max-w-[900px]">
+          <div className="rounded-[8px] border border-black/10 bg-white px-6 py-12 text-center shadow-md shadow-black/10 sm:px-12 sm:py-16">
+            <p className="mx-auto grid size-16 place-items-center rounded-full bg-[#c9a16b] text-2xl font-black text-black sm:size-20">
+              {"\u2713"}
             </p>
-            <p className="mt-6 text-xs font-black uppercase tracking-[0.3em] text-[#b58a52]">
+            <p className="mt-7 text-xs font-black uppercase tracking-[0.32em] text-[#b58a52] sm:text-sm">
               Payment Request Created
             </p>
-            <h1 className="mt-4 text-6xl leading-[0.9] tracking-[-0.05em]">
+            <h1 className="mt-5 text-5xl leading-[0.9] tracking-[-0.04em] sm:text-7xl lg:text-8xl">
               Order Submitted
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-base leading-8 text-black/60">
@@ -165,13 +165,13 @@ export default function CheckoutPage() {
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <Link
                 href="/products"
-                className="inline-flex justify-center rounded-full bg-black px-7 py-4 text-xs font-black uppercase tracking-[0.16em] text-white transition hover:bg-[#6b3f24]"
+                className="inline-flex min-h-14 items-center justify-center rounded-full bg-black px-7 py-4 text-xs font-black uppercase tracking-[0.16em] text-white transition hover:bg-[#6b3f24] sm:min-w-[290px]"
               >
                 Continue Shopping
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex justify-center rounded-full border border-black/15 px-7 py-4 text-xs font-black uppercase tracking-[0.16em] text-black transition hover:bg-black hover:text-white"
+                className="inline-flex min-h-14 items-center justify-center rounded-full border border-black/15 px-7 py-4 text-xs font-black uppercase tracking-[0.16em] text-black transition hover:bg-black hover:text-white sm:min-w-[240px]"
               >
                 Contact Team
               </Link>
@@ -431,3 +431,4 @@ export default function CheckoutPage() {
     </main>
   );
 }
+

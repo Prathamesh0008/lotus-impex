@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import AddToEnquiryButton from "@/components/AddToEnquiryButton";
 import CatalogProductCard from "@/components/CatalogProductCard";
 import ProductImageGallery from "@/components/ProductImageGallery";
+import ProductPurchasePanel from "@/components/ProductPurchasePanel";
 import { exportCategories, siteConfig } from "@/data/site";
 import {
   exportProducts,
@@ -17,6 +17,29 @@ type PageProps = {
     productSlug: string;
   }>;
 };
+
+const sizeOptions = ["XS", "S", "M", "L", "XL", "XXL"];
+
+function getProductInventory(productSlug: string) {
+  const score = productSlug
+    .split("")
+    .reduce((total, char) => total + char.charCodeAt(0), 0);
+  const inStock = score % 7 !== 0;
+  const availableSizes = sizeOptions.filter((_, index) => {
+    if (!inStock) return false;
+    return (score + index) % 4 !== 0;
+  });
+
+  return {
+    inStock,
+    availableSizes: inStock
+      ? availableSizes.length > 0
+        ? availableSizes
+        : ["M", "L"]
+      : [],
+    lowStock: inStock && score % 5 === 0,
+  };
+}
 
 export function generateStaticParams() {
   return exportProducts.map((product) => ({
@@ -71,6 +94,27 @@ export default async function ProductDetailPage({ params }: PageProps) {
   const relatedProducts = getProductsByCategory(product.categorySlug).filter(
     (item) => item.slug !== product.slug
   );
+  const inventory = getProductInventory(product.slug);
+  const galleryImages = [
+    {
+      src: product.image,
+      alt: product.imageAlt,
+    },
+    {
+      src: relatedProducts[0]?.image || category.image,
+      alt: relatedProducts[0]?.imageAlt || category.imageAlt,
+      caption: "Breathes Easy Feels Light",
+    },
+    {
+      src: relatedProducts[1]?.image || product.image,
+      alt: relatedProducts[1]?.imageAlt || product.imageAlt,
+    },
+    {
+      src: relatedProducts[2]?.image || category.image,
+      alt: relatedProducts[2]?.imageAlt || category.imageAlt,
+      caption: `${product.type} Range`,
+    },
+  ];
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -119,6 +163,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
           categoryImage={category.image}
           categorySlug={product.categorySlug}
           type={product.type}
+          galleryImages={galleryImages}
         />
 
         <aside className="h-fit bg-white p-2 lg:sticky lg:top-28">
@@ -130,13 +175,13 @@ export default async function ProductDetailPage({ params }: PageProps) {
               <p className="mt-2 text-xl text-[#535766]">{product.name}</p>
             </div>
 
-            <button
-              type="button"
+            <Link
+              href="#product-actions"
               aria-label="Save product"
               className="grid size-12 shrink-0 place-items-center rounded-full border border-black/10 bg-white text-xl shadow-sm"
             >
               ♡
-            </button>
+            </Link>
           </div>
 
           <div className="mt-5 inline-flex border border-black/10 px-3 py-2 text-sm font-black text-[#282c3f]">
@@ -165,6 +210,26 @@ export default async function ProductDetailPage({ params }: PageProps) {
             {product.description}
           </p>
 
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <span
+              className={`rounded-full px-4 py-2 text-xs font-black uppercase tracking-[0.12em] ${
+                inventory.inStock
+                  ? "bg-[#e7f8ef] text-[#03a685]"
+                  : "bg-red-50 text-red-600"
+              }`}
+            >
+              {inventory.inStock ? "In Stock" : "Out of Stock"}
+            </span>
+            {inventory.lowStock ? (
+              <span className="rounded-full bg-[#fff4e8] px-4 py-2 text-xs font-black uppercase tracking-[0.12em] text-[#ff905a]">
+                Low Stock
+              </span>
+            ) : null}
+            <span className="text-sm font-bold text-black/55">
+              MOQ: {product.minOrder}
+            </span>
+          </div>
+
           <div className="mt-7">
             <p className="text-base font-black uppercase text-[#282c3f]">
               More Colors
@@ -174,57 +239,38 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 product.image,
                 category.image,
                 ...relatedProducts.slice(0, 8).map((item) => item.image),
-              ].map((image, index) => (
-                <div
-                  key={`${image}-${index}`}
-                  className="relative size-16 overflow-hidden border border-black/10 bg-[#f5f5f6]"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={image}
-                    alt=""
-                    className="h-full w-full object-cover object-top"
-                  />
-                </div>
-              ))}
+              ].map((image, index) => {
+                const linkedProduct = index <= 1 ? null : relatedProducts[index - 2];
+
+                return (
+                  <Link
+                    key={`${image}-${index}`}
+                    href={
+                      linkedProduct
+                        ? `/products/${linkedProduct.categorySlug}/${linkedProduct.slug}`
+                        : "#product-actions"
+                    }
+                    className="relative size-16 overflow-hidden border border-black/10 bg-[#f5f5f6]"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={image}
+                      alt=""
+                      className="h-full w-full object-cover object-top"
+                    />
+                  </Link>
+                );
+              })}
             </div>
           </div>
 
-          <div className="mt-8">
-            <div className="flex items-center gap-8">
-              <p className="text-base font-black uppercase text-[#282c3f]">
-                Select Size
-              </p>
-              <button
-                type="button"
-                className="text-sm font-black uppercase text-[#c9a16b]"
-              >
-                Size Chart ›
-              </button>
-            </div>
-
-            <div className="mt-5 flex flex-wrap gap-3">
-              {["S", "M", "L", "XL", "XXL"].map((size) => (
-                <button
-                  key={size}
-                  type="button"
-                  className="grid size-14 place-items-center rounded-full border border-black/20 text-sm font-black transition hover:border-[#c9a16b] hover:text-[#c9a16b]"
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-8 grid gap-4 sm:grid-cols-[1.1fr_0.9fr]">
-            <AddToEnquiryButton product={product} fullWidth tone="myntra" />
-
-            <Link
-              href="/contact"
-              className="inline-flex min-h-11 items-center justify-center rounded-[4px] border border-black/20 px-6 py-4 text-sm font-black uppercase tracking-[0.04em] text-[#282c3f] transition hover:border-black"
-            >
-              ♡ Wishlist
-            </Link>
+          <div id="product-actions">
+            <ProductPurchasePanel
+              product={product}
+              inStock={inventory.inStock}
+              availableSizes={inventory.availableSizes}
+              allSizes={sizeOptions}
+            />
           </div>
 
           <div className="mt-8">

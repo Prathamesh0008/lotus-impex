@@ -13,6 +13,7 @@ import {
 import HomeCategoryShowcase from "@/components/HomeCategoryShowcase";
 import HomeProductScroller from "@/components/HomeProductScroller";
 import HomePremiumSections from "@/components/HomePremiumSections";
+import HomeShoppingShowcase from "@/components/HomeShoppingShowcase";
 
 export default function HomePage() {
   const hero = heroSlides[0];
@@ -95,14 +96,15 @@ export default function HomePage() {
       {/* <CategoryMarquee /> */}
       <HomeCategoryShowcase />
       <HomeProductScroller />
+      <HomeShoppingShowcase />
       <HomePremiumSections />
 
       
 
       {/* HIGH ENERGY SPLIT */}
-      <section className="bg-black px-5 py-20 text-white sm:px-8 lg:px-10 lg:py-28">
+      <section className="bg-black px-5 py-16 text-white sm:px-8 lg:px-10 xl:py-24">
         <div className="mx-auto grid max-w-[1500px] gap-8 lg:grid-cols-[1fr_1fr] lg:items-center">
-          <div className="relative h-[620px] overflow-hidden">
+          <div className="relative h-[360px] overflow-hidden sm:h-[460px] xl:h-[620px]">
             <Image
               src="/content-women-shopping-mall.jpg"
               alt="Export package delivery and ecommerce sourcing"
@@ -121,11 +123,11 @@ export default function HomePage() {
               Export Capability
             </p>
 
-            <h2 className="text-5xl font-black uppercase leading-[0.86] tracking-[-0.09em] sm:text-6xl lg:text-8xl">
+            <h2 className="text-4xl font-black uppercase leading-tight text-white sm:text-5xl xl:text-6xl">
               Speed with structure.
             </h2>
 
-            <p className="mt-7 max-w-xl text-lg leading-8 text-white/60">
+            <p className="mt-6 max-w-xl text-base leading-7 text-white/60 sm:text-lg sm:leading-8">
               We are building Lotus Impex as a modern export house — fast in
               communication, sharp in sourcing, serious about documentation and
               focused on buyer confidence.
@@ -152,14 +154,14 @@ export default function HomePage() {
       </section>
 
       {/* PROCESS */}
-      <section className="px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
+      <section className="px-5 py-16 sm:px-8 lg:px-10 xl:py-24">
         <div className="mx-auto max-w-[1500px]">
           <div className="mb-12 max-w-4xl">
             <p className="mb-4 text-xs font-black uppercase tracking-[0.3em] text-black/45">
               How We Work
             </p>
 
-            <h2 className="text-5xl font-black uppercase leading-[0.9] tracking-[-0.08em] text-black sm:text-6xl lg:text-7xl">
+            <h2 className="text-4xl font-black uppercase leading-tight text-black sm:text-5xl xl:text-6xl">
               Simple process. Professional execution.
             </h2>
           </div>
@@ -190,8 +192,8 @@ export default function HomePage() {
       <InternalLinkSection />
 
       {/* CTA */}
-      <section className="px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
-        <div className="relative mx-auto min-h-[560px] max-w-[1500px] overflow-hidden bg-black">
+      <section className="px-5 py-16 sm:px-8 lg:px-10 xl:py-24">
+        <div className="relative mx-auto min-h-[430px] max-w-[1500px] overflow-hidden bg-black sm:min-h-[520px]">
           <Image
             src="/product_category.jpg"
             alt="International export shipping containers"
@@ -202,17 +204,17 @@ export default function HomePage() {
 
           <div className="absolute inset-0 bg-black/45" />
 
-          <div className="relative z-10 flex min-h-[560px] items-end p-6 sm:p-10 lg:p-14">
+          <div className="relative z-10 flex min-h-[430px] items-end p-6 sm:min-h-[520px] sm:p-10 lg:p-14">
             <div className="max-w-4xl">
               <p className="mb-5 text-xs font-black uppercase tracking-[0.3em] text-white/55">
                 Start Trade Conversation
               </p>
 
-              <h2 className="text-5xl font-black uppercase leading-[0.86] tracking-[-0.09em] text-white sm:text-6xl lg:text-8xl">
+              <h2 className="text-4xl font-black uppercase leading-tight text-white sm:text-5xl xl:text-6xl">
                 Send your product requirement.
               </h2>
 
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
+              <p className="mt-6 max-w-2xl text-base leading-7 text-white/65 sm:text-lg sm:leading-8">
                 Share the product, quantity, destination country and expected
                 packing. We will move the enquiry into sourcing coordination.
               </p>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CatalogProductCard from "@/components/CatalogProductCard";
 import { exportCategories, type ExportCategory } from "@/data/site";
 import type { ExportProduct } from "@/data/products";
@@ -30,6 +30,13 @@ const colorOptions = [
 ];
 const sizeOptions = ["XS", "S", "M", "L", "XL", "XXL", "Custom"];
 const genderOptions = ["Women", "Men", "Girls", "Boys", "Unisex"];
+
+function getDefaultGenderFilter(categorySlug: string, storeMode: boolean) {
+  if (storeMode) return "";
+  if (categorySlug === "ladies-garments") return "Women";
+  if (categorySlug === "mens-garments") return "Men";
+  return "";
+}
 
 function getProductMeta(product: ExportProduct, index: number) {
   const price = 399 + ((index * 73) % 1650);
@@ -88,9 +95,12 @@ export default function ProductCategoryClient({
   allCategories = exportCategories,
   storeMode = false,
 }: ProductCategoryClientProps) {
+  const defaultGenderFilter = getDefaultGenderFilter(category.slug, storeMode);
   const [search, setSearch] = useState("");
   const [typeFilters, setTypeFilters] = useState<string[]>([]);
-  const [genderFilters, setGenderFilters] = useState<string[]>([]);
+  const [genderFilters, setGenderFilters] = useState<string[]>(
+    defaultGenderFilter ? [defaultGenderFilter] : []
+  );
   const [brandFilters, setBrandFilters] = useState<string[]>([]);
   const [bundleFilters, setBundleFilters] = useState<string[]>([]);
   const [countryFilters, setCountryFilters] = useState<string[]>([]);
@@ -99,6 +109,20 @@ export default function ProductCategoryClient({
   const [sizeFilters, setSizeFilters] = useState<string[]>([]);
   const [openTopFilter, setOpenTopFilter] = useState<string | null>(null);
   const [sort, setSort] = useState("recommended");
+
+  useEffect(() => {
+    setSearch("");
+    setTypeFilters([]);
+    setGenderFilters(defaultGenderFilter ? [defaultGenderFilter] : []);
+    setBrandFilters([]);
+    setBundleFilters([]);
+    setCountryFilters([]);
+    setPriceFilters([]);
+    setColorFilters([]);
+    setSizeFilters([]);
+    setOpenTopFilter(null);
+    setSort("recommended");
+  }, [category.slug, defaultGenderFilter]);
 
   const hasActiveFilters =
     search.trim().length > 0 ||
@@ -112,13 +136,13 @@ export default function ProductCategoryClient({
     sizeFilters.length > 0;
 
   const sourceProducts = useMemo(
-    () => (storeMode || hasActiveFilters ? allProducts : products),
-    [allProducts, hasActiveFilters, products, storeMode]
+    () => (storeMode ? allProducts : products),
+    [allProducts, products, storeMode]
   );
 
   const productTypes = useMemo(
-    () => Array.from(new Set(allProducts.map((product) => product.type))),
-    [allProducts]
+    () => Array.from(new Set(sourceProducts.map((product) => product.type))),
+    [sourceProducts]
   );
 
   const filteredProducts = useMemo(() => {

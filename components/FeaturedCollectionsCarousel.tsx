@@ -70,26 +70,26 @@ export default function FeaturedCollectionsCarousel() {
         {exportCategories.map((category, index) => (
           <div
             key={category.slug}
-            className="grid min-h-[430px] w-full shrink-0 lg:grid-cols-[1.08fr_0.92fr]"
+            className="grid min-h-[430px] w-full shrink-0 xl:grid-cols-[1.08fr_0.92fr]"
           >
-            <div className="relative min-h-[260px] overflow-hidden bg-black lg:min-h-[430px]">
+            <div className="relative min-h-[240px] overflow-hidden bg-black sm:min-h-[300px] xl:min-h-[430px]">
               <Image
                 src={category.image}
                 alt={category.imageAlt}
                 fill
                 priority={index === 0}
-                sizes="(max-width: 1024px) 100vw, 55vw"
+                sizes="(max-width: 1280px) 100vw, 55vw"
                 className="object-cover opacity-90"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-transparent to-black/10" />
             </div>
 
-            <div className="relative flex min-h-[330px] flex-col items-center justify-center bg-[#f4efe7] px-6 py-10 text-center sm:px-10">
-              <p className="mb-4 text-[11px] font-black uppercase tracking-[0.3em] text-[#b58a52]">
+            <div className="relative flex min-h-[300px] flex-col items-center justify-center bg-[#f4efe7] px-5 py-8 text-center sm:min-h-[330px] sm:px-10 sm:py-10">
+              <p className="mb-4 text-[10px] font-black uppercase tracking-[0.24em] text-[#b58a52] sm:text-[11px] sm:tracking-[0.3em]">
                 {category.eyebrow}
               </p>
 
-              <h2 className="max-w-xl text-4xl leading-tight text-black sm:text-5xl">
+              <h2 className="max-w-xl text-3xl leading-tight text-black sm:text-4xl">
                 {category.title}
               </h2>
 

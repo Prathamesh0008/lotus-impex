@@ -11,6 +11,9 @@ type AddToEnquiryButtonProps = {
   >;
   fullWidth?: boolean;
   tone?: "default" | "myntra";
+  disabled?: boolean;
+  disabledLabel?: string;
+  selectedSize?: string;
 };
 
 const STORAGE_KEY = "lotus_impex_enquiry_basket";
@@ -20,6 +23,9 @@ export default function AddToEnquiryButton({
   product,
   fullWidth = false,
   tone = "default",
+  disabled = false,
+  disabledLabel = "Out Of Stock",
+  selectedSize,
 }: AddToEnquiryButtonProps) {
   const [added, setAdded] = useState(false);
 
@@ -28,8 +34,10 @@ export default function AddToEnquiryButton({
     const existing = existingRaw ? JSON.parse(existingRaw) : [];
 
     const alreadyExists = existing.some(
-      (item: { slug: string; categorySlug: string }) =>
-        item.slug === product.slug && item.categorySlug === product.categorySlug
+      (item: { slug: string; categorySlug: string; selectedSize?: string }) =>
+        item.slug === product.slug &&
+        item.categorySlug === product.categorySlug &&
+        item.selectedSize === selectedSize
     );
 
     if (!alreadyExists) {
@@ -37,6 +45,7 @@ export default function AddToEnquiryButton({
         ...existing,
         {
           ...product,
+          selectedSize,
           addedAt: new Date().toISOString(),
         },
       ];
@@ -69,15 +78,16 @@ export default function AddToEnquiryButton({
     <button
       type="button"
       onClick={addToBasket}
+      disabled={disabled}
       className={`inline-flex min-h-11 items-center justify-center whitespace-nowrap ${
         tone === "myntra"
           ? "rounded-[4px] bg-[#c9a16b] px-6 py-4 text-sm hover:bg-[#b88d55]"
           : "rounded-full bg-black px-4 py-3 text-[11px] tracking-[0.08em] hover:bg-[#6b3f24]"
-      } font-black uppercase text-white transition ${
+      } font-black uppercase text-white transition disabled:cursor-not-allowed disabled:bg-black/35 ${
         fullWidth ? "w-full" : ""
       }`}
     >
-      Add To Cart
+      {disabled ? disabledLabel : "Add To Cart"}
     </button>
   );
 }

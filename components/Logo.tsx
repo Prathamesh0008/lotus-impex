@@ -15,13 +15,13 @@ export default function Logo({ dark = false, size = "nav" }: LogoProps) {
       aria-label="Lotus Impex Home"
       className={`relative z-10 flex shrink-0 items-center overflow-hidden ${
         isFooter
-          ? "h-20 w-[360px] max-w-full"
-          : "h-16 w-[300px] sm:w-[330px] lg:w-[360px]"
+          ? "h-16 w-[min(82vw,360px)] sm:h-20"
+          : "h-14 w-[min(64vw,250px)] sm:h-16 sm:w-[330px] xl:w-[360px]"
       }`}
     >
       <div
         className={`relative w-full overflow-hidden ${
-          isFooter ? "h-20" : "h-16"
+          isFooter ? "h-20" : "h-full"
         }`}
       >
         <Image
@@ -32,7 +32,7 @@ export default function Logo({ dark = false, size = "nav" }: LogoProps) {
           sizes={
             isFooter
               ? "360px"
-              : "(max-width: 640px) 300px, (max-width: 1024px) 330px, 360px"
+              : "(max-width: 640px) 64vw, (max-width: 1024px) 330px, 360px"
           }
           className={`object-contain ${
             dark ? "brightness-0 invert" : ""

@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="bg-black text-white">
       <div className="mx-auto max-w-[1500px] px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
-        <div className="grid items-start gap-12 lg:grid-cols-[minmax(360px,1.25fr)_minmax(180px,0.75fr)_minmax(240px,1fr)_minmax(300px,1fr)] lg:gap-14">
+        <div className="grid items-start gap-10 md:grid-cols-2 xl:grid-cols-[minmax(360px,1.25fr)_minmax(180px,0.75fr)_minmax(240px,1fr)_minmax(300px,1fr)] xl:gap-14">
           <div className="flex min-w-0 flex-col items-start">
             <Logo size="footer" />
 
