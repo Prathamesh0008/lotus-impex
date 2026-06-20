@@ -13,7 +13,7 @@ const heroSlides = [
   {
     label: "Textile Sourcing",
     title: "Premium Fabrics For International Markets",
-    image: "/Banner_2.png ",
+    image: "/Contact_.png",
   },
   {
     label: "Global Trade",
