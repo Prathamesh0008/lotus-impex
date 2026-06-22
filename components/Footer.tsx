@@ -2,6 +2,10 @@ import Link from "next/link";
 import Logo from "@/components/Logo";
 import { exportCategories, navLinks, siteConfig } from "@/data/site";
 
+const visibleCategories = exportCategories.filter(
+  (category) => category.slug !== "footwear"
+);
+
 export default function Footer() {
   return (
     <footer className="bg-black text-white">
@@ -62,7 +66,7 @@ export default function Footer() {
             </h3>
 
             <div className="mt-7 grid gap-4">
-              {exportCategories.map((category) => (
+              {visibleCategories.map((category) => (
                 <Link
                   key={category.slug}
                   href={`/products/${category.slug}`}

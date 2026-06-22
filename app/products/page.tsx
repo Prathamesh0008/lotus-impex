@@ -3,6 +3,13 @@ import ProductCategoryClient from "@/components/ProductCategoryClient";
 import { exportCategories, siteConfig } from "@/data/site";
 import { exportProducts } from "@/data/products";
 
+const visibleCategories = exportCategories.filter(
+  (category) => category.slug !== "footwear"
+);
+const visibleProducts = exportProducts.filter(
+  (product) => product.categorySlug !== "footwear"
+);
+
 export const metadata: Metadata = {
   title: "Lotus Fashion Store",
   description:
@@ -21,7 +28,7 @@ const storeCategory = {
   description: siteConfig.description,
   image: "/product_category.jpg",
   imageAlt: "Lotus Impex product catalogue",
-  items: Array.from(new Set(exportProducts.map((product) => product.type))),
+  items: Array.from(new Set(visibleProducts.map((product) => product.type))),
   highlights: ["All products", "All categories", "Export ready"],
   markets: ["Importers", "Wholesalers", "Retailers", "Trading companies"],
   gradient: "from-black to-neutral-800",
@@ -29,12 +36,14 @@ const storeCategory = {
 
 export default function ProductsPage() {
   return (
-    <ProductCategoryClient
-      category={storeCategory}
-      products={exportProducts}
-      allProducts={exportProducts}
-      allCategories={exportCategories}
-      storeMode
-    />
+    <main>
+      <ProductCategoryClient
+        category={storeCategory}
+        products={visibleProducts}
+        allProducts={visibleProducts}
+        allCategories={visibleCategories}
+        storeMode
+      />
+    </main>
   );
 }

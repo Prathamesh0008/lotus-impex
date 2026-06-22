@@ -12,30 +12,6 @@ const whyItems = [
   "India-based supply network",
 ];
 
-const buyerSupportDetails = [
-  {
-    title: "Requirement mapping",
-    text: "We organize buyer requirements by product type, quantity, destination, packing and expected quality level before sourcing begins.",
-  },
-  {
-    title: "Supplier communication",
-    text: "Our process keeps supplier discussions structured so buyers receive clearer responses on availability, samples, lead times and packing.",
-  },
-  {
-    title: "Export readiness",
-    text: "We support export-focused coordination around documentation, shipment planning, product presentation and buyer-specific order details.",
-  },
-];
-
-const industries = [
-  "Retailers",
-  "Wholesalers",
-  "Importers",
-  "Fashion Brands",
-  "Factories",
-  "Trading Companies",
-];
-
 const shoppingSteps = [
   {
     title: "Browse",
@@ -179,66 +155,6 @@ export default function HomePremiumSections() {
                 className="rounded-[18px] border border-white/10 p-5 transition hover:bg-white hover:text-black"
               >
                 <h3 className="text-xl leading-tight sm:text-2xl">{item}</h3>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* BUYER SUPPORT DETAILS */}
-      <section className="bg-white px-5 py-16 text-black sm:px-8 lg:px-10">
-        <div className="mx-auto grid max-w-[1500px] gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
-          <div>
-            <p className="mb-3 text-xs font-black uppercase tracking-[0.28em] text-[#b58a52]">
-              Buyer Support Details
-            </p>
-            <h2 className="max-w-xl text-3xl leading-tight text-black sm:text-4xl">
-              Practical support after every enquiry.
-            </h2>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-3">
-            {buyerSupportDetails.map((item, index) => (
-              <article
-                key={item.title}
-                className="rounded-[8px] border border-black/10 bg-[#f8f4ed] p-5"
-              >
-                <span className="text-xs font-black uppercase tracking-[0.22em] text-[#b58a52]">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <h3 className="mt-5 text-2xl leading-tight text-black">
-                  {item.title}
-                </h3>
-                <p className="mt-4 text-sm leading-7 text-black/55">
-                  {item.text}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* INDUSTRIES */}
-      <section className="bg-[#ebe3d7] px-5 py-16 sm:px-8 lg:px-10">
-        <div className="mx-auto max-w-[1500px]">
-          <div className="mb-10 max-w-3xl">
-            <p className="mb-3 text-xs font-black uppercase tracking-[0.28em] text-[#b58a52]">
-              Industries Served
-            </p>
-            <h2 className="text-3xl leading-tight text-black sm:text-4xl lg:text-5xl">
-              Sourcing support for different buyer types.
-            </h2>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {industries.map((industry) => (
-              <div
-                key={industry}
-                className="rounded-[18px] border border-black/10 bg-[#f8f4ed] p-5"
-              >
-                <h3 className="text-2xl leading-tight text-black">
-                  {industry}
-                </h3>
               </div>
             ))}
           </div>

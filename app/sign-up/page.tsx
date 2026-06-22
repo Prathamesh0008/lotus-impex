@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 
 export default function SignUpPage() {
   return (
-    <main className="grid min-h-screen place-items-center bg-[#f8f6f2] px-5 py-8 text-black sm:px-8 lg:px-10">
-      <section className="mx-auto w-full max-w-[760px]">
+    <main className="grid min-h-screen place-items-start bg-[#f8f6f2] px-3 py-4 text-black sm:place-items-center sm:px-8 sm:py-8 lg:px-10">
+      <section className="mx-auto w-full max-w-[760px] min-w-0">
         <SignInForm authView="signUp" />
       </section>
     </main>

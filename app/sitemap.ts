@@ -2,6 +2,13 @@ import type { MetadataRoute } from "next";
 import { exportCategories, siteConfig } from "@/data/site";
 import { exportProducts } from "@/data/products";
 
+const visibleCategories = exportCategories.filter(
+  (category) => category.slug !== "footwear"
+);
+const visibleProducts = exportProducts.filter(
+  (product) => product.categorySlug !== "footwear"
+);
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url;
 
@@ -22,14 +29,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === "" ? 1 : 0.8,
   }));
 
-  const categoryRoutes = exportCategories.map((category) => ({
+  const categoryRoutes = visibleCategories.map((category) => ({
     url: `${baseUrl}/products/${category.slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
     priority: 0.9,
   }));
 
-  const productRoutes = exportProducts.map((product) => ({
+  const productRoutes = visibleProducts.map((product) => ({
     url: `${baseUrl}/products/${product.categorySlug}/${product.slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,

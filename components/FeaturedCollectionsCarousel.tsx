@@ -7,6 +7,9 @@ import { exportCategories } from "@/data/site";
 
 const AUTO_DELAY = 4200;
 const DRAG_THRESHOLD = 50;
+const visibleCategories = exportCategories.filter(
+  (category) => category.slug !== "footwear"
+);
 
 export default function FeaturedCollectionsCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -19,7 +22,7 @@ export default function FeaturedCollectionsCarousel() {
     }
 
     const timer = window.setInterval(() => {
-      setActiveIndex((index) => (index + 1) % exportCategories.length);
+      setActiveIndex((index) => (index + 1) % visibleCategories.length);
     }, AUTO_DELAY);
 
     return () => window.clearInterval(timer);
@@ -27,7 +30,7 @@ export default function FeaturedCollectionsCarousel() {
 
   function goToSlide(index: number) {
     const nextIndex =
-      (index + exportCategories.length) % exportCategories.length;
+      (index + visibleCategories.length) % visibleCategories.length;
     setActiveIndex(nextIndex);
   }
 
@@ -67,7 +70,7 @@ export default function FeaturedCollectionsCarousel() {
         className="flex transition-transform duration-700 ease-out"
         style={{ transform: `translateX(-${activeIndex * 100}%)` }}
       >
-        {exportCategories.map((category, index) => (
+        {visibleCategories.map((category, index) => (
           <div
             key={category.slug}
             className="grid min-h-[430px] w-full shrink-0 xl:grid-cols-[1.08fr_0.92fr]"

@@ -47,36 +47,34 @@ export default function HomeProductScroller() {
 
   function scrollByCard(direction: "left" | "right") {
     pauseThenRestart();
-    scrollerRef.current?.scrollBy({
-      left: direction === "right" ? 340 : -340,
+    const scroller = scrollerRef.current;
+
+    if (!scroller) return;
+
+    scroller.scrollBy({
+      left: direction === "right" ? scroller.clientWidth : -scroller.clientWidth,
       behavior: "smooth",
     });
   }
 
   useEffect(() => {
-    let animationFrame = 0;
-    let previousTime = 0;
-
-    function autoScroll(time: number) {
+    const interval = window.setInterval(() => {
       const scroller = scrollerRef.current;
 
       if (scroller && !isDragging && !isInteracting) {
-        const delta = previousTime ? time - previousTime : 0;
-        scroller.scrollLeft += delta * 0.035;
-
-        if (scroller.scrollLeft >= scroller.scrollWidth / 2) {
-          scroller.scrollLeft = 0;
+        if (scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 8) {
+          scroller.scrollTo({ left: 0, behavior: "smooth" });
+        } else {
+          scroller.scrollBy({
+            left: scroller.clientWidth,
+            behavior: "smooth",
+          });
         }
       }
-
-      previousTime = time;
-      animationFrame = requestAnimationFrame(autoScroll);
-    }
-
-    animationFrame = requestAnimationFrame(autoScroll);
+    }, 3200);
 
     return () => {
-      cancelAnimationFrame(animationFrame);
+      window.clearInterval(interval);
 
       if (restartTimer.current) {
         clearTimeout(restartTimer.current);
@@ -156,7 +154,7 @@ export default function HomeProductScroller() {
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
-          className={`flex gap-4 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+          className={`grid auto-cols-[calc((100%_-_48px)_/_4)] grid-flow-col snap-x snap-mandatory gap-4 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-lg:auto-cols-[300px] max-sm:auto-cols-[240px] ${
             isDragging ? "cursor-grabbing" : "cursor-grab"
           }`}
         >
@@ -169,7 +167,7 @@ export default function HomeProductScroller() {
             return (
               <article
                 key={`${product.categorySlug}-${product.slug}-${index}`}
-                className="group flex w-[240px] shrink-0 flex-col overflow-hidden rounded-[22px] border border-black/10 bg-white shadow-[0_14px_34px_rgba(0,0,0,0.07)] transition hover:-translate-y-1 hover:shadow-[0_22px_45px_rgba(0,0,0,0.12)] sm:w-[300px]"
+                className="group flex min-w-0 snap-start flex-col overflow-hidden rounded-[22px] border border-black/10 bg-white shadow-[0_14px_34px_rgba(0,0,0,0.07)] transition hover:-translate-y-1 hover:shadow-[0_22px_45px_rgba(0,0,0,0.12)]"
               >
                 <Link
                   href={`/products/${product.categorySlug}/${product.slug}`}

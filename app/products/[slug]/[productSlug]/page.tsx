@@ -19,6 +19,12 @@ type PageProps = {
 };
 
 const sizeOptions = ["XS", "S", "M", "L", "XL", "XXL"];
+const visibleCategories = exportCategories.filter(
+  (category) => category.slug !== "footwear"
+);
+const visibleProducts = exportProducts.filter(
+  (product) => product.categorySlug !== "footwear"
+);
 
 function getProductInventory(productSlug: string) {
   const score = productSlug
@@ -42,7 +48,7 @@ function getProductInventory(productSlug: string) {
 }
 
 export function generateStaticParams() {
-  return exportProducts.map((product) => ({
+  return visibleProducts.map((product) => ({
     slug: product.categorySlug,
     productSlug: product.slug,
   }));
@@ -52,6 +58,12 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug, productSlug } = await params;
+  if (slug === "footwear") {
+    return {
+      title: "Product Not Found",
+    };
+  }
+
   const product = getProductBySlugs(slug, productSlug);
 
   if (!product) {
@@ -84,10 +96,10 @@ export async function generateMetadata({
 
 export default async function ProductDetailPage({ params }: PageProps) {
   const { slug, productSlug } = await params;
-  const category = exportCategories.find((item) => item.slug === slug);
+  const category = visibleCategories.find((item) => item.slug === slug);
   const product = getProductBySlugs(slug, productSlug);
 
-  if (!category || !product) {
+  if (!category || !product || product.categorySlug === "footwear") {
     notFound();
   }
 
@@ -130,7 +142,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
   };
 
   return (
-    <main className="bg-white text-[#111827]">
+    <main className="bg-white pt-16 text-[#111827] sm:pt-20 lg:pt-0">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -138,7 +150,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
         }}
       />
 
-      <section className="border-b border-black/10 bg-white">
+      <section className="hidden border-b border-black/10 bg-white lg:block">
         <div className="mx-auto max-w-[1800px] px-5 py-5 sm:px-8 lg:px-10">
           <div className="flex flex-wrap items-center gap-2 text-sm text-black/65">
             <Link href="/" className="hover:text-black">
@@ -156,7 +168,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-[1800px] gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[1.25fr_0.75fr] lg:px-10 lg:py-10">
+      <section className="mx-auto grid max-w-[1800px] gap-5 px-0 py-0 sm:px-0 lg:grid-cols-[1.25fr_0.75fr] lg:gap-8 lg:px-10 lg:py-10">
         <ProductImageGallery
           image={product.image}
           imageAlt={product.imageAlt}
@@ -166,7 +178,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
           galleryImages={galleryImages}
         />
 
-        <aside className="h-fit bg-white p-2 lg:sticky lg:top-28">
+        <aside className="h-fit bg-white px-4 py-5 lg:sticky lg:top-28 lg:p-2">
           <div className="flex items-start justify-between gap-5 border-b border-black/10 pb-5">
             <div>
               <h1 className="text-3xl font-black leading-tight text-[#282c3f]">
@@ -307,7 +319,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
         </aside>
       </section>
 
-      <section className="mx-auto max-w-[1800px] px-5 pb-20 sm:px-8 lg:px-10 lg:pb-24">
+      <section className="mx-auto max-w-[1800px] px-4 pb-16 sm:px-6 lg:px-10 lg:pb-24">
         <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
             <p className="mb-4 text-xs font-black uppercase tracking-[0.3em] text-black/45">
@@ -339,7 +351,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
       </section>
 
       {relatedProducts.length > 0 ? (
-        <section className="border-t border-black/10 px-5 py-16 sm:px-8 lg:px-10">
+        <section className="border-t border-black/10 px-3 py-12 sm:px-6 lg:px-10 lg:py-16">
           <div className="mx-auto max-w-[1800px]">
             <div className="mb-10 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
               <div>
@@ -360,7 +372,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
               </Link>
             </div>
 
-            <div className="grid grid-cols-2 gap-x-7 gap-y-10 md:grid-cols-3 xl:grid-cols-5">
+            <div className="grid grid-cols-2 gap-x-3 gap-y-6 md:grid-cols-3 lg:gap-x-7 lg:gap-y-10 xl:grid-cols-5">
               {relatedProducts.slice(0, 5).map((related, index) => (
                 <CatalogProductCard
                   key={related.slug}

@@ -8,8 +8,15 @@ type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
+const visibleCategories = exportCategories.filter(
+  (category) => category.slug !== "footwear"
+);
+const visibleProducts = exportProducts.filter(
+  (product) => product.categorySlug !== "footwear"
+);
+
 export function generateStaticParams() {
-  return exportCategories.map((category) => ({
+  return visibleCategories.map((category) => ({
     slug: category.slug,
   }));
 }
@@ -18,7 +25,7 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const category = exportCategories.find((item) => item.slug === slug);
+  const category = visibleCategories.find((item) => item.slug === slug);
 
   if (!category) {
     return {
@@ -50,7 +57,7 @@ export async function generateMetadata({
 
 export default async function ProductCategoryPage({ params }: PageProps) {
   const { slug } = await params;
-  const category = exportCategories.find((item) => item.slug === slug);
+  const category = visibleCategories.find((item) => item.slug === slug);
 
   if (!category) {
     notFound();
@@ -87,7 +94,8 @@ export default async function ProductCategoryPage({ params }: PageProps) {
       <ProductCategoryClient
         category={category}
         products={products}
-        allProducts={exportProducts}
+        allProducts={visibleProducts}
+        allCategories={visibleCategories}
       />
     </>
   );

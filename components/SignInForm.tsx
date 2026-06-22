@@ -24,8 +24,8 @@ function Field({
   children: ReactNode;
 }) {
   return (
-    <label className="block">
-      <span className="mb-2 block text-xs font-black uppercase tracking-[0.18em] text-black/50">
+    <label className="block min-w-0">
+      <span className="mb-2 block text-[11px] font-black uppercase tracking-[0.14em] text-black/50 sm:text-xs sm:tracking-[0.18em]">
         {label}
       </span>
       {children}
@@ -55,7 +55,7 @@ function TextInput({
       autoCorrect="off"
       spellCheck={false}
       placeholder={placeholder}
-      className="h-14 w-full rounded-2xl border border-black/10 bg-[#f9f6ef] px-5 text-sm font-semibold text-black outline-none transition placeholder:text-black/35 focus:border-black focus:bg-white"
+      className="h-12 w-full min-w-0 rounded-2xl border border-black/10 bg-[#f9f6ef] px-4 text-sm font-semibold text-black outline-none transition placeholder:text-black/35 focus:border-black focus:bg-white sm:h-14 sm:px-5"
     />
   );
 }
@@ -141,15 +141,15 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
       <form
         autoComplete="off"
         onSubmit={handleAuthSubmit}
-        className="mx-auto w-full max-w-[760px] rounded-[28px] border border-black/10 bg-white p-6 shadow-xl shadow-black/5 lg:p-8"
+        className="mx-auto w-full max-w-[760px] min-w-0 overflow-hidden rounded-[22px] border border-black/10 bg-white p-4 shadow-xl shadow-black/5 sm:rounded-[28px] sm:p-6 lg:p-8"
       >
         <input type="hidden" name="authMode" value="signUp" />
 
-        <div className="mb-8 border-b border-black/10 pb-6">
-          <p className="text-xs font-black uppercase tracking-[0.3em] text-[#b58a52]">
+        <div className="mb-6 border-b border-black/10 pb-5 sm:mb-8 sm:pb-6">
+          <p className="text-[11px] font-black uppercase tracking-[0.22em] text-[#b58a52] sm:text-xs sm:tracking-[0.3em]">
             New User
           </p>
-          <h2 className="mt-3 font-serif text-4xl uppercase leading-[0.95] tracking-[-0.04em] text-black sm:text-5xl">
+          <h2 className="mt-3 font-serif text-3xl uppercase leading-[1] text-black sm:text-5xl">
             Create Account
           </h2>
           <p className="mt-4 max-w-2xl text-sm leading-7 text-black/55">
@@ -157,7 +157,7 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
           </p>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="grid min-w-0 gap-4 sm:gap-5 md:grid-cols-2">
           <Field label="First name">
             <TextInput
               name="firstName"
@@ -191,18 +191,18 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
           </div>
         </div>
 
-        <div className="mt-7 grid gap-4 border-t border-black/10 pt-6">
+        <div className="mt-6 grid gap-3 border-t border-black/10 pt-5 sm:mt-7 sm:gap-4 sm:pt-6">
           <button
             type="submit"
             disabled={isSubmitting}
-            className="rounded-full bg-black px-8 py-4 text-xs font-black uppercase tracking-[0.18em] text-white transition hover:bg-[#6b3f24] disabled:cursor-not-allowed disabled:bg-black/50"
+            className="rounded-full bg-black px-5 py-3.5 text-xs font-black uppercase tracking-[0.14em] text-white transition hover:bg-[#6b3f24] disabled:cursor-not-allowed disabled:bg-black/50 sm:px-8 sm:py-4 sm:tracking-[0.18em]"
           >
             {isSubmitting ? "Please wait..." : "Create Account"}
           </button>
 
           <Link
             href="/sign-in"
-            className="inline-flex justify-center rounded-full border border-black/15 px-8 py-4 text-xs font-black uppercase tracking-[0.18em] text-black transition hover:border-black hover:bg-black hover:text-white"
+            className="inline-flex justify-center rounded-full border border-black/15 px-5 py-3.5 text-center text-xs font-black uppercase tracking-[0.12em] text-black transition hover:border-black hover:bg-black hover:text-white sm:px-8 sm:py-4 sm:tracking-[0.18em]"
           >
             Already have account? Sign In
           </Link>
@@ -217,7 +217,7 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
     <form
       autoComplete="off"
       onSubmit={handleAuthSubmit}
-      className="mx-auto w-full max-w-[760px] rounded-[28px] border border-black/10 bg-white p-6 shadow-xl shadow-black/5 lg:p-8"
+      className="mx-auto w-full max-w-[760px] min-w-0 overflow-hidden rounded-[22px] border border-black/10 bg-white p-4 shadow-xl shadow-black/5 sm:rounded-[28px] sm:p-6 lg:p-8"
     >
       <input
         type="hidden"
@@ -225,11 +225,11 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
         value={mode === "forgot" ? "forgot" : "signIn"}
       />
 
-      <div className="mb-8 border-b border-black/10 pb-6">
-        <p className="text-xs font-black uppercase tracking-[0.3em] text-[#b58a52]">
+      <div className="mb-6 border-b border-black/10 pb-5 sm:mb-8 sm:pb-6">
+        <p className="text-[11px] font-black uppercase tracking-[0.22em] text-[#b58a52] sm:text-xs sm:tracking-[0.3em]">
           Existing User
         </p>
-        <h2 className="mt-3 font-serif text-4xl uppercase leading-[0.95] tracking-[-0.04em] text-black sm:text-5xl">
+        <h2 className="mt-3 font-serif text-3xl uppercase leading-[1] text-black sm:text-5xl">
           {mode === "forgot" ? "Forgot password" : "Sign in"}
         </h2>
         <p className="mt-4 max-w-2xl text-sm leading-7 text-black/55">
@@ -283,7 +283,7 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-full bg-black px-8 py-4 text-xs font-black uppercase tracking-[0.18em] text-white transition hover:bg-[#6b3f24] disabled:cursor-not-allowed disabled:bg-black/50"
+          className="rounded-full bg-black px-5 py-3.5 text-xs font-black uppercase tracking-[0.14em] text-white transition hover:bg-[#6b3f24] disabled:cursor-not-allowed disabled:bg-black/50 sm:px-8 sm:py-4 sm:tracking-[0.18em]"
         >
           {isSubmitting
             ? "Please wait..."
@@ -300,14 +300,14 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
               setError("");
               setMessage("");
             }}
-            className="rounded-full border border-black/15 px-8 py-4 text-xs font-black uppercase tracking-[0.18em] text-black transition hover:border-black hover:bg-black hover:text-white"
+            className="rounded-full border border-black/15 px-5 py-3.5 text-xs font-black uppercase tracking-[0.12em] text-black transition hover:border-black hover:bg-black hover:text-white sm:px-8 sm:py-4 sm:tracking-[0.18em]"
           >
             Back To Sign In
           </button>
         ) : (
           <Link
             href="/sign-up"
-            className="inline-flex justify-center rounded-full border border-black/15 px-8 py-4 text-xs font-black uppercase tracking-[0.18em] text-black transition hover:border-black hover:bg-black hover:text-white"
+            className="inline-flex justify-center rounded-full border border-black/15 px-5 py-3.5 text-center text-xs font-black uppercase tracking-[0.12em] text-black transition hover:border-black hover:bg-black hover:text-white sm:px-8 sm:py-4 sm:tracking-[0.18em]"
           >
             Create New Account
           </Link>
@@ -330,7 +330,7 @@ function PasswordField({
 }) {
   return (
     <Field label="Password">
-      <div className="flex overflow-hidden rounded-2xl border border-black/10 bg-[#f9f6ef] transition focus-within:border-black focus-within:bg-white">
+      <div className="flex min-w-0 overflow-hidden rounded-2xl border border-black/10 bg-[#f9f6ef] transition focus-within:border-black focus-within:bg-white">
         <input
           required
           name="password"
@@ -338,12 +338,12 @@ function PasswordField({
           autoComplete={autoComplete}
           minLength={4}
           placeholder="Enter password"
-          className="h-14 min-w-0 flex-1 bg-transparent px-5 text-sm font-semibold text-black outline-none placeholder:text-black/35"
+          className="h-12 min-w-0 flex-1 bg-transparent px-4 text-sm font-semibold text-black outline-none placeholder:text-black/35 sm:h-14 sm:px-5"
         />
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="border-l border-black/10 bg-white/70 px-5 text-xs font-black uppercase tracking-[0.14em] text-black/60 transition hover:bg-black hover:text-white"
+          className="shrink-0 border-l border-black/10 bg-white/70 px-3 text-[11px] font-black uppercase tracking-[0.08em] text-black/60 transition hover:bg-black hover:text-white sm:px-5 sm:text-xs sm:tracking-[0.14em]"
         >
           {showPassword ? "Hide" : "Show"}
         </button>

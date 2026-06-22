@@ -9,12 +9,6 @@ type PromoCard = {
   badge?: string;
 };
 
-type CircleCategory = {
-  title: string;
-  image: string;
-  href: string;
-};
-
 const brandDeals: PromoCard[] = [
   {
     title: "Premium Shirts",
@@ -54,45 +48,6 @@ const brandDeals: PromoCard[] = [
     badge: "New range",
     image:
       "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=max&w=900&q=85",
-    href: "/products/fabrics",
-  },
-];
-
-const categoriesToBag: CircleCategory[] = [
-  {
-    title: "Shirts",
-    image:
-      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=max&w=700&q=85",
-    href: "/products/mens-garments",
-  },
-  {
-    title: "T-Shirts",
-    image:
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=max&w=700&q=85",
-    href: "/products/mens-garments",
-  },
-  {
-    title: "Jeans",
-    image:
-      "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=max&w=700&q=85",
-    href: "/products/mens-garments",
-  },
-  {
-    title: "Trousers",
-    image:
-      "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=max&w=700&q=85",
-    href: "/products/mens-garments",
-  },
-  {
-    title: "Footwear",
-    image:
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=max&w=700&q=85",
-    href: "/products/accessories",
-  },
-  {
-    title: "Fabrics",
-    image:
-      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=max&w=700&q=85",
     href: "/products/fabrics",
   },
 ];
@@ -189,13 +144,6 @@ const sportsWear: PromoCard[] = [
     href: "/products/mens-garments",
   },
   {
-    title: "Running Footwear",
-    subtitle: "Retail-ready style range",
-    image:
-      "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=max&w=900&q=85",
-    href: "/products/accessories",
-  },
-  {
     title: "Performance Wear",
     subtitle: "Bulk sportswear enquiry",
     image:
@@ -211,44 +159,6 @@ const sportsWear: PromoCard[] = [
   },
 ];
 
-const footwear: PromoCard[] = [
-  {
-    title: "Neutral Shades",
-    subtitle: "Pairs with everything",
-    image:
-      "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=max&w=900&q=85",
-    href: "/products/accessories",
-  },
-  {
-    title: "Sneakers For Movement",
-    subtitle: "Made for everyday motion",
-    image:
-      "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=max&w=900&q=85",
-    href: "/products/accessories",
-  },
-  {
-    title: "Printed Sneakers",
-    subtitle: "A fresh retail staple",
-    image:
-      "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=max&w=900&q=85",
-    href: "/products/accessories",
-  },
-  {
-    title: "Outdoor Shoes",
-    subtitle: "Built for rugged demand",
-    image:
-      "https://images.unsplash.com/photo-1543508282-6319a3e2621f?auto=format&fit=max&w=900&q=85",
-    href: "/products/accessories",
-  },
-  {
-    title: "Flip-Flops & Sliders",
-    subtitle: "Comfort-led summer range",
-    image:
-      "https://images.unsplash.com/photo-1603487742131-4160ec999306?auto=format&fit=max&w=900&q=85",
-    href: "/products/accessories",
-  },
-];
-
 export default function HomeShoppingShowcase() {
   return (
     <section className="w-full max-w-full overflow-hidden bg-white px-4 py-12 text-[#282c3f] sm:px-8 sm:py-14 lg:px-10">
@@ -258,9 +168,7 @@ export default function HomeShoppingShowcase() {
           items={brandDeals}
           variant="deal"
         />
-        <CategoryCircleSection title="Categories To Bag" items={categoriesToBag} />
         <PromoSection title="Explore Top Collections" items={topBrands} />
-        <EditorialSection title="Trending In Footwear" items={footwear} />
         <EditorialSection title="Trending In Indian Wear" items={indianWear} />
         <EditorialSection title="Trending In Sports Wear" items={sportsWear} />
       </div>
@@ -322,42 +230,6 @@ function PromoSection({
                 {item.subtitle}
               </p>
             </div>
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function CategoryCircleSection({
-  title,
-  items,
-}: {
-  title: string;
-  items: CircleCategory[];
-}) {
-  return (
-    <section>
-      <SectionTitle>{title}</SectionTitle>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
-        {items.map((item) => (
-          <Link
-            key={item.title}
-            href={item.href}
-            className="group min-w-0 bg-[#f7f7f8] px-3 py-4 text-center transition hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10 sm:px-4 sm:py-5"
-          >
-            <div className="relative mx-auto aspect-square w-full max-w-[190px] overflow-hidden rounded-full border-[6px] border-[#f2e6df] bg-white">
-              <Image
-                src={item.image}
-                alt={item.title}
-                fill
-                sizes="(max-width: 640px) 42vw, (max-width: 1024px) 28vw, 15vw"
-                className="object-cover object-center transition duration-700 group-hover:scale-105"
-              />
-            </div>
-            <p className="mt-4 font-serif text-lg leading-tight text-black sm:text-2xl">
-              {item.title}
-            </p>
           </Link>
         ))}
       </div>

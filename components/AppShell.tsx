@@ -13,7 +13,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <>
       {!hideNavbarFooter && <Navbar />}
-      <div className={hideNavbarFooter ? "" : "pt-[74px] sm:pt-20 xl:pt-24"}>{children}</div>
+      <div className={hideNavbarFooter ? "" : "pb-[72px] sm:pb-0"}>{children}</div>
       {!hideFooter && <Footer />}
     </>
   );

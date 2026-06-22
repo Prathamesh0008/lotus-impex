@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AddToEnquiryButton from "@/components/AddToEnquiryButton";
 import type { ExportProduct } from "@/data/products";
 
@@ -16,6 +16,18 @@ type ProductPurchasePanelProps = {
 
 const WISHLIST_STORAGE_KEY = "lotus_impex_wishlist";
 
+function isProductWishlisted(slug: string) {
+  if (typeof window === "undefined") return false;
+
+  try {
+    const raw = window.localStorage.getItem(WISHLIST_STORAGE_KEY);
+    const items = raw ? (JSON.parse(raw) as { slug: string }[]) : [];
+    return items.some((item) => item.slug === slug);
+  } catch {
+    return false;
+  }
+}
+
 export default function ProductPurchasePanel({
   product,
   inStock,
@@ -24,13 +36,9 @@ export default function ProductPurchasePanel({
 }: ProductPurchasePanelProps) {
   const [selectedSize, setSelectedSize] = useState("");
   const [showSizeChart, setShowSizeChart] = useState(false);
-  const [wishlisted, setWishlisted] = useState(false);
-
-  useEffect(() => {
-    const raw = window.localStorage.getItem(WISHLIST_STORAGE_KEY);
-    const items = raw ? (JSON.parse(raw) as { slug: string }[]) : [];
-    setWishlisted(items.some((item) => item.slug === product.slug));
-  }, [product.slug]);
+  const [wishlisted, setWishlisted] = useState(() =>
+    isProductWishlisted(product.slug)
+  );
 
   function toggleWishlist() {
     const raw = window.localStorage.getItem(WISHLIST_STORAGE_KEY);
@@ -59,7 +67,7 @@ export default function ProductPurchasePanel({
             onClick={() => setShowSizeChart((value) => !value)}
             className="text-sm font-black uppercase text-[#c9a16b]"
           >
-            Size Chart ›
+            Size Chart &gt;
           </button>
         </div>
 
@@ -138,7 +146,7 @@ export default function ProductPurchasePanel({
               : "border-black/20 text-[#282c3f] hover:border-black"
           }`}
         >
-          ♡ {wishlisted ? "Wishlisted" : "Wishlist"}
+          {wishlisted ? "Wishlisted" : "Wishlist"}
         </button>
       </div>
     </>

@@ -1,97 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
-import CategoryMarquee from "@/components/CategoryMarquee";
 import InternalLinkSection from "@/components/InternalLinkSection";
 import HeroBanner from "@/components/HeroBanner";
-import {
-  exportCategories,
-  heroSlides,
-  processSteps,
-  siteConfig,
-  trustPoints,
-} from "@/data/site";
+import { exportCategories } from "@/data/site";
 import HomeCategoryShowcase from "@/components/HomeCategoryShowcase";
 import HomeProductScroller from "@/components/HomeProductScroller";
 import HomePremiumSections from "@/components/HomePremiumSections";
 import HomeShoppingShowcase from "@/components/HomeShoppingShowcase";
 
 export default function HomePage() {
-  const hero = heroSlides[0];
-
   return (
     <main className="bg-[#f4efe7] text-black">
        
-      {/* HERO */}
-      {/* <section className="relative min-h-[calc(100vh-81px)] overflow-hidden bg-black">
-        
-        
-
-        <Image
-          src={hero.image}
-          alt="Lotus Impex global export sourcing"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-72"
-        />
-        
-
-        <div className="absolute inset-0 image-overlay" />
-
-        <div className="absolute right-8 top-8 z-10 hidden rounded-full border border-white/20 bg-white/10 px-5 py-3 text-xs font-black uppercase tracking-[0.22em] text-white backdrop-blur-xl lg:block">
-          {hero.label}
-        </div>
-
-        <div className="relative z-10 mx-auto flex min-h-[calc(100vh-81px)] max-w-[1500px] items-end px-5 py-10 sm:px-8 lg:px-10 lg:py-16">
-          <div className="grid w-full gap-10 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
-            <div>
-              <p className="mb-5 text-xs font-black uppercase tracking-[0.34em] text-white/70">
-                {siteConfig.tagline}
-              </p>
-
-              <h1 className="max-w-3xl text-2xl font-black uppercase leading-[0.82] tracking-[-0.1em] text-white sm:text-7xl lg:text-8xl xl:text-[10rem]">
-                Source. Export. Scale.
-            
-              </h1>
-
-              <p className="mt-8 max-w-2xl text-lg leading-8 text-white/78">
-                Lotus Impex connects international buyers with export-ready
-                garments, fabrics, accessories, machinery and general goods from
-                India.
-              </p>
-
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/products"
-                  className="inline-flex items-center justify-center rounded-full bg-white px-7 py-4 text-sm font-black uppercase tracking-[0.16em] text-black transition hover:bg-[#c9a16b]"
-                >
-                  Explore Catalogue
-                </Link>
-
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center rounded-full border border-white/30 px-7 py-4 text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-white hover:text-black"
-                >
-                  Start Export Enquiry
-                </Link>
-              </div>
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-              {trustPoints.map((point) => (
-                <div
-                  key={point}
-                  className="border border-white/15 bg-white/10 px-5 py-4 backdrop-blur-xl transition hover:bg-white hover:text-black"
-                >
-                  <p className="text-sm font-bold leading-6 text-white/80 transition hover:text-black">
-                    {point}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section> */}
+    
 <HeroBanner />
       {/* <CategoryMarquee /> */}
       <HomeCategoryShowcase />
@@ -149,42 +70,6 @@ export default function HomePage() {
                 </Link>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* PROCESS */}
-      <section className="px-5 py-16 sm:px-8 lg:px-10 xl:py-24">
-        <div className="mx-auto max-w-[1500px]">
-          <div className="mb-12 max-w-4xl">
-            <p className="mb-4 text-xs font-black uppercase tracking-[0.3em] text-black/45">
-              How We Work
-            </p>
-
-            <h2 className="text-4xl font-black uppercase leading-tight text-black sm:text-5xl xl:text-6xl">
-              Simple process. Professional execution.
-            </h2>
-          </div>
-
-          <div className="grid border-y border-black/10 md:grid-cols-5">
-            {processSteps.map((step, index) => (
-              <div
-                key={step.title}
-                className="border-b border-black/10 p-6 transition hover:bg-black hover:text-white md:border-b-0 md:border-r last:md:border-r-0"
-              >
-                <span className="text-sm font-black text-black/30">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-
-                <h3 className="mt-10 text-2xl font-black uppercase tracking-[-0.05em]">
-                  {step.title}
-                </h3>
-
-                <p className="mt-4 text-sm leading-7 opacity-60">
-                  {step.text}
-                </p>
-              </div>
-            ))}
           </div>
         </div>
       </section>

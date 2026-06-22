@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import CatalogProductCard from "@/components/CatalogProductCard";
 import { exportCategories, type ExportCategory } from "@/data/site";
@@ -38,6 +39,14 @@ function getDefaultGenderFilter(categorySlug: string, storeMode: boolean) {
   return "";
 }
 
+function getGenderHref(gender: string) {
+  if (gender === "Women") return "/products/ladies-garments?gender=Women";
+  if (gender === "Girls") return "/products/ladies-garments?gender=Girls";
+  if (gender === "Men") return "/products/mens-garments?gender=Men";
+  if (gender === "Boys") return "/products/mens-garments?gender=Boys";
+  return "/products?gender=Unisex";
+}
+
 function getProductMeta(product: ExportProduct, index: number) {
   const price = 399 + ((index * 73) % 1650);
   const mrp = price + 700 + ((index * 131) % 1700);
@@ -59,8 +68,10 @@ function getProductMeta(product: ExportProduct, index: number) {
   return { brand, color, discount, gender, mrp, price, size };
 }
 
-function toggleSingleValue(values: string[], value: string) {
-  return values.includes(value) ? [] : [value];
+function toggleValue(values: string[], value: string) {
+  return values.includes(value)
+    ? values.filter((item) => item !== value)
+    : [...values, value];
 }
 
 function normalize(value: string) {
@@ -95,11 +106,17 @@ export default function ProductCategoryClient({
   allCategories = exportCategories,
   storeMode = false,
 }: ProductCategoryClientProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const queryGender = searchParams.get("gender") || "";
+  const queryType = searchParams.get("type") || "";
   const defaultGenderFilter = getDefaultGenderFilter(category.slug, storeMode);
   const [search, setSearch] = useState("");
-  const [typeFilters, setTypeFilters] = useState<string[]>([]);
+  const [typeFilters, setTypeFilters] = useState<string[]>(
+    queryType ? [queryType] : []
+  );
   const [genderFilters, setGenderFilters] = useState<string[]>(
-    defaultGenderFilter ? [defaultGenderFilter] : []
+    queryGender ? [queryGender] : defaultGenderFilter ? [defaultGenderFilter] : []
   );
   const [brandFilters, setBrandFilters] = useState<string[]>([]);
   const [bundleFilters, setBundleFilters] = useState<string[]>([]);
@@ -109,11 +126,17 @@ export default function ProductCategoryClient({
   const [sizeFilters, setSizeFilters] = useState<string[]>([]);
   const [openTopFilter, setOpenTopFilter] = useState<string | null>(null);
   const [sort, setSort] = useState("recommended");
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [mobileSortOpen, setMobileSortOpen] = useState(false);
 
   useEffect(() => {
+    // Reset catalogue controls when the route moves to another category.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSearch("");
-    setTypeFilters([]);
-    setGenderFilters(defaultGenderFilter ? [defaultGenderFilter] : []);
+    setTypeFilters(queryType ? [queryType] : []);
+    setGenderFilters(
+      queryGender ? [queryGender] : defaultGenderFilter ? [defaultGenderFilter] : []
+    );
     setBrandFilters([]);
     setBundleFilters([]);
     setCountryFilters([]);
@@ -121,8 +144,10 @@ export default function ProductCategoryClient({
     setColorFilters([]);
     setSizeFilters([]);
     setOpenTopFilter(null);
+    setMobileFilterOpen(false);
+    setMobileSortOpen(false);
     setSort("recommended");
-  }, [category.slug, defaultGenderFilter]);
+  }, [category.slug, defaultGenderFilter, queryGender, queryType]);
 
   const hasActiveFilters =
     search.trim().length > 0 ||
@@ -136,7 +161,10 @@ export default function ProductCategoryClient({
     sizeFilters.length > 0;
 
   const sourceProducts = useMemo(
-    () => (storeMode ? allProducts : products),
+    () =>
+      (storeMode ? allProducts : products).filter(
+        (product) => product.categorySlug !== "footwear"
+      ),
     [allProducts, products, storeMode]
   );
 
@@ -146,15 +174,6 @@ export default function ProductCategoryClient({
   );
 
   const filteredProducts = useMemo(() => {
-    const hasSelectedFacet =
-      typeFilters.length > 0 ||
-      genderFilters.length > 0 ||
-      brandFilters.length > 0 ||
-      bundleFilters.length > 0 ||
-      countryFilters.length > 0 ||
-      priceFilters.length > 0 ||
-      colorFilters.length > 0 ||
-      sizeFilters.length > 0;
     const searchValue = normalize(search);
 
     let result = sourceProducts.filter((product, index) => {
@@ -163,17 +182,15 @@ export default function ProductCategoryClient({
         searchValue.length === 0 || getSearchScore(product, searchValue) > 0;
 
       const typeMatch =
-        typeFilters.length > 0 && typeFilters.includes(product.type);
+        typeFilters.length === 0 || typeFilters.includes(product.type);
       const genderMatch =
-        genderFilters.length > 0 &&
-        (
+        genderFilters.length === 0 ||
         genderFilters.includes(meta.gender) ||
-        (meta.gender === "Unisex" && !genderFilters.includes("Unisex"))
-        );
+        (meta.gender === "Unisex" && genderFilters.includes("Unisex"));
       const brandMatch =
-        brandFilters.length > 0 && brandFilters.includes(meta.brand);
+        brandFilters.length === 0 || brandFilters.includes(meta.brand);
       const bundleMatch =
-        bundleFilters.length > 0 &&
+        bundleFilters.length === 0 ||
         bundleFilters.some((bundle) => {
           const bundleValue = bundle.toLowerCase();
 
@@ -187,7 +204,7 @@ export default function ProductCategoryClient({
           );
         });
       const countryMatch =
-        countryFilters.length > 0 &&
+        countryFilters.length === 0 ||
         countryFilters.some((country) => {
           if (country === "India") return product.origin === "India";
 
@@ -202,11 +219,11 @@ export default function ProductCategoryClient({
           );
         });
       const colorMatch =
-        colorFilters.length > 0 && colorFilters.includes(meta.color);
+        colorFilters.length === 0 || colorFilters.includes(meta.color);
       const sizeMatch =
-        sizeFilters.length > 0 && sizeFilters.includes(meta.size);
+        sizeFilters.length === 0 || sizeFilters.includes(meta.size);
       const priceMatch =
-        priceFilters.length > 0 &&
+        priceFilters.length === 0 ||
         priceFilters.some((range) => {
           if (range === "Under Rs. 500") return meta.price < 500;
           if (range === "Rs. 500 - Rs. 999") {
@@ -215,14 +232,13 @@ export default function ProductCategoryClient({
           return meta.price >= 1000;
         });
       const facetMatch =
-        !hasSelectedFacet ||
-        typeMatch ||
-        genderMatch ||
-        brandMatch ||
-        bundleMatch ||
-        countryMatch ||
-        priceMatch ||
-        colorMatch ||
+        typeMatch &&
+        genderMatch &&
+        brandMatch &&
+        bundleMatch &&
+        countryMatch &&
+        priceMatch &&
+        colorMatch &&
         sizeMatch;
 
       return searchMatch && facetMatch;
@@ -291,11 +307,13 @@ export default function ProductCategoryClient({
     setColorFilters([]);
     setSizeFilters([]);
     setOpenTopFilter(null);
+    setMobileFilterOpen(false);
+    setMobileSortOpen(false);
   };
 
   return (
-    <main className="bg-white text-[#111827]">
-      <section className="border-b border-black/10 bg-white px-5 py-5 sm:px-8 lg:px-10">
+    <main className="bg-white pb-16 pt-16 text-[#111827] sm:pt-20 lg:pb-0 xl:pt-24">
+      <section className="hidden border-b border-black/10 bg-white px-5 py-5 sm:px-8 lg:block lg:px-10">
         <div className="mx-auto max-w-[1800px]">
           <div className="flex flex-wrap items-center gap-2 text-sm text-[#282c3f]">
             <Link href="/" className="hover:text-black">
@@ -322,14 +340,15 @@ export default function ProductCategoryClient({
         </div>
       </section>
 
-      <section className="sticky top-0 z-20 border-b border-black/10 bg-white px-5 py-3 sm:px-8 lg:px-10">
+      <section className="sticky top-16 z-50 hidden border-b border-black/10 bg-white px-5 py-3 sm:top-20 sm:px-8 lg:block lg:px-10 xl:top-24">
         <div className="mx-auto flex max-w-[1800px] flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-4">
             <p className="text-base font-black uppercase text-black">Filters</p>
             <button
               type="button"
               onClick={clearFilters}
-              className="text-xs font-black uppercase tracking-[0.08em] text-[#c9a16b]"
+              disabled={!hasActiveFilters}
+              className="text-xs font-black uppercase tracking-[0.08em] text-[#c9a16b] disabled:text-black/25"
             >
               Clear All
             </button>
@@ -430,7 +449,7 @@ export default function ProductCategoryClient({
       </section>
 
       <section className="mx-auto grid max-w-[1800px] lg:grid-cols-[310px_1fr]">
-        <aside className="border-r border-black/10 bg-white lg:sticky lg:top-[73px] lg:h-[calc(100vh-73px)] lg:overflow-y-auto">
+        <aside className="hidden border-r border-black/10 bg-white lg:block">
           <div className="border-b border-black/10 p-5">
             <input
               value={search}
@@ -450,7 +469,7 @@ export default function ProductCategoryClient({
                   type="checkbox"
                   checked={genderFilters.includes(option)}
                   onChange={() =>
-                    setGenderFilters((values) => toggleSingleValue(values, option))
+                    router.push(getGenderHref(option))
                   }
                   className="size-4 accent-[#c9a16b]"
                 />
@@ -509,7 +528,7 @@ export default function ProductCategoryClient({
                     type="checkbox"
                     checked={active}
                     onChange={() =>
-                      setTypeFilters((values) => toggleSingleValue(values, item))
+                      setTypeFilters((values) => toggleValue(values, item))
                     }
                     className="size-4 accent-[#c9a16b]"
                   />
@@ -546,7 +565,7 @@ export default function ProductCategoryClient({
                   checked={colorFilters.includes(option.label)}
                   onChange={() =>
                     setColorFilters((values) =>
-                      toggleSingleValue(values, option.label)
+                      toggleValue(values, option.label)
                     )
                   }
                   className="size-4 accent-[#c9a16b]"
@@ -568,9 +587,56 @@ export default function ProductCategoryClient({
           />
         </aside>
 
-        <div className="min-w-0 bg-white px-5 py-7 sm:px-8">
+        <div className="min-w-0 bg-white px-0 py-0 lg:px-8 lg:py-7">
+          <section className="lg:hidden">
+            <div className="border-b border-black/10 bg-[#f3f0ff] px-4 py-3">
+              <div className="flex items-center justify-between gap-3 text-sm font-semibold text-[#282c3f]">
+                <span className="truncate">
+                  Add Delivery Address
+                </span>
+                <span className="text-xl leading-none">v</span>
+              </div>
+            </div>
+
+            <div className="flex gap-2 overflow-x-auto border-b border-black/10 bg-white px-3 py-3">
+              {["Top Brands", "Express Delivery", "Top Rated"].map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  className="shrink-0 rounded-full border border-black/15 bg-white px-4 py-2 text-xs font-black text-[#282c3f] first:border-[#ff3f6c] first:text-[#ff3f6c]"
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex gap-4 overflow-x-auto bg-white px-4 py-4">
+              {(storeMode ? allCategories : allCategories.slice(0, 6)).map(
+                (item) => (
+                  <Link
+                    key={item.slug}
+                    href={`/products/${item.slug}`}
+                    className="w-20 shrink-0 text-center"
+                  >
+                    <div className="mx-auto size-16 overflow-hidden rounded-full bg-[#f5f5f6]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={item.image}
+                        alt={item.imageAlt}
+                        className="h-full w-full object-cover object-top"
+                      />
+                    </div>
+                    <span className="mt-2 block truncate text-xs font-black text-[#282c3f]">
+                      {item.shortTitle}
+                    </span>
+                  </Link>
+                )
+              )}
+            </div>
+          </section>
+
           {storeMode ? (
-            <section className="mb-10 border-b border-black/10 pb-8">
+            <section className="mb-10 hidden border-b border-black/10 pb-8 lg:block">
               <div className="mb-5">
                 <p className="text-xs font-black uppercase tracking-[0.24em] text-[#c9a16b]">
                   Product Categories
@@ -617,7 +683,7 @@ export default function ProductCategoryClient({
             </section>
           ) : null}
 
-          <div className="mb-6 flex flex-wrap gap-3">
+          <div className="mb-6 hidden flex-wrap gap-3 lg:flex">
             {storeMode ? (
               <Link
                 href="/products"
@@ -645,7 +711,7 @@ export default function ProductCategoryClient({
           </div>
 
           {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-2 gap-x-7 gap-y-10 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+            <div className="grid grid-cols-2 gap-x-3 gap-y-6 px-3 py-4 md:grid-cols-3 lg:gap-x-7 lg:gap-y-10 lg:px-0 lg:py-0 xl:grid-cols-4 2xl:grid-cols-5">
               {filteredProducts.map((product, index) => (
                 <CatalogProductCard
                   key={product.slug}
@@ -665,6 +731,247 @@ export default function ProductCategoryClient({
           )}
         </div>
       </section>
+
+      <div className="fixed inset-x-0 bottom-0 z-[105] grid grid-cols-2 border-t border-black/10 bg-white lg:hidden">
+        <button
+          type="button"
+          onClick={() => setMobileSortOpen(true)}
+          className="flex min-h-14 items-center justify-center gap-2 border-r border-black/10 text-sm font-black uppercase tracking-[0.08em] text-[#282c3f]"
+        >
+          <span className="text-lg">↕</span>
+          Sort
+        </button>
+        <button
+          type="button"
+          onClick={() => setMobileFilterOpen(true)}
+          className="relative flex min-h-14 items-center justify-center gap-2 text-sm font-black uppercase tracking-[0.08em] text-[#282c3f]"
+        >
+          <span className="text-lg">≡</span>
+          Filter
+          {hasActiveFilters ? (
+            <span className="absolute right-[28%] top-3 size-2 rounded-full bg-[#ff3f6c]" />
+          ) : null}
+        </button>
+      </div>
+
+      {mobileSortOpen ? (
+        <div className="fixed inset-0 z-[150] bg-black/45 lg:hidden">
+          <button
+            type="button"
+            className="absolute inset-0 cursor-default"
+            aria-label="Close sort options"
+            onClick={() => setMobileSortOpen(false)}
+          />
+          <div className="absolute inset-x-0 bottom-0 bg-white p-5 shadow-2xl">
+            <div className="mb-4 flex items-center justify-between">
+              <p className="text-base font-black uppercase text-black">Sort By</p>
+              <button
+                type="button"
+                onClick={() => setMobileSortOpen(false)}
+                className="text-2xl leading-none text-black/55"
+              >
+                x
+              </button>
+            </div>
+            {[
+              ["recommended", "Recommended"],
+              ["price-low", "Price Low to High"],
+              ["discount", "Better Discount"],
+              ["name", "Name"],
+            ].map(([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => {
+                  setSort(value);
+                  setMobileSortOpen(false);
+                }}
+                className={`flex min-h-12 w-full items-center justify-between border-b border-black/10 text-left text-sm font-bold ${
+                  sort === value ? "text-[#c9a16b]" : "text-[#282c3f]"
+                }`}
+              >
+                {label}
+                {sort === value ? <span>✓</span> : null}
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      {mobileFilterOpen ? (
+        <div className="fixed inset-0 z-[150] bg-white text-[#282c3f] lg:hidden">
+          <div className="flex min-h-16 items-center justify-between border-b border-black/10 px-5">
+            <p className="text-base font-black uppercase text-black">Filters</p>
+            <div className="flex items-center gap-4">
+              <button
+                type="button"
+                onClick={clearFilters}
+                disabled={!hasActiveFilters}
+                className="text-xs font-black uppercase tracking-[0.08em] text-[#c9a16b] disabled:text-black/25"
+              >
+                Clear All
+              </button>
+              <button
+                type="button"
+                onClick={() => setMobileFilterOpen(false)}
+                className="text-2xl leading-none text-black/55"
+              >
+                x
+              </button>
+            </div>
+          </div>
+
+          <div className="h-[calc(100vh-128px)] overflow-y-auto">
+            <div className="border-b border-black/10 p-5">
+              <input
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="Search products"
+                className="w-full rounded-full border border-black/15 bg-[#f5f5f6] px-4 py-3 text-sm font-semibold outline-none focus:border-black"
+              />
+            </div>
+
+            <div className="border-b border-black/10 p-5">
+              {genderOptions.map((option) => (
+                <label
+                  key={option}
+                  className="mb-3 flex cursor-pointer items-center gap-3 text-sm font-black text-[#282c3f]"
+                >
+                  <input
+                    type="checkbox"
+                    checked={genderFilters.includes(option)}
+                    onChange={() =>
+                      router.push(getGenderHref(option))
+                    }
+                    className="size-4 accent-[#c9a16b]"
+                  />
+                  <span>{option}</span>
+                </label>
+              ))}
+            </div>
+
+            {storeMode ? (
+              <div className="border-b border-black/10 p-5">
+                <p className="mb-4 text-sm font-black uppercase text-black">
+                  Departments
+                </p>
+                <Link
+                  href="/products"
+                  onClick={() => setMobileFilterOpen(false)}
+                  className="mb-3 flex items-center justify-between text-sm font-black text-[#c9a16b]"
+                >
+                  <span>All Categories</span>
+                  <span className="text-xs text-black/35">{allProducts.length}</span>
+                </Link>
+                {allCategories.map((item) => (
+                  <Link
+                    key={item.slug}
+                    href={`/products/${item.slug}`}
+                    onClick={() => setMobileFilterOpen(false)}
+                    className="mb-3 flex items-center justify-between text-sm font-semibold text-black/75"
+                  >
+                    <span>{item.title}</span>
+                    <span className="text-xs text-black/35">
+                      {
+                        allProducts.filter(
+                          (product) => product.categorySlug === item.slug
+                        ).length
+                      }
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+
+            <div className="border-b border-black/10 p-5">
+              <p className="mb-4 text-sm font-black uppercase text-black">
+                Categories
+              </p>
+              {productTypes.map((item) => (
+                <label
+                  key={item}
+                  className="mb-3 flex cursor-pointer items-center gap-3 text-sm font-semibold text-black/80"
+                >
+                  <input
+                    type="checkbox"
+                    checked={typeFilters.includes(item)}
+                    onChange={() =>
+                      setTypeFilters((values) => toggleValue(values, item))
+                    }
+                    className="size-4 accent-[#c9a16b]"
+                  />
+                  <span>{item}</span>
+                  <span className="text-xs text-black/35">
+                    ({allProducts.filter((product) => product.type === item).length})
+                  </span>
+                </label>
+              ))}
+            </div>
+
+            <FilterGroup
+              title="Brand"
+              options={brandOptions}
+              values={brandFilters}
+              onChange={setBrandFilters}
+              total={allProducts.length}
+            />
+            <FilterGroup
+              title="Price"
+              options={priceOptions}
+              values={priceFilters}
+              onChange={setPriceFilters}
+              total={allProducts.length}
+            />
+            <div className="border-b border-black/10 p-5">
+              <p className="mb-4 text-sm font-black uppercase text-black">Color</p>
+              {colorOptions.map((option, index) => (
+                <label
+                  key={option.label}
+                  className="mb-3 flex cursor-pointer items-center gap-3 text-sm font-semibold text-black/75"
+                >
+                  <input
+                    type="checkbox"
+                    checked={colorFilters.includes(option.label)}
+                    onChange={() =>
+                      setColorFilters((values) => toggleValue(values, option.label))
+                    }
+                    className="size-4 accent-[#c9a16b]"
+                  />
+                  <span className={`size-4 rounded-full ${option.className}`} />
+                  <span>{option.label}</span>
+                  <span className="text-xs text-black/35">
+                    ({Math.max(8, allProducts.length - index * 3)})
+                  </span>
+                </label>
+              ))}
+            </div>
+            <FilterGroup
+              title="Size"
+              options={sizeOptions}
+              values={sizeFilters}
+              onChange={setSizeFilters}
+              total={allProducts.length}
+            />
+          </div>
+
+          <div className="grid min-h-16 grid-cols-2 border-t border-black/10 bg-white">
+            <button
+              type="button"
+              onClick={clearFilters}
+              className="text-sm font-black uppercase tracking-[0.1em] text-[#282c3f]"
+            >
+              Clear
+            </button>
+            <button
+              type="button"
+              onClick={() => setMobileFilterOpen(false)}
+              className="bg-black text-sm font-black uppercase tracking-[0.1em] text-white"
+            >
+              Apply
+            </button>
+          </div>
+        </div>
+      ) : null}
     </main>
   );
 }
@@ -693,7 +1000,7 @@ function FilterGroup({
           <input
             type="checkbox"
             checked={values.includes(option)}
-            onChange={() => onChange(toggleSingleValue(values, option))}
+            onChange={() => onChange(toggleValue(values, option))}
             className="size-4 accent-[#c9a16b]"
           />
           <span>{option}</span>
@@ -747,7 +1054,7 @@ function TopFilterMenu({
               <input
                 type="checkbox"
                 checked={values.includes(option)}
-                onChange={() => onChange(toggleSingleValue(values, option))}
+                onChange={() => onChange(toggleValue(values, option))}
                 className="size-4 accent-[#c9a16b]"
               />
               <span>{option}</span>

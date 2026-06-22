@@ -2,11 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { exportCategories } from "@/data/site";
 
+const visibleCategories = exportCategories.filter(
+  (category) => category.slug !== "footwear"
+);
+
 export default function HomeCategoryShowcase() {
   return (
     <section className="w-full max-w-full overflow-hidden bg-[#f4efe7] px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto grid w-full max-w-[1800px] grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-6">
-        {exportCategories.map((category) => (
+        {visibleCategories.map((category) => (
           <Link
             key={category.slug}
             href={`/products/${category.slug}`}

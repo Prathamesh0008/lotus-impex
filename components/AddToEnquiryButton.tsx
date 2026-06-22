@@ -61,11 +61,11 @@ export default function AddToEnquiryButton({
     return (
       <Link
         href="/enquiry-basket"
-        className={`inline-flex min-h-11 items-center justify-center whitespace-nowrap ${
+        className={`inline-flex min-h-12 items-center justify-center whitespace-nowrap ${
           tone === "myntra"
-            ? "rounded-[4px] bg-[#c9a16b] px-6 py-4 text-sm text-white hover:bg-[#b88d55]"
-            : "rounded-full bg-[#c9a16b] px-4 py-3 text-[11px] tracking-[0.08em] text-black hover:bg-white"
-        } font-black uppercase transition ${
+            ? "rounded-md bg-[#c9a16b] px-8 py-3 text-sm font-bold text-white transition hover:bg-[#b88d55]"
+            : "rounded-full bg-[#c9a16b] px-6 py-3 text-xs font-bold tracking-[0.1em] text-black transition hover:bg-[#d4b38a]"
+        } uppercase ${
           fullWidth ? "w-full" : ""
         }`}
       >
@@ -79,11 +79,11 @@ export default function AddToEnquiryButton({
       type="button"
       onClick={addToBasket}
       disabled={disabled}
-      className={`inline-flex min-h-11 items-center justify-center whitespace-nowrap ${
+      className={`inline-flex min-h-12 items-center justify-center whitespace-nowrap ${
         tone === "myntra"
-          ? "rounded-[4px] bg-[#c9a16b] px-6 py-4 text-sm hover:bg-[#b88d55]"
-          : "rounded-full bg-black px-4 py-3 text-[11px] tracking-[0.08em] hover:bg-[#6b3f24]"
-      } font-black uppercase text-white transition disabled:cursor-not-allowed disabled:bg-black/35 ${
+          ? "rounded-md bg-[#c9a16b] px-8 py-3 text-sm font-bold text-white transition hover:bg-[#b88d55] disabled:bg-gray-400"
+          : "rounded-full bg-[#c9a16b] px-6 py-3 text-xs font-bold tracking-[0.1em] text-black transition hover:bg-[#d4b38a] disabled:bg-gray-300"
+      } uppercase disabled:cursor-not-allowed ${
         fullWidth ? "w-full" : ""
       }`}
     >

@@ -44,7 +44,7 @@ export default function CatalogProductCard({
           href={`/products/${product.categorySlug}/${product.slug}`}
           className="block"
         >
-          <div className="relative aspect-[3/4] overflow-hidden bg-[#f5f5f6]">
+    <div className="relative aspect-[4/3] overflow-hidden bg-[#f3f3f3]">
             <Image
               src={imageSrc}
               alt={product.imageAlt}
@@ -89,7 +89,7 @@ export default function CatalogProductCard({
   return (
     <article className="group overflow-hidden rounded-[22px] border border-black/10 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/10">
       <Link href={`/products/${product.categorySlug}/${product.slug}`}>
-        <div className="relative h-[310px] overflow-hidden bg-[#f3f3f3]">
+       <div className="relative aspect-[4/3] overflow-hidden bg-[#f3f3f3]">
           <Image
             src={imageSrc}
             alt=""
@@ -105,7 +105,7 @@ export default function CatalogProductCard({
             fill
             sizes="(max-width: 768px) 100vw, 33vw"
             onError={() => setImageSrc(fallbackImage)}
-            className="object-contain object-center transition duration-700"
+          className="object-cover object-top transition duration-700"
           />
 
           <button

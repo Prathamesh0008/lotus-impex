@@ -39,11 +39,10 @@ const categoryImageSets: Record<string, string[]> = {
     "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1400&q=85",
   ],
   accessories: [
-    "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=1400&q=85",
-    "https://images.unsplash.com/photo-1523779917675-b6ed3a42a561?auto=format&fit=crop&w=1400&q=85",
-    "https://images.unsplash.com/photo-1506629905607-d9c297d127bf?auto=format&fit=crop&w=1400&q=85",
-    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1400&q=85",
-    "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1400&q=85",
+    "/online-marketing.jpg",
+    "/content-women-shopping-mall.jpg",
+    "/e-commerce.jpg",
+    "/product_category.jpg",
   ],
   footwear: [
     "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1400&q=85",
@@ -153,36 +152,6 @@ const productTypeImageSets: Record<string, string[]> = {
     "https://images.unsplash.com/photo-1660980041852-230420b8f99f?auto=format&fit=crop&w=1400&q=85",
     "https://images.unsplash.com/photo-1741176506261-73218298e4d8?auto=format&fit=crop&w=1400&q=85",
     "https://images.unsplash.com/photo-1673201229733-69d19c5c4a87?auto=format&fit=crop&w=1400&q=85",
-  ],
-  Sneakers: [
-    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1400&q=85",
-    "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=1400&q=85",
-    "https://images.unsplash.com/photo-1607522370275-f14206abe5d3?auto=format&fit=crop&w=1400&q=85",
-  ],
-  "Casual shoes": [
-    "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=1400&q=85",
-    "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=1400&q=85",
-    "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=1400&q=85",
-  ],
-  "Sports shoes": [
-    "https://images.unsplash.com/photo-1607522370275-f14206abe5d3?auto=format&fit=crop&w=1400&q=85",
-    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1400&q=85",
-    "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=1400&q=85",
-  ],
-  "Sandals and sliders": [
-    "https://images.unsplash.com/photo-1603487742131-4160ec999306?auto=format&fit=crop&w=1400&q=85",
-    "https://images.unsplash.com/photo-1603808033192-082d6919d3e1?auto=format&fit=crop&w=1400&q=85",
-    "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=1400&q=85",
-  ],
-  "Formal shoes": [
-    "https://images.unsplash.com/photo-1614252369475-531eba835eb1?auto=format&fit=crop&w=1400&q=85",
-    "https://images.unsplash.com/photo-1616406432452-07bc5938759d?auto=format&fit=crop&w=1400&q=85",
-    "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&w=1400&q=85",
-  ],
-  "Private-label footwear": [
-    "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=1400&q=85",
-    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1400&q=85",
-    "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=1400&q=85",
   ],
   "General machinery": [
     "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1400&q=85",
@@ -1521,19 +1490,21 @@ const baseExportProducts: ExportProduct[] = [
   ...generatedProducts,
 ];
 
-export const exportProducts: ExportProduct[] = baseExportProducts.map((product) => {
-  const catalogueImage = mensCatalogueImageOverrides[product.slug];
+export const exportProducts: ExportProduct[] = baseExportProducts
+  .filter((product) => product.categorySlug !== "footwear")
+  .map((product) => {
+    const catalogueImage = mensCatalogueImageOverrides[product.slug];
 
-  if (!catalogueImage) {
-    return product;
-  }
+    if (!catalogueImage) {
+      return product;
+    }
 
-  return {
-    ...product,
-    image: catalogueImage,
-    imageAlt: `${product.name} from Lotus Impex mens catalogue`,
-  };
-});
+    return {
+      ...product,
+      image: catalogueImage,
+      imageAlt: `${product.name} from Lotus Impex mens catalogue`,
+    };
+  });
 
 export function getProductsByCategory(categorySlug: string) {
   return exportProducts.filter(

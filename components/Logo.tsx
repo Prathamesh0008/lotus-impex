@@ -13,16 +13,14 @@ export default function Logo({ dark = false, size = "nav" }: LogoProps) {
     <Link
       href="/"
       aria-label="Lotus Impex Home"
-      className={`relative z-10 flex shrink-0 items-center overflow-hidden ${
+      className={`relative z-10 flex shrink-0 items-center ${
         isFooter
-          ? "h-16 w-[min(82vw,360px)] sm:h-20"
-          : "h-14 w-[min(64vw,250px)] sm:h-16 sm:w-[330px] xl:w-[360px]"
+          ? "h-20 w-[min(82vw,360px)] sm:h-24"
+          : "h-12 w-[42vw] max-w-[210px] sm:h-20 sm:w-80 sm:max-w-none xl:w-96"
       }`}
     >
       <div
-        className={`relative w-full overflow-hidden ${
-          isFooter ? "h-20" : "h-full"
-        }`}
+        className={`relative h-full w-full`}
       >
         <Image
           src="/Lotus_Final_Logo1.png"
@@ -32,9 +30,9 @@ export default function Logo({ dark = false, size = "nav" }: LogoProps) {
           sizes={
             isFooter
               ? "360px"
-              : "(max-width: 640px) 64vw, (max-width: 1024px) 330px, 360px"
+              : "(max-width: 640px) 70vw, (max-width: 1024px) 320px, 384px"
           }
-          className={`object-contain ${
+          className={`object-contain object-left ${
             dark ? "brightness-0 invert" : ""
           }`}
         />
