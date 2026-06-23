@@ -201,6 +201,7 @@ const ladiesGeneratedImages = [
 const generatedProductTypes = [
   ["ladies-garments", "Tops and shirts"],
   ["ladies-garments", "Kurtis and ethnic wear"],
+  ["ladies-garments", "Sarees"],
   ["ladies-garments", "Co-ord sets"],
   ["ladies-garments", "Modest wear"],
   ["ladies-garments", "Seasonal collections"],
@@ -353,6 +354,34 @@ const mensCatalogueImageOverrides: Record<string, string> = {
   "hospital-uniforms": "/catalogue-mens/hospital-uniforms.png",
   "security-uniforms": "/catalogue-mens/security-uniforms.png",
 };
+
+const womenCatalogueImages = [
+  "/catalogue-women/01_Kurti_Floral_A_Line.png",
+  "/catalogue-women/02_Kurti_Embroidered_Straight.png",
+  "/catalogue-women/03_Kurti_Printed_Anarkali.png",
+  "/catalogue-women/04_Kurti_Cotton_High_Low.png",
+  "/catalogue-women/05_Top_Peplum.png",
+  "/catalogue-women/06_Top_Ruffle_Sleeve.png",
+  "/catalogue-women/07_Top_Asymmetrical_Black.png",
+  "/catalogue-women/08_Top_Printed_Tie_Up.png",
+  "/catalogue-women/09_Tshirt_Graphic_Black.png",
+  "/catalogue-women/10_Tshirt_Striped.png",
+  "/catalogue-women/11_Tshirt_Slogan_Pink.png",
+  "/catalogue-women/12_Tshirt_Oversized_Lilac.png",
+  "/catalogue-women/13_Jeans_Skinny_Fit.png",
+  "/catalogue-women/14_Jeans_High_Waist.png",
+  "/catalogue-women/15_Jeans_Straight_Fit.png",
+  "/catalogue-women/16_Jeans_Mom_Fit.png",
+  "/catalogue-women/17_Saree_Cotton_Printed.png",
+  "/catalogue-women/18_Saree_Chiffon_Embroidered.png",
+  "/catalogue-women/19_Dress_Floral_Midi.png",
+  "/catalogue-women/20_Dress_Solid_Maxi.png",
+];
+
+const womenSareeCatalogueImages = [
+  "/catalogue-women/17_Saree_Cotton_Printed.png",
+  "/catalogue-women/18_Saree_Chiffon_Embroidered.png",
+];
 
 const baseExportProducts: ExportProduct[] = [
   /* ===================== FORMAL SHIRTS ===================== */
@@ -1490,20 +1519,49 @@ const baseExportProducts: ExportProduct[] = [
   ...generatedProducts,
 ];
 
+let womenCatalogueIndex = 0;
+let womenSareeCatalogueIndex = 0;
+
 export const exportProducts: ExportProduct[] = baseExportProducts
   .filter((product) => product.categorySlug !== "footwear")
   .map((product) => {
     const catalogueImage = mensCatalogueImageOverrides[product.slug];
 
-    if (!catalogueImage) {
-      return product;
+    if (catalogueImage) {
+      return {
+        ...product,
+        image: catalogueImage,
+        imageAlt: `${product.name} from Lotus Impex mens catalogue`,
+      };
     }
 
-    return {
-      ...product,
-      image: catalogueImage,
-      imageAlt: `${product.name} from Lotus Impex mens catalogue`,
-    };
+    if (product.categorySlug === "ladies-garments" && product.type === "Sarees") {
+      const image =
+        womenSareeCatalogueImages[
+          womenSareeCatalogueIndex % womenSareeCatalogueImages.length
+        ];
+      womenSareeCatalogueIndex += 1;
+
+      return {
+        ...product,
+        image,
+        imageAlt: `${product.name} from Lotus Impex saree catalogue`,
+      };
+    }
+
+    if (product.categorySlug === "ladies-garments") {
+      const image =
+        womenCatalogueImages[womenCatalogueIndex % womenCatalogueImages.length];
+      womenCatalogueIndex += 1;
+
+      return {
+        ...product,
+        image,
+        imageAlt: `${product.name} from Lotus Impex women catalogue`,
+      };
+    }
+
+    return product;
   });
 
 export function getProductsByCategory(categorySlug: string) {

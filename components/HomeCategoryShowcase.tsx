@@ -32,7 +32,7 @@ export default function HomeCategoryShowcase() {
                 alt={category.imageAlt}
                 fill
                 sizes="(max-width: 640px) 56px, 64px"
-                className="object-cover opacity-90 transition duration-500 group-hover:scale-110 group-hover:opacity-100"
+                className="object-contain object-center p-1 opacity-90 transition duration-500 group-hover:scale-110 group-hover:opacity-100"
               />
             </div>
 

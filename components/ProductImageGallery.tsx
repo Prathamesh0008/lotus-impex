@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 type ProductImageGalleryProps = {
   image: string;
@@ -51,7 +51,7 @@ function SafeImage({
         sizes="(max-width: 768px) 100vw, 38vw"
         priority={priority}
         onError={() => setImageSrc(fallback)}
-        className="object-cover object-top"
+        className="object-contain object-center p-4"
       />
     );
   }
@@ -78,48 +78,75 @@ export default function ProductImageGallery({
   type,
   galleryImages = [],
 }: ProductImageGalleryProps) {
+  const mobileScrollerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const fallback = fallbackImages[categorySlug] || "/product_category.jpg";
   const images =
     galleryImages.length > 0
       ? galleryImages
       : [{ src: image, alt: imageAlt, caption: type }];
 
+  function scrollToMobileImage(index: number) {
+    const scroller = mobileScrollerRef.current;
+    const target = scroller?.children[index] as HTMLElement | undefined;
+
+    target?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "start",
+    });
+  }
+
+  function handleMobileScroll() {
+    const scroller = mobileScrollerRef.current;
+
+    if (!scroller) return;
+
+    const nextIndex = Math.round(scroller.scrollLeft / scroller.clientWidth);
+    setActiveIndex(Math.min(Math.max(nextIndex, 0), images.length - 1));
+  }
+
   return (
     <div className="w-full min-w-0">
       <div className="sm:hidden">
-        <div className="relative h-[min(120vw,560px)] overflow-hidden bg-[#f5f5f6]">
-          <SafeImage
-            src={images[0].src}
-            fallback={fallback}
-            alt={images[0].alt}
-            priority
-            fill
-          />
-          {images[0].caption ? (
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent p-5">
-              <p className="max-w-xs text-xl font-black uppercase leading-tight tracking-[0.02em] text-white">
-                {images[0].caption}
-              </p>
+        <div
+          ref={mobileScrollerRef}
+          onScroll={handleMobileScroll}
+          className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {images.map((item, index) => (
+            <div
+              key={`${item.src}-mobile-${index}`}
+              className="relative h-[min(128vw,620px)] w-full shrink-0 snap-start overflow-hidden bg-[#f5f5f6]"
+            >
+              <SafeImage
+                src={item.src}
+                fallback={fallback}
+                alt={item.alt}
+                priority={index === 0}
+                fill
+              />
             </div>
-          ) : null}
+          ))}
         </div>
 
         {images.length > 1 ? (
-          <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
-            {images.slice(0, 4).map((item, index) => (
-              <div
-                key={`${item.src}-thumb-${index}`}
-                className="relative size-16 shrink-0 overflow-hidden rounded-xl border border-black/10 bg-[#f5f5f6]"
-              >
-                <SafeImage
-                  src={item.src}
-                  fallback={fallback}
-                  alt={item.alt}
-                  fill
+          <>
+            <div className="mt-3 flex justify-center gap-1.5">
+              {images.map((item, index) => (
+                <button
+                  key={`${item.src}-dot-${index}`}
+                  type="button"
+                  aria-label={`Show image ${index + 1}`}
+                  onClick={() => scrollToMobileImage(index)}
+                  className={`size-2 rounded-full transition ${
+                    activeIndex === index ? "bg-[#282c3f]" : "bg-[#d4d5d9]"
+                  }`}
                 />
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+
+          </>
         ) : null}
       </div>
 
@@ -136,13 +163,6 @@ export default function ProductImageGallery({
               priority={index === 0}
               fill
             />
-            {item.caption ? (
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent p-5">
-                <p className="max-w-xs text-xl font-black uppercase leading-tight tracking-[0.02em] text-white">
-                  {item.caption}
-                </p>
-              </div>
-            ) : null}
           </div>
         ))}
       </div>

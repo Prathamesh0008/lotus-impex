@@ -30,8 +30,7 @@ const brandDeals: PromoCard[] = [
     title: "Fashion Tops",
     subtitle: "Private label support",
     badge: "Export ready",
-    image:
-      "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=max&w=900&q=85",
+    image: "/catalogue-women/05_Top_Peplum.png",
     href: "/products/ladies-garments",
   },
   {
@@ -56,8 +55,7 @@ const topBrands: PromoCard[] = [
   {
     title: "Urban Wear",
     subtitle: "Flat 50% sourcing value",
-    image:
-      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=max&w=900&q=85",
+    image: "/catalogue-women/07_Top_Asymmetrical_Black.png",
     href: "/products/ladies-garments",
   },
   {
@@ -101,29 +99,19 @@ const indianWear: PromoCard[] = [
   {
     title: "Ethnic Casuals",
     subtitle: "Comfort-led festive sourcing",
-    image:
-      "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=max&w=900&q=85",
+    image: "/catalogue-women/02_Kurti_Embroidered_Straight.png",
     href: "/products/ladies-garments",
   },
   {
     title: "Printed Kurta Sets",
     subtitle: "Family festive collections",
-    image:
-      "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=max&w=900&q=85",
+    image: "/catalogue-women/03_Kurti_Printed_Anarkali.png",
     href: "/products/ladies-garments",
   },
   {
     title: "Everyday Kurtas",
     subtitle: "Wholesale comfort styles",
-    image:
-      "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=max&w=900&q=85",
-    href: "/products/ladies-garments",
-  },
-  {
-    title: "Handpicked Trendy Styles",
-    subtitle: "Updated language of comfort",
-    image:
-      "https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=max&w=900&q=85",
+    image: "/catalogue-women/04_Kurti_Cotton_High_Low.png",
     href: "/products/ladies-garments",
   },
 ];
@@ -193,11 +181,13 @@ function PromoSection({
   items: PromoCard[];
   variant?: "brand" | "deal";
 }) {
+  const visibleItems = items.slice(0, 4);
+
   return (
     <section>
       <SectionTitle>{title}</SectionTitle>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5">
-        {items.map((item) => (
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
+        {visibleItems.map((item) => (
           <Link
             key={item.title}
             href={item.href}
@@ -209,7 +199,7 @@ function PromoSection({
                 alt={item.title}
                 fill
                 sizes="(max-width: 640px) 76vw, (max-width: 1024px) 42vw, 20vw"
-                className="object-cover object-center transition duration-700 group-hover:scale-105"
+                className="object-contain object-center p-3 transition duration-700 group-hover:scale-105"
               />
               {item.badge ? (
                 <span className="absolute left-3 top-3 hidden rounded-full bg-white px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-black shadow-sm sm:inline-flex">
@@ -247,7 +237,7 @@ function EditorialSection({
   return (
     <section>
       <SectionTitle>{title}</SectionTitle>
-      <div className="grid grid-cols-2 gap-x-3 gap-y-7 sm:gap-5 lg:grid-cols-3 2xl:grid-cols-5">
+      <div className="grid grid-cols-2 gap-x-3 gap-y-7 sm:gap-5 lg:grid-cols-4">
         {items.map((item) => (
           <Link key={item.title} href={item.href} className="group block min-w-0">
             <div className="relative aspect-[16/11] overflow-hidden bg-[#f7f7f8]">
@@ -256,7 +246,7 @@ function EditorialSection({
                 alt={item.title}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
-                className="object-cover object-center transition duration-700 group-hover:scale-105"
+                className="object-contain object-center p-3 transition duration-700 group-hover:scale-105"
               />
             </div>
             <div className="px-1 pt-3 sm:px-3 sm:pt-4">

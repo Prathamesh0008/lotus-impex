@@ -13,7 +13,7 @@ const heroSlides = [
   {
     label: "Textile Sourcing",
     title: "Premium Fabrics For International Markets",
-    image: "/Banner_2.png",
+    image: "/Contact_us.png",
   },
   {
     label: "Global Trade",
@@ -58,7 +58,7 @@ export default function HeroBanner() {
       <div className="absolute inset-0 z-10 bg-black/45" />
 
       <div className="relative z-20 mx-auto flex min-h-[560px] w-full max-w-[1500px] items-center px-5 py-10 sm:min-h-[620px] sm:px-8 lg:min-h-[650px] xl:min-h-[680px] xl:px-10">
-        <div className="w-full max-w-4xl">
+        <div className="w-full max-w-4xl translate-y-8 sm:translate-y-10 lg:translate-y-12">
           <p className="mb-4 text-[11px] font-black uppercase tracking-[0.28em] text-white/70 sm:mb-5 sm:text-xs sm:tracking-[0.35em]">
             {slide.label}
           </p>

@@ -179,19 +179,23 @@ export default async function ProductDetailPage({ params }: PageProps) {
         />
 
         <aside className="h-fit bg-white px-4 py-5 lg:sticky lg:top-28 lg:p-2">
-          <div className="flex items-start justify-between gap-5 border-b border-black/10 pb-5">
+          <div className="border-b border-black/10 pb-5">
             <div>
-              <h1 className="text-3xl font-black leading-tight text-[#282c3f]">
-                Lotus Impex
+              <h1 className="text-2xl font-normal leading-tight text-[#535766]">
+                {product.name}
               </h1>
-              <p className="mt-2 text-xl text-[#535766]">{product.name}</p>
+              <p className="hidden">{product.name}</p>
             </div>
 
             <Link
               href="#product-actions"
-              aria-label="Save product"
-              className="grid size-12 shrink-0 place-items-center rounded-full border border-black/10 bg-white text-xl shadow-sm"
+              aria-label="Add product to wishlist"
+              className="mt-5 flex min-h-12 w-full items-center justify-center gap-3 border border-[#d4d5d9] bg-white px-5 py-3 text-sm font-black uppercase tracking-[0.04em] text-transparent transition hover:border-[#282c3f]"
             >
+              <span className="text-3xl font-normal leading-none text-[#282c3f]">
+                ♡
+              </span>
+              <span className="text-[#282c3f]">Wishlist</span>
               ♡
             </Link>
           </div>
@@ -268,7 +272,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     <img
                       src={image}
                       alt=""
-                      className="h-full w-full object-cover object-top"
+                      className="h-full w-full object-contain object-center p-1"
                     />
                   </Link>
                 );
@@ -317,37 +321,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
             ))}
           </div>
         </aside>
-      </section>
-
-      <section className="mx-auto max-w-[1800px] px-4 pb-16 sm:px-6 lg:px-10 lg:pb-24">
-        <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
-          <div>
-            <p className="mb-4 text-xs font-black uppercase tracking-[0.3em] text-black/45">
-              Product Details
-            </p>
-
-            <h2 className="text-3xl leading-tight sm:text-4xl">
-              Specification overview.
-            </h2>
-          </div>
-
-          <div className="overflow-hidden border border-black/10 bg-white">
-            {product.specifications.map((spec) => (
-              <div
-                key={spec.label}
-                className="grid gap-2 border-b border-black/10 p-5 last:border-b-0 sm:grid-cols-[0.38fr_0.62fr]"
-              >
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-black/40">
-                  {spec.label}
-                </p>
-
-                <p className="text-sm font-bold leading-7 text-black/70">
-                  {spec.value}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
 
       {relatedProducts.length > 0 ? (

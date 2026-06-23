@@ -30,7 +30,7 @@ const colorOptions = [
   { label: "Brown", className: "bg-amber-800" },
 ];
 const sizeOptions = ["XS", "S", "M", "L", "XL", "XXL", "Custom"];
-const genderOptions = ["Women", "Men", "Girls", "Boys", "Unisex"];
+const genderOptions = ["Women", "Men", "Girls", "Boys"];
 
 function getDefaultGenderFilter(categorySlug: string, storeMode: boolean) {
   if (storeMode) return "";
@@ -44,7 +44,7 @@ function getGenderHref(gender: string) {
   if (gender === "Girls") return "/products/ladies-garments?gender=Girls";
   if (gender === "Men") return "/products/mens-garments?gender=Men";
   if (gender === "Boys") return "/products/mens-garments?gender=Boys";
-  return "/products?gender=Unisex";
+  return "/products";
 }
 
 function getProductMeta(product: ExportProduct, index: number) {
@@ -63,7 +63,7 @@ function getProductMeta(product: ExportProduct, index: number) {
         ? index % 4 === 0
           ? "Boys"
           : "Men"
-        : "Unisex";
+        : "";
 
   return { brand, color, discount, gender, mrp, price, size };
 }
@@ -128,6 +128,9 @@ export default function ProductCategoryClient({
   const [sort, setSort] = useState("recommended");
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [mobileSortOpen, setMobileSortOpen] = useState(false);
+  const [pincodePromptOpen, setPincodePromptOpen] = useState(false);
+  const [pincode, setPincode] = useState("");
+  const [deliveryPincode, setDeliveryPincode] = useState("");
 
   useEffect(() => {
     // Reset catalogue controls when the route moves to another category.
@@ -146,6 +149,7 @@ export default function ProductCategoryClient({
     setOpenTopFilter(null);
     setMobileFilterOpen(false);
     setMobileSortOpen(false);
+    setPincodePromptOpen(false);
     setSort("recommended");
   }, [category.slug, defaultGenderFilter, queryGender, queryType]);
 
@@ -184,9 +188,7 @@ export default function ProductCategoryClient({
       const typeMatch =
         typeFilters.length === 0 || typeFilters.includes(product.type);
       const genderMatch =
-        genderFilters.length === 0 ||
-        genderFilters.includes(meta.gender) ||
-        (meta.gender === "Unisex" && genderFilters.includes("Unisex"));
+        genderFilters.length === 0 || genderFilters.includes(meta.gender);
       const brandMatch =
         brandFilters.length === 0 || brandFilters.includes(meta.brand);
       const bundleMatch =
@@ -310,6 +312,39 @@ export default function ProductCategoryClient({
     setMobileFilterOpen(false);
     setMobileSortOpen(false);
   };
+
+  const quickActions = [
+    {
+      label: "Top Brands",
+      active: brandFilters.includes("Lotus Impex"),
+      onClick: () =>
+        setBrandFilters((values) =>
+          values.includes("Lotus Impex") ? [] : ["Lotus Impex"]
+        ),
+    },
+    {
+      label: "Express Delivery",
+      active: bundleFilters.includes("Export Ready"),
+      onClick: () =>
+        setBundleFilters((values) =>
+          values.includes("Export Ready") ? [] : ["Export Ready"]
+        ),
+    },
+    {
+      label: "Top Rated",
+      active: sort === "discount",
+      onClick: () => setSort((value) => (value === "discount" ? "recommended" : "discount")),
+    },
+  ];
+
+  function savePincode() {
+    const normalizedPincode = pincode.trim();
+
+    if (!/^\d{6}$/.test(normalizedPincode)) return;
+
+    setDeliveryPincode(normalizedPincode);
+    setPincodePromptOpen(false);
+  }
 
   return (
     <main className="bg-white pb-16 pt-16 text-[#111827] sm:pt-20 lg:pb-0 xl:pt-24">
@@ -589,23 +624,32 @@ export default function ProductCategoryClient({
 
         <div className="min-w-0 bg-white px-0 py-0 lg:px-8 lg:py-7">
           <section className="lg:hidden">
-            <div className="border-b border-black/10 bg-[#f3f0ff] px-4 py-3">
-              <div className="flex items-center justify-between gap-3 text-sm font-semibold text-[#282c3f]">
+            <button
+              type="button"
+              onClick={() => setPincodePromptOpen(true)}
+              className="flex w-full items-center justify-between gap-3 border-b border-black/10 bg-[#f3f0ff] px-4 py-3 text-left text-sm font-semibold text-[#282c3f]"
+            >
                 <span className="truncate">
-                  Add Delivery Address
+                  {deliveryPincode
+                    ? `Delivering to ${deliveryPincode}`
+                    : "Add Delivery Address"}
                 </span>
                 <span className="text-xl leading-none">v</span>
-              </div>
-            </div>
+            </button>
 
             <div className="flex gap-2 overflow-x-auto border-b border-black/10 bg-white px-3 py-3">
-              {["Top Brands", "Express Delivery", "Top Rated"].map((item) => (
+              {quickActions.map((item) => (
                 <button
-                  key={item}
+                  key={item.label}
                   type="button"
-                  className="shrink-0 rounded-full border border-black/15 bg-white px-4 py-2 text-xs font-black text-[#282c3f] first:border-[#ff3f6c] first:text-[#ff3f6c]"
+                  onClick={item.onClick}
+                  className={`shrink-0 rounded-full border px-4 py-2 text-xs font-black transition ${
+                    item.active
+                      ? "border-[#ff3f6c] bg-white text-[#ff3f6c]"
+                      : "border-black/15 bg-white text-[#282c3f]"
+                  }`}
                 >
-                  {item}
+                  {item.label}
                 </button>
               ))}
             </div>
@@ -623,7 +667,7 @@ export default function ProductCategoryClient({
                       <img
                         src={item.image}
                         alt={item.imageAlt}
-                        className="h-full w-full object-cover object-top"
+                        className="h-full w-full object-contain object-center p-1"
                       />
                     </div>
                     <span className="mt-2 block truncate text-xs font-black text-[#282c3f]">
@@ -658,7 +702,7 @@ export default function ProductCategoryClient({
                       <img
                         src={item.image}
                         alt={item.imageAlt}
-                        className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-105"
+                        className="h-full w-full object-contain object-center p-3 transition duration-500 group-hover:scale-105"
                       />
                     </div>
                     <div className="p-4">
@@ -711,7 +755,7 @@ export default function ProductCategoryClient({
           </div>
 
           {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-2 gap-x-3 gap-y-6 px-3 py-4 md:grid-cols-3 lg:gap-x-7 lg:gap-y-10 lg:px-0 lg:py-0 xl:grid-cols-4 2xl:grid-cols-5">
+            <div className="grid grid-cols-2 items-start gap-x-3 gap-y-8 px-3 py-4 sm:gap-x-5 md:grid-cols-3 lg:gap-x-6 lg:px-0 lg:py-0 xl:grid-cols-5">
               {filteredProducts.map((product, index) => (
                 <CatalogProductCard
                   key={product.slug}
@@ -794,6 +838,58 @@ export default function ProductCategoryClient({
                 {sort === value ? <span>✓</span> : null}
               </button>
             ))}
+          </div>
+        </div>
+      ) : null}
+
+      {pincodePromptOpen ? (
+        <div className="fixed inset-0 z-[155] bg-black/45 lg:hidden">
+          <button
+            type="button"
+            className="absolute inset-0 cursor-default"
+            aria-label="Close pincode prompt"
+            onClick={() => setPincodePromptOpen(false)}
+          />
+          <div className="absolute inset-x-0 bottom-0 bg-white p-5 shadow-2xl">
+            <div className="mb-4 flex items-center justify-between gap-4">
+              <div>
+                <p className="text-base font-black uppercase text-black">
+                  Enter Pincode
+                </p>
+                <p className="mt-1 text-sm text-black/55">
+                  Check delivery availability for your area.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setPincodePromptOpen(false)}
+                className="text-2xl leading-none text-black/55"
+              >
+                x
+              </button>
+            </div>
+
+            <div className="flex gap-2">
+              <input
+                value={pincode}
+                onChange={(event) =>
+                  setPincode(event.target.value.replace(/\D/g, "").slice(0, 6))
+                }
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={6}
+                placeholder="Enter 6 digit pincode"
+                className="min-h-12 flex-1 border border-black/15 px-4 text-sm font-semibold outline-none focus:border-[#ff3f6c]"
+              />
+              <button
+                type="button"
+                onClick={savePincode}
+                disabled={!/^\d{6}$/.test(pincode.trim())}
+                className="min-h-12 bg-[#ff3f6c] px-5 text-sm font-black uppercase text-white disabled:bg-black/20"
+              >
+                Apply
+              </button>
+            </div>
           </div>
         </div>
       ) : null}

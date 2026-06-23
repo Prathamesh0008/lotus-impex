@@ -51,8 +51,13 @@ export default function HomeProductScroller() {
 
     if (!scroller) return;
 
+    const firstCard = scroller.firstElementChild as HTMLElement | null;
+    const gap = Number.parseFloat(window.getComputedStyle(scroller).columnGap) || 0;
+    const cardWidth = firstCard?.getBoundingClientRect().width || scroller.clientWidth;
+    const scrollAmount = cardWidth + gap;
+
     scroller.scrollBy({
-      left: direction === "right" ? scroller.clientWidth : -scroller.clientWidth,
+      left: direction === "right" ? scrollAmount : -scrollAmount,
       behavior: "smooth",
     });
   }
@@ -114,7 +119,7 @@ export default function HomeProductScroller() {
   }
 
   return (
-    <section className="w-full max-w-full overflow-hidden bg-[#f4efe7] px-4 pb-16 sm:px-8 lg:px-10">
+    <section className="w-full max-w-full overflow-hidden bg-[#f4efe7] px-4 pb-3 sm:px-8 lg:px-10">
       <div className="mx-auto w-full max-w-[1500px]">
         <div className="mb-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <div>
@@ -154,7 +159,7 @@ export default function HomeProductScroller() {
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
-          className={`grid auto-cols-[calc((100%_-_48px)_/_4)] grid-flow-col snap-x snap-mandatory gap-4 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-lg:auto-cols-[300px] max-sm:auto-cols-[240px] ${
+          className={`grid auto-cols-[calc((100%_-_48px)_/_4)] grid-flow-col snap-x snap-mandatory gap-4 overflow-x-auto pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-lg:auto-cols-[300px] max-sm:auto-cols-[100%] ${
             isDragging ? "cursor-grabbing" : "cursor-grab"
           }`}
         >
@@ -180,7 +185,7 @@ export default function HomeProductScroller() {
                   }}
                   className="block"
                 >
-                  <div className="relative h-[315px] overflow-hidden bg-[#f5f5f6] sm:h-[340px]">
+                  <div className="relative h-[290px] overflow-hidden bg-[#f5f5f6] sm:h-[315px]">
                     <Image
                       src={imageSrc}
                       alt=""
@@ -202,36 +207,36 @@ export default function HomeProductScroller() {
                     </span>
                   </div>
 
-                  <div className="p-5 pb-0">
+                  <div className="p-4 pb-0">
                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#b58a52]">
                       {product.type}
                     </p>
-                    <h3 className="mt-2 text-xl leading-tight text-black">
+                    <h3 className="mt-1.5 text-lg leading-tight text-black">
                       {product.shortName || product.name}
                     </h3>
-                    <p className="mt-3 line-clamp-2 text-sm leading-6 text-black/55">
+                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-black/55">
                       {product.summary}
                     </p>
                   </div>
                 </Link>
 
-                <div className="p-5 pt-4">
+                <div className="px-4 pb-2 pt-2">
                   <Link
                     href={`/products/${product.categorySlug}/${product.slug}`}
                     draggable={false}
                     onPointerDown={(event) => event.stopPropagation()}
-                    className="flex items-center justify-between border-t border-black/10 pt-4"
+                    className="flex items-center justify-between border-t border-black/10 pt-2"
                   >
-                    <span className="text-xs font-black uppercase tracking-[0.16em] text-black">
+                    <span className="text-xs font-black uppercase tracking-[0.10em] text-black">
                       View Product
                     </span>
-                    <span className="grid size-9 place-items-center rounded-full bg-black text-xs font-black text-white transition group-hover:bg-[#b58a52]">
+                    <span className="grid size-8 place-items-center rounded-full bg-black text-[11px] font-black text-white transition group-hover:bg-[#b58a52]">
                       Go
                     </span>
                   </Link>
                 </div>
               </article>
-            );
+            )
           })}
         </div>
       </div>

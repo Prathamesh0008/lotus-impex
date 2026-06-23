@@ -74,11 +74,12 @@ export const exportCategories: ExportCategory[] = [
     description:
       "We source ladies garments including dresses, tops, modest wear, ethnic styles, co-ord sets and seasonal collections with attention to finishing, sizing and packaging.",
     image: "/content-women-shopping-mall.jpg",
-    imageAlt: "Ecommerce package delivery for export order",
+    imageAlt: "Women shopping for fashion apparel",
     items: [
       "Dresses and gowns",
       "Tops and shirts",
       "Kurtis and ethnic wear",
+      "Sarees",
       "Co-ord sets",
       "Modest wear",
       "Seasonal collections",

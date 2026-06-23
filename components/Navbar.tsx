@@ -35,7 +35,13 @@ const productMegaMenu = [
     groups: [
       {
         label: "Indian & Fusion Wear",
-        items: ["Kurtis and Ethnic Wear", "Dresses and Gowns", "Co-ord Sets", "Modest Wear"],
+        items: [
+          "Kurtis and Ethnic Wear",
+          "Sarees",
+          "Dresses and Gowns",
+          "Co-ord Sets",
+          "Modest Wear",
+        ],
       },
       {
         label: "Western Wear",
@@ -520,23 +526,33 @@ export default function Navbar() {
 
       </header>
 
-      {open ? (
-        <div className="fixed inset-x-0 bottom-0 top-16 z-[120] block sm:top-20 xl:hidden">
+      <div
+        className={`fixed inset-x-0 bottom-0 top-16 z-[120] block transition ${
+          open ? "pointer-events-auto" : "pointer-events-none"
+        } sm:top-20 xl:hidden`}
+        aria-hidden={!open}
+      >
           <div
-            className="absolute inset-0 bg-black/70"
+            className={`absolute inset-0 bg-black/70 transition-opacity duration-300 ease-out ${
+              open ? "opacity-100" : "opacity-0"
+            }`}
             onClick={() => setOpen(false)}
             aria-hidden="true"
           />
 
-          <aside className="absolute left-0 top-0 h-full w-[88vw] max-w-sm overflow-y-auto bg-white text-[#282c3f] shadow-2xl shadow-black/30">
+          <aside
+            className={`absolute left-0 top-0 h-full w-[88vw] max-w-sm overflow-y-auto bg-white text-[#282c3f] shadow-2xl shadow-black/30 transition-transform duration-300 ease-out ${
+              open ? "translate-x-0" : "-translate-x-full"
+            }`}
+          >
             <div className="bg-[#f8efe2] px-6 py-5">
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c9a16b]">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#c9a16b]">
                 Lotus Impex
               </p>
-              <p className="mt-1 text-2xl font-black leading-tight text-[#c9a16b]">
+              <p className="mt-1 text-[26px] font-semibold leading-tight text-[#c9a16b]">
                 Export Products
               </p>
-              <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-[#282c3f]/70">
+              <p className="mt-1 text-xs font-medium uppercase tracking-[0.12em] text-[#282c3f]/65">
                 Sign up. Login. Send enquiry.
               </p>
             </div>
@@ -552,14 +568,14 @@ export default function Navbar() {
                     key={link.href}
                     href={link.href}
                     onClick={() => setOpen(false)}
-                    className={`flex min-h-14 items-center justify-between px-6 py-4 text-base font-bold transition ${
+                    className={`flex min-h-14 items-center justify-between px-6 py-4 text-[15px] font-medium transition ${
                       active
                         ? "bg-[#f5f5f6] text-[#c9a16b]"
                         : "text-[#282c3f] hover:bg-[#f5f5f6]"
                     }`}
                   >
                     <span>{link.label}</span>
-                    <span className="text-xl text-[#94969f]">&gt;</span>
+                    <span className="text-lg font-normal text-[#94969f]">&gt;</span>
                   </Link>
                 );
               })}
@@ -569,11 +585,11 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={() => setMobileProductsOpen((value) => !value)}
-                className="flex min-h-14 w-full items-center justify-between px-6 py-4 text-left text-base font-bold text-[#282c3f] transition hover:bg-[#f5f5f6]"
+                className="flex min-h-14 w-full items-center justify-between px-6 py-4 text-left text-[15px] font-medium text-[#282c3f] transition hover:bg-[#f5f5f6]"
               >
                 Product Categories
                 <span
-                  className={`text-xl text-[#94969f] transition ${
+                  className={`text-lg font-normal text-[#94969f] transition ${
                     mobileProductsOpen ? "rotate-90" : ""
                   }`}
                 >
@@ -588,10 +604,10 @@ export default function Navbar() {
                       key={category.slug}
                       href={`/products/${category.slug}`}
                       onClick={() => setOpen(false)}
-                      className="flex min-h-12 items-center justify-between px-8 py-3 text-sm font-semibold text-[#3e4152] transition hover:bg-white"
+                      className="flex min-h-12 items-center justify-between px-8 py-3 text-sm font-medium text-[#3e4152] transition hover:bg-white"
                     >
                       <span>{category.title}</span>
-                      <span className="text-lg text-[#94969f]">&gt;</span>
+                      <span className="text-base font-normal text-[#94969f]">&gt;</span>
                     </Link>
                   ))}
                 </div>
@@ -599,7 +615,7 @@ export default function Navbar() {
             </div>
 
             <div className="border-b border-black/10 py-2">
-              <p className="px-6 py-3 text-xs font-black uppercase tracking-[0.14em] text-[#94969f]">
+              <p className="px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-[#94969f]">
                 Categories
               </p>
               <div>
@@ -608,10 +624,10 @@ export default function Navbar() {
                     key={category.slug}
                     href={`/products/${category.slug}`}
                     onClick={() => setOpen(false)}
-                    className="flex min-h-12 items-center justify-between px-6 py-3 text-base font-semibold text-[#3e4152] transition hover:bg-[#f5f5f6]"
+                    className="flex min-h-12 items-center justify-between px-6 py-3 text-[15px] font-medium text-[#3e4152] transition hover:bg-[#f5f5f6]"
                   >
                     <span>{category.title}</span>
-                    <span className="text-xl text-[#94969f]">&gt;</span>
+                    <span className="text-lg font-normal text-[#94969f]">&gt;</span>
                   </Link>
                 ))}
               </div>
@@ -621,18 +637,17 @@ export default function Navbar() {
               <Link
                 href="/contact"
                 onClick={() => setOpen(false)}
-                className="flex min-h-12 items-center justify-center rounded-full bg-black px-6 py-3 text-center text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-[#c9a16b] hover:text-black"
+                className="flex min-h-12 items-center justify-center rounded-full bg-black px-6 py-3 text-center text-sm font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#c9a16b] hover:text-black"
               >
                 Enquire Now
               </Link>
             </div>
           </aside>
         </div>
-      ) : null}
 
       {showMobileBottomNav ? (
       <nav className="fixed bottom-0 left-0 right-0 z-[99] border-t border-black/10 bg-white xl:hidden">
-        <div className="mx-auto grid max-w-[1500px] grid-cols-4 px-0">
+        <div className="mx-auto grid max-w-[1500px] grid-cols-2 px-0">
           <Link
             href="/"
             className={`flex flex-col items-center justify-center gap-1 border-t-2 py-3 transition ${
@@ -661,40 +676,6 @@ export default function Navbar() {
             </span>
           </Link>
 
-          <Link
-            href="/enquiry-basket"
-            className={`relative flex flex-col items-center justify-center gap-1 border-t-2 py-3 transition ${
-              pathname === "/enquiry-basket"
-                ? "border-t-[#ff2d55] text-[#ff2d55]"
-                : "border-t-transparent text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            <span className="relative">
-              <CartIcon />
-              {cartCount > 0 ? (
-                <span className="absolute -right-2 -top-2 grid min-w-5 place-items-center rounded-full bg-[#ff2d55] px-1.5 py-0.5 text-[10px] font-black leading-none text-white">
-                  {cartCount > 99 ? "99+" : cartCount}
-                </span>
-              ) : null}
-            </span>
-            <span className="text-[10px] font-semibold uppercase tracking-[0.08em]">
-              Cart
-            </span>
-          </Link>
-
-          <Link
-            href={user ? "/sign-in" : "/sign-up"}
-            className={`flex flex-col items-center justify-center gap-1 border-t-2 py-3 transition ${
-              pathname === (user ? "/sign-in" : "/sign-up")
-                ? "border-t-[#ff2d55] text-[#ff2d55]"
-                : "border-t-transparent text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            <UserIcon />
-            <span className="text-[10px] font-semibold uppercase tracking-[0.08em]">
-              {user ? "Profile" : "Sign in"}
-            </span>
-          </Link>
         </div>
       </nav>
       ) : null}

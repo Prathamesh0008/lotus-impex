@@ -82,7 +82,7 @@ export default function FeaturedCollectionsCarousel() {
                 fill
                 priority={index === 0}
                 sizes="(max-width: 1280px) 100vw, 55vw"
-                className="object-cover opacity-90"
+                className="object-cover object-center opacity-90"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-transparent to-black/10" />
             </div>

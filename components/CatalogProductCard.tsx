@@ -39,48 +39,44 @@ export default function CatalogProductCard({
 
   if (variant === "myntra") {
     return (
-      <article className="group bg-white">
+      <article className="group min-w-0 self-start bg-white transition hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)]">
         <Link
           href={`/products/${product.categorySlug}/${product.slug}`}
           className="block"
         >
-    <div className="relative aspect-[4/3] overflow-hidden bg-[#f3f3f3]">
+          <div className="relative aspect-[3/4] overflow-hidden bg-[#f5f5f6]">
             <Image
               src={imageSrc}
               alt={product.imageAlt}
               fill
-              sizes="(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 20vw"
+              sizes="(max-width: 768px) 50vw, (max-width: 1280px) 25vw, 18vw"
               onError={() => setImageSrc(fallbackImage)}
-              className="object-cover object-top transition duration-500 group-hover:scale-[1.02]"
+              className="object-contain object-bottom transition duration-500 group-hover:scale-[1.015]"
             />
-            <div className="absolute bottom-2 left-2 rounded-sm bg-white/95 px-2 py-1 text-xs font-black text-black shadow-sm">
+            <div className="absolute bottom-2 left-2 rounded-sm bg-white/95 px-2 py-1 text-[11px] font-black text-[#282c3f] shadow-sm">
               {rating} <span className="text-[#14958f]">★</span> | {ratingCount}
             </div>
           </div>
         </Link>
 
-        <div className="pt-3">
+        <div className="px-3 pb-3 pt-3">
           <Link href={`/products/${product.categorySlug}/${product.slug}`}>
-            <p className="truncate text-base font-black text-[#282c3f]">
+            <p className="truncate text-[15px] font-black leading-5 text-[#282c3f]">
               Lotus Impex
             </p>
-            <h3 className="mt-1 truncate text-sm font-normal text-[#535766]">
+            <h3 className="mt-1 truncate text-sm font-normal leading-5 text-[#535766]">
               {product.shortName || product.name}
             </h3>
-            <p className="mt-2 text-sm font-black text-[#282c3f]">
+            <p className="mt-2 truncate text-sm font-black leading-5 text-[#282c3f]">
               Rs. {price}{" "}
-              <span className="font-normal text-[#7e818c] line-through">
+              <span className="text-xs font-normal text-[#7e818c] line-through">
                 Rs. {mrp}
               </span>{" "}
-              <span className="font-normal text-[#ff905a]">
+              <span className="text-xs font-normal text-[#ff905a]">
                 ({discount}% OFF)
               </span>
             </p>
           </Link>
-
-          <div className="mt-3">
-            <AddToEnquiryButton product={product} fullWidth tone="myntra" />
-          </div>
         </div>
       </article>
     );
@@ -105,7 +101,7 @@ export default function CatalogProductCard({
             fill
             sizes="(max-width: 768px) 100vw, 33vw"
             onError={() => setImageSrc(fallbackImage)}
-          className="object-cover object-top transition duration-700"
+          className="object-contain object-center p-4 transition duration-700"
           />
 
           <button
