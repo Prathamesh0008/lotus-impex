@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import CatalogProductCard from "@/components/CatalogProductCard";
 import ProductImageGallery from "@/components/ProductImageGallery";
 import ProductPurchasePanel from "@/components/ProductPurchasePanel";
+import WishlistLoginButton from "@/components/WishlistLoginButton";
 import { exportCategories, siteConfig } from "@/data/site";
 import {
   exportProducts,
@@ -179,7 +180,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
         />
 
         <aside className="h-fit bg-white px-4 py-5 lg:sticky lg:top-28 lg:p-2">
-          <div className="border-b border-black/10 pb-5">
+          <div className="hidden">
             <div>
               <h1 className="text-2xl font-normal leading-tight text-[#535766]">
                 {product.name}
@@ -190,9 +191,23 @@ export default async function ProductDetailPage({ params }: PageProps) {
             <Link
               href="#product-actions"
               aria-label="Add product to wishlist"
-              className="mt-5 flex min-h-12 w-full items-center justify-center gap-3 border border-[#d4d5d9] bg-white px-5 py-3 text-sm font-black uppercase tracking-[0.04em] text-transparent transition hover:border-[#282c3f]"
+              className="hidden"
             >
-              <span className="text-3xl font-normal leading-none text-[#282c3f]">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className="size-7 text-[#282c3f]"
+              >
+                <path
+                  d="M12 20.25S4.75 16.2 3.05 10.9C1.9 7.35 4.2 4.5 7.45 4.5c1.85 0 3.35 1 4.55 2.45C13.2 5.5 14.7 4.5 16.55 4.5c3.25 0 5.55 2.85 4.4 6.4C19.25 16.2 12 20.25 12 20.25Z"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.8"
+                />
+              </svg>
+              <span className="hidden">
                 ♡
               </span>
               <span className="text-[#282c3f]">Wishlist</span>
@@ -200,11 +215,16 @@ export default async function ProductDetailPage({ params }: PageProps) {
             </Link>
           </div>
 
-          <div className="mt-5 inline-flex border border-black/10 px-3 py-2 text-sm font-black text-[#282c3f]">
+          <h1 className="sr-only">{product.name}</h1>
+
+          <div className="mt-5 flex items-center justify-between gap-4">
+          <div className="inline-flex border border-black/10 px-3 py-2 text-sm font-black text-[#282c3f]">
             4.3 <span className="mx-1 text-[#14958f]">★</span>
             <span className="border-l border-black/15 pl-2 font-normal text-black/55">
               5.3k Ratings
             </span>
+          </div>
+            <WishlistLoginButton />
           </div>
 
           <div className="mt-5 border-t border-black/10 pt-5">

@@ -86,7 +86,7 @@ const detailedSections = [
 
 export default function TermsConditionPage() {
   return (
-    <main className="bg-white px-5 py-14 text-black sm:px-8 lg:px-10 lg:py-20">
+    <main className="bg-white px-5 pb-14 pt-20 text-black sm:px-8 lg:px-10 lg:pb-20 lg:pt-28">
       <section className="mx-auto max-w-[1000px]">
         <div className="relative mb-10 min-h-[280px] overflow-hidden rounded-[18px] bg-black text-white shadow-2xl shadow-black/15">
           <Image

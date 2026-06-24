@@ -119,10 +119,10 @@ const productTypeImageSets: Record<string, string[]> = {
     "https://images.unsplash.com/photo-1476683874822-744764a2438f?auto=format&fit=crop&w=1400&q=85",
   ],
   "Polyester blends": [
-    "https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1534639077088-d702bcf685e7?auto=format&fit=crop&w=1400&q=85",
     "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&w=1400&q=85",
     "https://images.unsplash.com/photo-1517146783983-418c681b56c5?auto=format&fit=crop&w=1400&q=85",
-    "https://images.unsplash.com/photo-1534639077088-d702bcf685e7?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1400&q=85",
     "https://images.unsplash.com/photo-1476683874822-744764a2438f?auto=format&fit=crop&w=1400&q=85",
   ],
   "Printed fabrics": [

@@ -8,7 +8,6 @@ type PromoCard = {
   href: string;
   badge?: string;
 };
-
 const brandDeals: PromoCard[] = [
   {
     title: "Premium Shirts",
@@ -49,6 +48,13 @@ const brandDeals: PromoCard[] = [
       "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=max&w=900&q=85",
     href: "/products/fabrics",
   },
+  {
+    title: "Kurti Collection",
+    subtitle: "Wholesale ethnic wear",
+    badge: "Hot sale",
+    image: "/catalogue-women/01_Kurti_Floral_A_Line.png",
+    href: "/products/ladies-garments",
+  },
 ];
 
 const topBrands: PromoCard[] = [
@@ -73,6 +79,13 @@ const topBrands: PromoCard[] = [
     href: "/products/mens-garments",
   },
   {
+    title: "Shirt Staples",
+    subtitle: "Everyday menswear supply",
+    image:
+      "https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=max&w=900&q=85",
+    href: "/products/mens-garments",
+  },
+  {
     title: "Textile Select",
     subtitle: "Bulk fabric sourcing",
     image:
@@ -80,11 +93,11 @@ const topBrands: PromoCard[] = [
     href: "/products/fabrics",
   },
   {
-    title: "Workwear Supply",
-    subtitle: "Industrial order support",
+    title: "Fabric Rolls",
+    subtitle: "Production-ready textiles",
     image:
-      "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=max&w=900&q=85",
-    href: "/products/mens-garments",
+      "https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=max&w=900&q=85",
+    href: "/products/fabrics",
   },
 ];
 
@@ -103,6 +116,12 @@ const indianWear: PromoCard[] = [
     href: "/products/ladies-garments",
   },
   {
+    title: "Floral Kurtis",
+    subtitle: "Everyday ethnic styles",
+    image: "/catalogue-women/01_Kurti_Floral_A_Line.png",
+    href: "/products/ladies-garments",
+  },
+  {
     title: "Printed Kurta Sets",
     subtitle: "Family festive collections",
     image: "/catalogue-women/03_Kurti_Printed_Anarkali.png",
@@ -112,6 +131,12 @@ const indianWear: PromoCard[] = [
     title: "Everyday Kurtas",
     subtitle: "Wholesale comfort styles",
     image: "/catalogue-women/04_Kurti_Cotton_High_Low.png",
+    href: "/products/ladies-garments",
+  },
+  {
+    title: "Saree Drapes",
+    subtitle: "Classic festive supply",
+    image: "/catalogue-women/17_Saree_Cotton_Printed.png",
     href: "/products/ladies-garments",
   },
 ];
@@ -139,11 +164,25 @@ const sportsWear: PromoCard[] = [
     href: "/products/mens-garments",
   },
   {
+    title: "Running Gear",
+    subtitle: "Active outdoor styles",
+    image:
+      "https://images.unsplash.com/photo-1486218119243-13883505764c?auto=format&fit=max&w=900&q=85",
+    href: "/products/mens-garments",
+  },
+  {
     title: "Gym Essentials",
     subtitle: "Training-ready supply",
     image:
       "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=max&w=900&q=85",
     href: "/products/mens-garments",
+  },
+  {
+    title: "Yoga Basics",
+    subtitle: "Flexible fitness apparel",
+    image:
+      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=max&w=900&q=85",
+    href: "/products/ladies-garments",
   },
 ];
 
@@ -156,7 +195,7 @@ export default function HomeShoppingShowcase() {
           items={brandDeals}
           variant="deal"
         />
-        <PromoSection title="Explore Top Collections" items={topBrands} />
+        <EditorialSection title="Explore Top Collections" items={topBrands} />
         <EditorialSection title="Trending In Indian Wear" items={indianWear} />
         <EditorialSection title="Trending In Sports Wear" items={sportsWear} />
       </div>
@@ -181,44 +220,43 @@ function PromoSection({
   items: PromoCard[];
   variant?: "brand" | "deal";
 }) {
-  const visibleItems = items.slice(0, 4);
+  const visibleItems = items.slice(0, 6);
 
   return (
     <section>
       <SectionTitle>{title}</SectionTitle>
-      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
+
+      <div className="grid grid-cols-2 gap-x-3 gap-y-7 sm:grid-cols-3 sm:gap-5 xl:grid-cols-6">
         {visibleItems.map((item) => (
-          <Link
-            key={item.title}
-            href={item.href}
-            className="group min-w-0 bg-[#f7f7f8] p-3 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10 sm:p-4"
-          >
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[8px] bg-white shadow-sm">
+          <Link key={item.title} href={item.href} className="group block min-w-0">
+            <div className="relative aspect-square overflow-hidden bg-white sm:aspect-[5/4]">
               <Image
                 src={item.image}
                 alt={item.title}
                 fill
-                sizes="(max-width: 640px) 76vw, (max-width: 1024px) 42vw, 20vw"
-                className="object-contain object-center p-3 transition duration-700 group-hover:scale-105"
+                sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
+                className="object-contain object-center transition duration-700 group-hover:scale-105"
               />
+
               {item.badge ? (
-                <span className="absolute left-3 top-3 hidden rounded-full bg-white px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-black shadow-sm sm:inline-flex">
+                <span className="absolute left-3 top-3 rounded-full bg-white px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-black shadow-sm">
                   {item.badge}
                 </span>
               ) : null}
             </div>
 
-            <div className="px-1 pt-4 text-center sm:px-2 sm:pt-5">
-              <p className="text-sm font-black text-[#282c3f] sm:text-lg">{item.title}</p>
-              <p
-                className={`mt-1 ${
-                  variant === "deal"
-                    ? "text-base font-semibold sm:text-2xl"
-                    : "text-base font-medium sm:text-xl"
-                } text-black/75`}
-              >
+            <div className="px-1 pt-3 sm:px-3 sm:pt-4">
+              <h3 className="font-serif text-lg leading-tight text-black sm:text-2xl">
+                {item.title}
+              </h3>
+
+              <p className="mt-1 text-xs text-black/55 sm:text-sm">
                 {item.subtitle}
               </p>
+
+              <span className="mt-3 inline-block text-[10px] font-bold uppercase tracking-[0.14em] text-black/45 sm:text-xs sm:tracking-[0.16em]">
+                + Explore
+              </span>
             </div>
           </Link>
         ))}
@@ -237,16 +275,16 @@ function EditorialSection({
   return (
     <section>
       <SectionTitle>{title}</SectionTitle>
-      <div className="grid grid-cols-2 gap-x-3 gap-y-7 sm:gap-5 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-x-3 gap-y-7 sm:grid-cols-3 sm:gap-5 xl:grid-cols-6">
         {items.map((item) => (
           <Link key={item.title} href={item.href} className="group block min-w-0">
-            <div className="relative aspect-[16/11] overflow-hidden bg-[#f7f7f8]">
+            <div className="relative aspect-square overflow-hidden bg-white sm:aspect-[5/4]">
               <Image
                 src={item.image}
                 alt={item.title}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
-                className="object-contain object-center p-3 transition duration-700 group-hover:scale-105"
+                className="object-contain object-center"
               />
             </div>
             <div className="px-1 pt-3 sm:px-3 sm:pt-4">

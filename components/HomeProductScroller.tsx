@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { PointerEvent, useEffect, useMemo, useRef, useState } from "react";
 import { exportProducts } from "@/data/products";
-import { exportCategories } from "@/data/site";
 
 const fallbackImages: Record<string, string> = {
   "ladies-garments": "/content-women-shopping-mall.jpg",
@@ -24,14 +23,17 @@ export default function HomeProductScroller() {
   const [isDragging, setIsDragging] = useState(false);
   const [isInteracting, setIsInteracting] = useState(false);
 
-  const categoryNames = useMemo(
-    () =>
-      new Map(
-        exportCategories.map((category) => [category.slug, category.shortTitle])
-      ),
-    []
-  );
   const products = useMemo(() => [...exportProducts, ...exportProducts], []);
+
+  function getProductDisplayMeta(index: number) {
+    const rating = (4 + (index % 5) / 10).toFixed(1);
+    const ratingCount = index % 2 === 0 ? "1.2k" : "798";
+    const price = 499 + ((index * 47) % 700);
+    const mrp = price + 900 + ((index * 23) % 700);
+    const discount = Math.round(((mrp - price) / mrp) * 100);
+
+    return { discount, mrp, price, rating, ratingCount };
+  }
 
   function pauseThenRestart() {
     setIsInteracting(true);
@@ -51,15 +53,20 @@ export default function HomeProductScroller() {
 
     if (!scroller) return;
 
-    const firstCard = scroller.firstElementChild as HTMLElement | null;
-    const gap = Number.parseFloat(window.getComputedStyle(scroller).columnGap) || 0;
-    const cardWidth = firstCard?.getBoundingClientRect().width || scroller.clientWidth;
-    const scrollAmount = cardWidth + gap;
+    const scrollAmount = getCardScrollAmount(scroller);
 
     scroller.scrollBy({
       left: direction === "right" ? scrollAmount : -scrollAmount,
       behavior: "smooth",
     });
+  }
+
+  function getCardScrollAmount(scroller: HTMLDivElement) {
+    const firstCard = scroller.firstElementChild as HTMLElement | null;
+    const gap = Number.parseFloat(window.getComputedStyle(scroller).columnGap) || 0;
+    const cardWidth = firstCard?.getBoundingClientRect().width || scroller.clientWidth;
+
+    return cardWidth + gap;
   }
 
   useEffect(() => {
@@ -71,7 +78,7 @@ export default function HomeProductScroller() {
           scroller.scrollTo({ left: 0, behavior: "smooth" });
         } else {
           scroller.scrollBy({
-            left: scroller.clientWidth,
+            left: getCardScrollAmount(scroller),
             behavior: "smooth",
           });
         }
@@ -159,20 +166,20 @@ export default function HomeProductScroller() {
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
-          className={`grid auto-cols-[calc((100%_-_48px)_/_4)] grid-flow-col snap-x snap-mandatory gap-4 overflow-x-auto pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-lg:auto-cols-[300px] max-sm:auto-cols-[100%] ${
+          className={`grid auto-cols-[calc((100%_-_64px)_/_5)] grid-flow-col snap-x snap-mandatory gap-4 overflow-x-auto pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-xl:auto-cols-[calc((100%_-_48px)_/_4)] max-lg:auto-cols-[260px] max-sm:auto-cols-[100%] ${
             isDragging ? "cursor-grabbing" : "cursor-grab"
           }`}
         >
           {products.map((product, index) => {
-            const categoryName =
-              categoryNames.get(product.categorySlug) || "Export";
+            const meta = getProductDisplayMeta(index);
             const imageSrc =
               product.image || fallbackImages[product.categorySlug] || "/product_category.jpg";
+            const hasEmbeddedFrame = imageSrc.startsWith("/catalogue-women/");
 
             return (
               <article
                 key={`${product.categorySlug}-${product.slug}-${index}`}
-                className="group flex min-w-0 snap-start flex-col overflow-hidden rounded-[22px] border border-black/10 bg-white shadow-[0_14px_34px_rgba(0,0,0,0.07)] transition hover:-translate-y-1 hover:shadow-[0_22px_45px_rgba(0,0,0,0.12)]"
+                className="group flex min-w-0 snap-start flex-col overflow-hidden bg-white shadow-[0_8px_24px_rgba(0,0,0,0.05)] transition hover:shadow-[0_14px_32px_rgba(0,0,0,0.12)]"
               >
                 <Link
                   href={`/products/${product.categorySlug}/${product.slug}`}
@@ -185,56 +192,42 @@ export default function HomeProductScroller() {
                   }}
                   className="block"
                 >
-                  <div className="relative h-[290px] overflow-hidden bg-[#f5f5f6] sm:h-[315px]">
-                    <Image
-                      src={imageSrc}
-                      alt=""
-                      aria-hidden="true"
-                      fill
-                      sizes="(max-width: 640px) 260px, 300px"
-                      className="scale-110 object-cover object-center opacity-35 blur-xl"
-                    />
+                  <div className="relative aspect-[3/4] overflow-hidden bg-[#f5f5f6]">
                     <Image
                       src={imageSrc}
                       alt={product.imageAlt}
                       fill
-                      sizes="(max-width: 640px) 260px, 300px"
-                      className="object-contain object-center p-3 opacity-100 transition duration-700 group-hover:scale-[1.02]"
+                      sizes="(max-width: 640px) 72vw, (max-width: 1024px) 260px, 20vw"
+                      className={`object-contain object-bottom transition duration-500 ${
+                        hasEmbeddedFrame
+                          ? "scale-[1.14] group-hover:scale-[1.15]"
+                          : "group-hover:scale-[1.015]"
+                      }`}
                     />
-                    <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/28 to-transparent" />
-                    <span className="absolute left-4 top-4 rounded-full bg-white px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-black">
-                      {categoryName}
+                    <span className="absolute bottom-2 left-2 rounded-sm bg-white/95 px-2 py-1 text-[11px] font-black text-[#282c3f] shadow-sm">
+                      {meta.rating} <span className="text-[#14958f]">★</span> |{" "}
+                      {meta.ratingCount}
                     </span>
                   </div>
 
-                  <div className="p-4 pb-0">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#b58a52]">
-                      {product.type}
+                  <div className="px-3 pb-3 pt-3">
+                    <p className="truncate text-[15px] font-black leading-5 text-[#282c3f]">
+                      Lotus Impex
                     </p>
-                    <h3 className="mt-1.5 text-lg leading-tight text-black">
+                    <h3 className="mt-1 truncate text-sm font-normal leading-5 text-[#535766]">
                       {product.shortName || product.name}
                     </h3>
-                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-black/55">
-                      {product.summary}
+                    <p className="mt-2 truncate text-sm font-black leading-5 text-[#282c3f]">
+                      Rs. {meta.price}{" "}
+                      <span className="text-xs font-normal text-[#7e818c] line-through">
+                        Rs. {meta.mrp}
+                      </span>{" "}
+                      <span className="text-xs font-normal text-[#ff905a]">
+                        ({meta.discount}% OFF)
+                      </span>
                     </p>
                   </div>
                 </Link>
-
-                <div className="px-4 pb-2 pt-2">
-                  <Link
-                    href={`/products/${product.categorySlug}/${product.slug}`}
-                    draggable={false}
-                    onPointerDown={(event) => event.stopPropagation()}
-                    className="flex items-center justify-between border-t border-black/10 pt-2"
-                  >
-                    <span className="text-xs font-black uppercase tracking-[0.10em] text-black">
-                      View Product
-                    </span>
-                    <span className="grid size-8 place-items-center rounded-full bg-black text-[11px] font-black text-white transition group-hover:bg-[#b58a52]">
-                      Go
-                    </span>
-                  </Link>
-                </div>
               </article>
             )
           })}

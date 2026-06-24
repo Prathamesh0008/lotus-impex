@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   reactStrictMode: true,
+  devIndicators: false,
 
   allowedDevOrigins: ["192.168.1.38"],
 

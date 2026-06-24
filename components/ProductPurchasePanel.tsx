@@ -14,20 +14,6 @@ type ProductPurchasePanelProps = {
   allSizes: string[];
 };
 
-const WISHLIST_STORAGE_KEY = "lotus_impex_wishlist";
-
-function isProductWishlisted(slug: string) {
-  if (typeof window === "undefined") return false;
-
-  try {
-    const raw = window.localStorage.getItem(WISHLIST_STORAGE_KEY);
-    const items = raw ? (JSON.parse(raw) as { slug: string }[]) : [];
-    return items.some((item) => item.slug === slug);
-  } catch {
-    return false;
-  }
-}
-
 export default function ProductPurchasePanel({
   product,
   inStock,
@@ -36,21 +22,6 @@ export default function ProductPurchasePanel({
 }: ProductPurchasePanelProps) {
   const [selectedSize, setSelectedSize] = useState("");
   const [showSizeChart, setShowSizeChart] = useState(false);
-  const [wishlisted, setWishlisted] = useState(() =>
-    isProductWishlisted(product.slug)
-  );
-
-  function toggleWishlist() {
-    const raw = window.localStorage.getItem(WISHLIST_STORAGE_KEY);
-    const items = raw ? (JSON.parse(raw) as typeof product[]) : [];
-    const exists = items.some((item) => item.slug === product.slug);
-    const nextItems = exists
-      ? items.filter((item) => item.slug !== product.slug)
-      : [...items, product];
-
-    window.localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(nextItems));
-    setWishlisted(!exists);
-  }
 
   const addDisabled = !inStock || !selectedSize;
   const disabledLabel = !inStock ? "Out Of Stock" : "Select Size";
@@ -86,7 +57,7 @@ export default function ProductPurchasePanel({
                 onClick={() => setSelectedSize(size)}
                 className={`grid size-14 place-items-center rounded-full border text-sm font-black transition ${
                   selected
-                    ? "border-[#c9a16b] bg-[#c9a16b] text-white"
+                    ? "border-[#282c3f] bg-[#282c3f] text-white"
                     : available
                       ? "border-black/20 hover:border-[#c9a16b] hover:text-[#c9a16b]"
                       : "cursor-not-allowed border-black/10 bg-[#f5f5f6] text-black/25 line-through"
@@ -127,7 +98,7 @@ export default function ProductPurchasePanel({
         ) : null}
       </div>
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-[1.1fr_0.9fr]">
+      <div className="mt-8">
         <AddToEnquiryButton
           product={product}
           fullWidth
@@ -135,19 +106,9 @@ export default function ProductPurchasePanel({
           selectedSize={selectedSize}
           disabled={addDisabled}
           disabledLabel={disabledLabel}
+          label="Add To Bag"
+          redirectTo="/checkout"
         />
-
-        <button
-          type="button"
-          onClick={toggleWishlist}
-          className={`inline-flex min-h-11 items-center justify-center rounded-[4px] border px-6 py-4 text-sm font-black uppercase tracking-[0.04em] transition ${
-            wishlisted
-              ? "border-[#c9a16b] bg-[#fff4e8] text-[#6b3f24]"
-              : "border-black/20 text-[#282c3f] hover:border-black"
-          }`}
-        >
-          {wishlisted ? "Wishlisted" : "Wishlist"}
-        </button>
       </div>
     </>
   );

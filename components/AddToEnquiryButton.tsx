@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { ExportProduct } from "@/data/products";
 
 type AddToEnquiryButtonProps = {
@@ -14,6 +15,8 @@ type AddToEnquiryButtonProps = {
   disabled?: boolean;
   disabledLabel?: string;
   selectedSize?: string;
+  label?: string;
+  redirectTo?: string;
 };
 
 const STORAGE_KEY = "lotus_impex_enquiry_basket";
@@ -26,7 +29,10 @@ export default function AddToEnquiryButton({
   disabled = false,
   disabledLabel = "Out Of Stock",
   selectedSize,
+  label,
+  redirectTo,
 }: AddToEnquiryButtonProps) {
+  const router = useRouter();
   const [added, setAdded] = useState(false);
 
   function addToBasket() {
@@ -55,6 +61,10 @@ export default function AddToEnquiryButton({
 
     window.dispatchEvent(new Event(CART_UPDATED_EVENT));
     setAdded(true);
+
+    if (redirectTo) {
+      router.push(redirectTo);
+    }
   }
 
   if (added) {
@@ -63,7 +73,7 @@ export default function AddToEnquiryButton({
         href="/enquiry-basket"
         className={`inline-flex min-h-12 items-center justify-center whitespace-nowrap ${
           tone === "myntra"
-            ? "rounded-md bg-[#c9a16b] px-8 py-3 text-sm font-bold text-white transition hover:bg-[#b88d55]"
+            ? "rounded-[10px] bg-[#c9a16b] px-8 py-4 text-base font-black text-white shadow-sm transition hover:bg-[#b88d55]"
             : "rounded-full bg-[#c9a16b] px-6 py-3 text-xs font-bold tracking-[0.1em] text-black transition hover:bg-[#d4b38a]"
         } uppercase ${
           fullWidth ? "w-full" : ""
@@ -81,14 +91,35 @@ export default function AddToEnquiryButton({
       disabled={disabled}
       className={`inline-flex min-h-12 items-center justify-center whitespace-nowrap ${
         tone === "myntra"
-          ? "rounded-md bg-[#c9a16b] px-8 py-3 text-sm font-bold text-white transition hover:bg-[#b88d55] disabled:bg-gray-400"
+          ? "rounded-[10px] bg-[#c9a16b] px-8 py-4 text-base font-black text-white shadow-sm transition hover:bg-[#b88d55] disabled:bg-[#a4adbd]"
           : "rounded-full bg-[#c9a16b] px-6 py-3 text-xs font-bold tracking-[0.1em] text-black transition hover:bg-[#d4b38a] disabled:bg-gray-300"
       } uppercase disabled:cursor-not-allowed ${
         fullWidth ? "w-full" : ""
       }`}
     >
-      {disabled ? disabledLabel : "Add To Cart"}
+      {tone === "myntra" && !disabled ? (
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          className="mr-2 size-5"
+        >
+          <path
+            d="M6.5 8.5h11l-.8 11h-9.4l-.8-11Z"
+            fill="none"
+            stroke="currentColor"
+            strokeLinejoin="round"
+            strokeWidth="1.8"
+          />
+          <path
+            d="M9 8.5V7a3 3 0 0 1 6 0v1.5"
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.8"
+          />
+        </svg>
+      ) : null}
+      {disabled ? disabledLabel : label ?? "Add To Cart"}
     </button>
   );
 }
-

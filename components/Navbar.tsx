@@ -545,18 +545,6 @@ export default function Navbar() {
               open ? "translate-x-0" : "-translate-x-full"
             }`}
           >
-            <div className="bg-[#f8efe2] px-6 py-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#c9a16b]">
-                Lotus Impex
-              </p>
-              <p className="mt-1 text-[26px] font-semibold leading-tight text-[#c9a16b]">
-                Export Products
-              </p>
-              <p className="mt-1 text-xs font-medium uppercase tracking-[0.12em] text-[#282c3f]/65">
-                Sign up. Login. Send enquiry.
-              </p>
-            </div>
-
             <div className="border-b border-black/10">
               {navLinks.map((link) => {
                 const active =

@@ -634,10 +634,23 @@ export default function ProductCategoryClient({
                     ? `Delivering to ${deliveryPincode}`
                     : "Add Delivery Address"}
                 </span>
-                <span className="text-xl leading-none">v</span>
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 20 20"
+                  className="size-5 shrink-0"
+                >
+                  <path
+                    d="M5 7.5 10 12.5 15 7.5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                  />
+                </svg>
             </button>
 
-            <div className="flex gap-2 overflow-x-auto border-b border-black/10 bg-white px-3 py-3">
+            <div className="flex gap-2 overflow-x-auto border-b border-black/10 bg-white px-3 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {quickActions.map((item) => (
                 <button
                   key={item.label}
@@ -654,7 +667,7 @@ export default function ProductCategoryClient({
               ))}
             </div>
 
-            <div className="flex gap-4 overflow-x-auto bg-white px-4 py-4">
+            <div className="flex gap-4 overflow-x-auto bg-white px-4 py-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {(storeMode ? allCategories : allCategories.slice(0, 6)).map(
                 (item) => (
                   <Link
@@ -667,7 +680,7 @@ export default function ProductCategoryClient({
                       <img
                         src={item.image}
                         alt={item.imageAlt}
-                        className="h-full w-full object-contain object-center p-1"
+                        className="h-full w-full object-cover object-center"
                       />
                     </div>
                     <span className="mt-2 block truncate text-xs font-black text-[#282c3f]">
@@ -755,8 +768,8 @@ export default function ProductCategoryClient({
           </div>
 
           {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-2 items-start gap-x-3 gap-y-8 px-3 py-4 sm:gap-x-5 md:grid-cols-3 lg:gap-x-6 lg:px-0 lg:py-0 xl:grid-cols-5">
-              {filteredProducts.map((product, index) => (
+            <div className="grid grid-cols-2 items-start gap-x-3 gap-y-8 px-3 py-4 sm:gap-x-5 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-6 lg:px-0 lg:py-0">
+              {filteredProducts.slice(0, 4).map((product, index) => (
                 <CatalogProductCard
                   key={product.slug}
                   product={product}

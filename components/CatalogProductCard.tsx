@@ -36,6 +36,7 @@ export default function CatalogProductCard({
   const price = 499 + ((index * 47) % 700);
   const mrp = price + 900 + ((index * 23) % 700);
   const discount = Math.round(((mrp - price) / mrp) * 100);
+  const hasEmbeddedFrame = imageSrc.startsWith("/catalogue-women/");
 
   if (variant === "myntra") {
     return (
@@ -51,7 +52,11 @@ export default function CatalogProductCard({
               fill
               sizes="(max-width: 768px) 50vw, (max-width: 1280px) 25vw, 18vw"
               onError={() => setImageSrc(fallbackImage)}
-              className="object-contain object-bottom transition duration-500 group-hover:scale-[1.015]"
+              className={`object-bottom transition duration-500 ${
+                hasEmbeddedFrame
+                  ? "object-contain scale-[1.14] group-hover:scale-[1.15]"
+                  : "object-cover group-hover:scale-[1.015]"
+              }`}
             />
             <div className="absolute bottom-2 left-2 rounded-sm bg-white/95 px-2 py-1 text-[11px] font-black text-[#282c3f] shadow-sm">
               {rating} <span className="text-[#14958f]">★</span> | {ratingCount}
@@ -107,8 +112,22 @@ export default function CatalogProductCard({
           <button
             type="button"
             aria-label="Save product"
-            className="absolute right-4 top-4 grid size-10 place-items-center rounded-full bg-white text-lg shadow-sm"
+            className="absolute right-4 top-4 grid size-10 place-items-center rounded-full bg-white text-lg text-transparent shadow-sm"
           >
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              className="absolute size-6 text-[#282c3f]"
+            >
+              <path
+                d="M12 20.25S4.75 16.2 3.05 10.9C1.9 7.35 4.2 4.5 7.45 4.5c1.85 0 3.35 1 4.55 2.45C13.2 5.5 14.7 4.5 16.55 4.5c3.25 0 5.55 2.85 4.4 6.4C19.25 16.2 12 20.25 12 20.25Z"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.8"
+              />
+            </svg>
             ♡
           </button>
 
