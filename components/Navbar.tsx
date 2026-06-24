@@ -636,7 +636,7 @@ export default function Navbar() {
       {showMobileBottomNav ? (
       <nav className="fixed bottom-0 left-0 right-0 z-[99] border-t border-black/10 bg-white xl:hidden">
         <div className="mx-auto grid max-w-[1500px] grid-cols-2 px-0">
-          <Link
+          {/* <Link
             href="/"
             className={`flex flex-col items-center justify-center gap-1 border-t-2 py-3 transition ${
               pathname === "/"
@@ -648,7 +648,7 @@ export default function Navbar() {
             <span className="text-[10px] font-semibold uppercase tracking-[0.08em]">
               Home
             </span>
-          </Link>
+          </Link> */}
 
           <Link
             href="/products"
