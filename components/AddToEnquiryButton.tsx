@@ -27,7 +27,7 @@ export default function AddToEnquiryButton({
   fullWidth = false,
   tone = "default",
   disabled = false,
-  disabledLabel = "Out Of Stock",
+  disabledLabel = "Add To Bag",
   selectedSize,
   label,
   redirectTo,
@@ -73,7 +73,7 @@ export default function AddToEnquiryButton({
         href="/enquiry-basket"
         className={`inline-flex min-h-12 items-center justify-center whitespace-nowrap ${
           tone === "myntra"
-            ? "rounded-[10px] bg-[#c9a16b] px-8 py-4 text-base font-black text-white shadow-sm transition hover:bg-[#b88d55]"
+            ? "rounded-[4px] bg-[#c9a16b] px-8 py-4 text-base font-black text-white shadow-sm transition hover:bg-[#b88d55]"
             : "rounded-full bg-[#c9a16b] px-6 py-3 text-xs font-bold tracking-[0.1em] text-black transition hover:bg-[#d4b38a]"
         } uppercase ${
           fullWidth ? "w-full" : ""
@@ -91,7 +91,7 @@ export default function AddToEnquiryButton({
       disabled={disabled}
       className={`inline-flex min-h-12 items-center justify-center whitespace-nowrap ${
         tone === "myntra"
-          ? "rounded-[10px] bg-[#c9a16b] px-8 py-4 text-base font-black text-white shadow-sm transition hover:bg-[#b88d55] disabled:bg-[#a4adbd]"
+          ? "rounded-[4px] bg-[#c9a16b] px-8 py-4 text-base font-black text-white shadow-sm transition hover:bg-[#b88d55] disabled:bg-[#c9a16b]"
           : "rounded-full bg-[#c9a16b] px-6 py-3 text-xs font-bold tracking-[0.1em] text-black transition hover:bg-[#d4b38a] disabled:bg-gray-300"
       } uppercase disabled:cursor-not-allowed ${
         fullWidth ? "w-full" : ""
@@ -119,7 +119,7 @@ export default function AddToEnquiryButton({
           />
         </svg>
       ) : null}
-      {disabled ? disabledLabel : label ?? "Add To Cart"}
+      {tone === "myntra" ? label ?? "Add To Bag" : disabled ? disabledLabel : label ?? "Add To Cart"}
     </button>
   );
 }

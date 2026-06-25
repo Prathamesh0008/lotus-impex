@@ -6,22 +6,15 @@ import HomeCategoryShowcase from "@/components/HomeCategoryShowcase";
 import HomeProductScroller from "@/components/HomeProductScroller";
 import HomePremiumSections from "@/components/HomePremiumSections";
 import HomeShoppingShowcase from "@/components/HomeShoppingShowcase";
+import MobileHomeExperience from "@/components/MobileHomeExperience";
 
-export default function HomePage() {
+function HomeLowerContent() {
   return (
-    <main className="bg-[#f4efe7] text-black">
-       
-    
-<HeroBanner />
-      {/* <CategoryMarquee /> */}
-      <HomeCategoryShowcase />
+    <>
       <HomeProductScroller />
       <HomeShoppingShowcase />
       <HomePremiumSections />
 
-      
-
-      {/* HIGH ENERGY SPLIT */}
       <section className="bg-white px-5 py-16 text-black sm:px-8 lg:px-10 xl:py-24">
         <div className="mx-auto grid max-w-[1500px] gap-8 lg:grid-cols-[1fr_1fr] lg:items-center">
           <div className="relative h-[360px] overflow-hidden sm:h-[460px] xl:h-[620px]">
@@ -34,7 +27,7 @@ export default function HomePage() {
             />
 
             <div className="absolute bottom-6 left-6 rounded-full bg-white px-5 py-3 text-xs font-black uppercase tracking-[0.18em] text-black">
-              Fashion • Textile • Trade
+              Fashion - Textile - Trade
             </div>
           </div>
 
@@ -48,7 +41,7 @@ export default function HomePage() {
             </h2>
 
             <p className="mt-6 max-w-xl text-base leading-7 text-black/60 sm:text-lg sm:leading-8">
-              We are building Lotus Impex as a modern export house — fast in
+              We are building Lotus Impex as a modern export house - fast in
               communication, sharp in sourcing, serious about documentation and
               focused on buyer confidence.
             </p>
@@ -64,7 +57,7 @@ export default function HomePage() {
                     {category.title}
                   </p>
                   <span className="mt-5 inline-block text-black/45 transition group-hover:text-white/60">
-                    View →
+                    View -&gt;
                   </span>
                 </Link>
               ))}
@@ -72,7 +65,23 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+    </>
+  );
+}
 
-    </main>
+export default function HomePage() {
+  return (
+    <>
+      <main className="bg-[#f4efe7] text-black md:hidden">
+        <MobileHomeExperience />
+        <HomeLowerContent />
+      </main>
+
+      <main className="hidden bg-[#f4efe7] text-black md:block">
+        <HeroBanner />
+        <HomeCategoryShowcase />
+        <HomeLowerContent />
+      </main>
+    </>
   );
 }

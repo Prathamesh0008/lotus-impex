@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Logo from "@/components/Logo";
 import { exportCategories, navLinks } from "@/data/site";
@@ -190,7 +190,7 @@ function UserIcon() {
   );
 }
 
-function HomeIcon() {
+function BackIcon() {
   return (
     <svg
       aria-hidden="true"
@@ -202,42 +202,21 @@ function HomeIcon() {
       strokeLinejoin="round"
       strokeWidth="2.2"
     >
-      <path d="m3 11 9-8 9 8" />
-      <path d="M5 10v10h14V10" />
-      <path d="M10 20v-6h4v6" />
-    </svg>
-  );
-}
-
-function ProductsIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      className="size-5"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2.2"
-    >
-      <path d="M4 6h16" />
-      <path d="M4 12h16" />
-      <path d="M4 18h16" />
-      <path d="M8 6v12" />
+      <path d="m15 18-6-6 6-6" />
+      <path d="M9 12h12" />
     </svg>
   );
 }
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [user, setUser] = useState<SignedInUser | null>(null);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const [desktopProductsOpen, setDesktopProductsOpen] = useState(false);
-  const [desktopProductsPinned, setDesktopProductsPinned] = useState(false);
-  const showMobileBottomNav = !pathname.startsWith("/products");
+  const showMobileBackButton = pathname !== "/";
 
   useEffect(() => {
     function updateCartCount() {
@@ -295,31 +274,42 @@ export default function Navbar() {
       >
         <nav className="mx-auto grid h-16 max-w-[1500px] grid-cols-[44px_minmax(0,1fr)_88px] items-center gap-2 px-4 sm:h-20 sm:grid-cols-[52px_minmax(0,1fr)_112px] sm:px-6 xl:h-24 xl:grid-cols-[minmax(300px,0.8fr)_minmax(420px,1fr)_auto] xl:gap-8 xl:px-10">
           <div className="flex items-center xl:hidden">
-            <button
-              type="button"
-              aria-label={open ? "Close navigation menu" : "Open navigation menu"}
-              aria-expanded={open}
-              onClick={() => setOpen((value) => !value)}
-              className="grid h-10 w-10 place-items-center rounded-full border border-white/25 bg-transparent text-white transition hover:bg-white/10 sm:h-12 sm:w-12 xl:hidden"
-            >
-              <span className="relative block h-4 w-5">
-                <span
-                  className={`absolute left-0 top-0 h-0.5 w-5 rounded-full bg-current transition ${
-                    open ? "translate-y-2 rotate-45" : ""
-                  }`}
-                />
-                <span
-                  className={`absolute left-0 top-2 h-0.5 w-5 rounded-full bg-current transition ${
-                    open ? "opacity-0" : ""
-                  }`}
-                />
-                <span
-                  className={`absolute left-0 top-4 h-0.5 w-5 rounded-full bg-current transition ${
-                    open ? "-translate-y-2 -rotate-45" : ""
-                  }`}
-                />
-              </span>
-            </button>
+            {showMobileBackButton ? (
+              <button
+                type="button"
+                aria-label="Go back"
+                onClick={() => router.back()}
+                className="grid h-10 w-10 place-items-center rounded-full border border-white/25 bg-transparent text-white transition hover:bg-white/10 sm:h-12 sm:w-12 xl:hidden"
+              >
+                <BackIcon />
+              </button>
+            ) : (
+              <button
+                type="button"
+                aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+                aria-expanded={open}
+                onClick={() => setOpen((value) => !value)}
+                className="grid h-10 w-10 place-items-center rounded-full border border-white/25 bg-transparent text-white transition hover:bg-white/10 sm:h-12 sm:w-12 xl:hidden"
+              >
+                <span className="relative block h-4 w-5">
+                  <span
+                    className={`absolute left-0 top-0 h-0.5 w-5 rounded-full bg-current transition ${
+                      open ? "translate-y-2 rotate-45" : ""
+                    }`}
+                  />
+                  <span
+                    className={`absolute left-0 top-2 h-0.5 w-5 rounded-full bg-current transition ${
+                      open ? "opacity-0" : ""
+                    }`}
+                  />
+                  <span
+                    className={`absolute left-0 top-4 h-0.5 w-5 rounded-full bg-current transition ${
+                      open ? "-translate-y-2 -rotate-45" : ""
+                    }`}
+                  />
+                </span>
+              </button>
+            )}
           </div>
 
           <div className="flex min-w-0 items-center justify-center xl:justify-start">
@@ -338,20 +328,12 @@ export default function Navbar() {
                   key={link.href}
                   className="flex h-24 items-center"
                   onMouseEnter={() => setDesktopProductsOpen(true)}
-                  onMouseLeave={() => {
-                    if (!desktopProductsPinned) {
-                      setDesktopProductsOpen(false);
-                    }
-                  }}
+                  onMouseLeave={() => setDesktopProductsOpen(false)}
                 >
                   <button
                     type="button"
                     aria-expanded={desktopProductsOpen}
-                    onClick={() => {
-                      const nextPinnedState = !desktopProductsPinned;
-                      setDesktopProductsPinned(nextPinnedState);
-                      setDesktopProductsOpen(nextPinnedState);
-                    }}
+                    onClick={() => setDesktopProductsOpen(true)}
                     className={`text-sm font-semibold uppercase tracking-[0.14em] transition ${
                       active ? "text-white" : "text-white/60 hover:text-white"
                     }`}
@@ -379,7 +361,6 @@ export default function Navbar() {
                               href={`/products/${section.categorySlug}`}
                               onClick={() => {
                                 setDesktopProductsOpen(false);
-                                setDesktopProductsPinned(false);
                               }}
                               className="text-sm font-black uppercase tracking-[0.12em] text-[#c49454] transition hover:text-black"
                             >
@@ -399,7 +380,6 @@ export default function Navbar() {
                                         href={listingHref(section.categorySlug, item)}
                                         onClick={() => {
                                           setDesktopProductsOpen(false);
-                                          setDesktopProductsPinned(false);
                                         }}
                                         className="block text-sm font-semibold text-[#282c3f] transition hover:text-[#c49454]"
                                       >
@@ -421,7 +401,6 @@ export default function Navbar() {
                             href={`/products/${category.slug}`}
                             onClick={() => {
                               setDesktopProductsOpen(false);
-                              setDesktopProductsPinned(false);
                             }}
                             className="min-h-[82px] border-r border-black/10 bg-[#f8f8f8] px-6 py-4 transition last:border-r-0 hover:bg-white"
                           >
@@ -439,7 +418,6 @@ export default function Navbar() {
                         href="/products"
                         onClick={() => {
                           setDesktopProductsOpen(false);
-                          setDesktopProductsPinned(false);
                         }}
                         className="flex min-h-12 items-center justify-between bg-black px-8 text-xs font-black uppercase tracking-[0.18em] text-white transition hover:bg-[#c49454] hover:text-black"
                       >
@@ -633,40 +611,6 @@ export default function Navbar() {
           </aside>
         </div>
 
-      {showMobileBottomNav ? (
-      <nav className="fixed bottom-0 left-0 right-0 z-[99] border-t border-black/10 bg-white xl:hidden">
-        <div className="mx-auto grid max-w-[1500px] grid-cols-2 px-0">
-          {/* <Link
-            href="/"
-            className={`flex flex-col items-center justify-center gap-1 border-t-2 py-3 transition ${
-              pathname === "/"
-                ? "border-t-[#ff2d55] text-[#ff2d55]"
-                : "border-t-transparent text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            <HomeIcon />
-            <span className="text-[10px] font-semibold uppercase tracking-[0.08em]">
-              Home
-            </span>
-          </Link> */}
-
-          <Link
-            href="/products"
-            className={`flex flex-col items-center justify-center gap-1 border-t-2 py-3 transition ${
-              pathname.includes("/products")
-                ? "border-t-[#ff2d55] text-[#ff2d55]"
-                : "border-t-transparent text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            <ProductsIcon />
-            <span className="text-[10px] font-semibold uppercase tracking-[0.08em]">
-              Products
-            </span>
-          </Link>
-
-        </div>
-      </nav>
-      ) : null}
     </>
   );
 }

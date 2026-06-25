@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 
-export default function WishlistLoginButton() {
+type WishlistLoginButtonProps = {
+  label?: boolean;
+};
+
+export default function WishlistLoginButton({ label = false }: WishlistLoginButtonProps) {
   const [open, setOpen] = useState(false);
   const [mobile, setMobile] = useState("");
   const [accepted, setAccepted] = useState(false);
@@ -14,7 +18,11 @@ export default function WishlistLoginButton() {
         type="button"
         aria-label="Add product to wishlist"
         onClick={() => setOpen(true)}
-        className="grid size-12 shrink-0 place-items-center rounded-[8px] border border-[#d4d5d9] bg-white text-[#282c3f] transition hover:border-[#282c3f]"
+        className={
+          label
+            ? "flex min-h-12 w-full items-center justify-center gap-3 rounded-[4px] border border-[#d4d5d9] bg-white px-6 py-4 text-base font-black uppercase text-[#282c3f] transition hover:border-[#282c3f]"
+            : "grid size-12 shrink-0 place-items-center rounded-[8px] border border-[#d4d5d9] bg-white text-[#282c3f] transition hover:border-[#282c3f]"
+        }
       >
         <svg aria-hidden="true" viewBox="0 0 24 24" className="size-7">
           <path
@@ -26,6 +34,7 @@ export default function WishlistLoginButton() {
             strokeWidth="1.8"
           />
         </svg>
+        {label ? <span>Wishlist</span> : null}
       </button>
 
       {open ? (

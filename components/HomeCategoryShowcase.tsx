@@ -1,52 +1,138 @@
 import Image from "next/image";
 import Link from "next/link";
-import { exportCategories } from "@/data/site";
 
-const visibleCategories = exportCategories.filter(
-  (category) => category.slug !== "footwear"
-);
+type CategoryDeal = {
+  title: string;
+  offer: string;
+  image: string;
+  href: string;
+};
+
+const categoryDeals: CategoryDeal[] = [
+  {
+    title: "Ethnic Wear",
+    offer: "50-80% OFF",
+    image: "/catalogue-women/17_Saree_Cotton_Printed.png",
+    href: "/products/ladies-garments?type=Sarees",
+  },
+  {
+    title: "Casual Wear",
+    offer: "40-80% OFF",
+    image:
+      "https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?auto=format&fit=crop&w=900&q=85",
+    href: "/products/mens-garments?type=Casual%20Shirts",
+  },
+  {
+    title: "Men's Activewear",
+    offer: "30-70% OFF",
+    image:
+      "https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=900&q=85",
+    href: "/products/mens-garments?type=T-shirts%20and%20polos",
+  },
+  {
+    title: "Women's Activewear",
+    offer: "30-70% OFF",
+    image:
+      "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=900&q=85",
+    href: "/products/ladies-garments?type=T-Shirts",
+  },
+  {
+    title: "Western Wear",
+    offer: "40-80% OFF",
+    image:
+      "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=85",
+    href: "/products/ladies-garments?type=Dresses",
+  },
+  {
+    title: "Sportswear",
+    offer: "30-80% OFF",
+    image:
+      "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=900&q=85",
+    href: "/products/mens-garments?type=Workwear",
+  },
+  {
+    title: "Kurti Sets",
+    offer: "40-80% OFF",
+    image: "/catalogue-women/03_Kurti_Printed_Anarkali.png",
+    href: "/products/ladies-garments?type=Kurtis",
+  },
+  {
+    title: "Sleepwear",
+    offer: "30-70% OFF",
+    image:
+      "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=900&q=85",
+    href: "/products/ladies-garments",
+  },
+  {
+    title: "Formal Shirts",
+    offer: "40-70% OFF",
+    image: "/catalogue-mens/slim-fit-formal-shirts.png",
+    href: "/products/mens-garments?type=Formal%20Shirts",
+  },
+  {
+    title: "Denim Styles",
+    offer: "UP TO 80% OFF",
+    image: "/catalogue-mens/jeans-denim-bottoms.png",
+    href: "/products/mens-garments?type=Jeans",
+  },
+  {
+    title: "T-Shirts",
+    offer: "40-80% OFF",
+    image: "/catalogue-mens/printed-tshirts.png",
+    href: "/products/mens-garments?type=T-shirts%20and%20polos",
+  },
+  {
+    title: "Casual Styles",
+    offer: "40-80% OFF",
+    image:
+      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=85",
+    href: "/products/ladies-garments?type=Dresses",
+  },
+];
 
 export default function HomeCategoryShowcase() {
   return (
-    <section className="w-full max-w-full overflow-hidden bg-[#f4efe7] px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mx-auto grid w-full max-w-[1800px] grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-6">
-        {visibleCategories.map((category) => (
-          <Link
-            key={category.slug}
-            href={`/products/${category.slug}`}
-            className="group flex min-h-[250px] min-w-0 flex-col items-center rounded-[6px] border border-black/10 bg-[#f8f4ed] px-2 py-4 text-center shadow-sm transition hover:-translate-y-1 hover:border-black/25 hover:shadow-xl sm:min-h-[260px] sm:px-4 sm:py-5"
-          >
-            <div className="grid min-h-[86px] w-full place-items-start">
-              <p className="mx-auto mb-2 max-w-[135px] text-[8px] font-black uppercase leading-4 tracking-[0.2em] text-[#b58a52] sm:text-[9px] sm:tracking-[0.24em]">
-                {category.eyebrow}
-              </p>
+    <section className="w-full max-w-full overflow-hidden bg-white px-4 py-12 text-[#282c3f] sm:px-8 sm:py-14 lg:px-10">
+      <div className="mx-auto w-full max-w-[1800px]">
+        <h2 className="mb-8 text-2xl font-black uppercase tracking-[0.22em] text-[#2f3548] sm:mb-12 sm:text-4xl">
+          Shop By Category
+        </h2>
 
-              <h3 className="mx-auto max-w-[150px] text-[17px] font-semibold leading-[1.08] text-black [overflow-wrap:anywhere] sm:text-[20px]">
-                {category.title}
-              </h3>
-            </div>
+        <div className="grid grid-cols-2 justify-items-center gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-7 sm:gap-y-11 xl:grid-cols-6 xl:gap-x-5">
+          {categoryDeals.map((item) => (
+            <Link
+              key={item.title}
+              href={item.href}
+              className="group block w-full max-w-[275px] min-w-0 border-[5px] border-[#ffc891] bg-[#fff8ef] p-[6px] text-center transition hover:-translate-y-1 hover:shadow-xl"
+            >
+              <div className="relative aspect-[1/1.18] overflow-hidden bg-[#f7efe5]">
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 275px"
+                  className={`object-center transition duration-700 group-hover:scale-[1.02] ${
+                    item.image.startsWith("/catalogue-")
+                      ? "object-contain"
+                      : "object-cover"
+                  }`}
+                />
+              </div>
 
-            <div className="relative mx-auto my-4 size-14 overflow-hidden rounded-full border border-black/10 bg-white shadow-sm sm:size-16">
-              <Image
-                src={category.image}
-                alt={category.imageAlt}
-                fill
-                sizes="(max-width: 640px) 56px, 64px"
-                className="object-cover object-center opacity-90 transition duration-500 group-hover:scale-110 group-hover:opacity-100"
-              />
-            </div>
-
-            <div className="mt-auto w-full">
-              <p className="mx-auto mb-4 max-w-[165px] text-[11px] font-medium leading-5 text-black/55 sm:text-[12px]">
-                {category.summary}
-              </p>
-
-              <span className="mx-auto grid size-8 place-items-center rounded-full bg-black text-sm text-white transition group-hover:bg-[#b58a52]">
-                &rarr;
-              </span>
-            </div>
-          </Link>
-        ))}
+              <div className="grid min-h-[112px] content-center bg-[#fff8ef] px-1 py-2">
+                <h3 className="text-base font-black leading-tight text-black sm:text-[20px]">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-[24px] font-black leading-none text-black sm:text-[30px]">
+                  {item.offer}
+                </p>
+                <p className="mt-1 text-base font-black leading-tight text-black sm:text-[20px]">
+                  Shop Now
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   );

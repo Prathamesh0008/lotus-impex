@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import CatalogProductCard from "@/components/CatalogProductCard";
 import ProductImageGallery from "@/components/ProductImageGallery";
 import ProductPurchasePanel from "@/components/ProductPurchasePanel";
-import WishlistLoginButton from "@/components/WishlistLoginButton";
 import { exportCategories, siteConfig } from "@/data/site";
 import {
   exportProducts,
@@ -217,14 +216,19 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
           <h1 className="sr-only">{product.name}</h1>
 
-          <div className="mt-5 flex items-center justify-between gap-4">
+          <div className="mt-5">
+            <p className="text-3xl font-semibold leading-tight text-[#282c3f] sm:text-4xl">
+              {product.name}
+            </p>
+          </div>
+
+          <div className="hidden">
           <div className="inline-flex border border-black/10 px-3 py-2 text-sm font-black text-[#282c3f]">
             4.3 <span className="mx-1 text-[#14958f]">★</span>
             <span className="border-l border-black/15 pl-2 font-normal text-black/55">
               5.3k Ratings
             </span>
           </div>
-            <WishlistLoginButton />
           </div>
 
           <div className="mt-5 border-t border-black/10 pt-5">
@@ -240,30 +244,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
             <p className="mt-2 text-sm font-black text-[#03a685]">
               inclusive of all taxes
             </p>
-          </div>
-
-          <p className="mt-5 text-sm leading-7 text-black/60">
-            {product.description}
-          </p>
-
-          <div className="mt-5 flex flex-wrap items-center gap-3">
-            <span
-              className={`rounded-full px-4 py-2 text-xs font-black uppercase tracking-[0.12em] ${
-                inventory.inStock
-                  ? "bg-[#e7f8ef] text-[#03a685]"
-                  : "bg-red-50 text-red-600"
-              }`}
-            >
-              {inventory.inStock ? "In Stock" : "Out of Stock"}
-            </span>
-            {inventory.lowStock ? (
-              <span className="rounded-full bg-[#fff4e8] px-4 py-2 text-xs font-black uppercase tracking-[0.12em] text-[#ff905a]">
-                Low Stock
-              </span>
-            ) : null}
-            <span className="text-sm font-bold text-black/55">
-              MOQ: {product.minOrder}
-            </span>
           </div>
 
           <div className="mt-7">
@@ -309,37 +289,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
             />
           </div>
 
-          <div className="mt-8">
-            <p className="mb-3 text-xs font-black uppercase tracking-[0.2em] text-black/40">
-              Available Options
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {product.availableOptions.slice(0, 5).map((option) => (
-                <span
-                  key={option}
-                  className="rounded-full border border-black/10 bg-[#f5f5f6] px-4 py-2 text-xs font-bold text-black/65"
-                >
-                  {option}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">
-            {[
-              ["MOQ", product.minOrder],
-              ["Lead Time", product.leadTime],
-              ["Origin", product.origin],
-              ["Packaging", product.packaging],
-            ].map(([label, value]) => (
-              <div key={label} className="border border-black/10 bg-[#f5f5f6] p-4">
-                <p className="text-[10px] font-black uppercase tracking-[0.16em] text-black/35">
-                  {label}
-                </p>
-                <p className="mt-2 text-sm font-black text-[#282c3f]">{value}</p>
-              </div>
-            ))}
-          </div>
         </aside>
       </section>
 

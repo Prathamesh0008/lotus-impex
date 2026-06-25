@@ -31,7 +31,7 @@ export default function ProductCard({ category, index }: ProductCardProps) {
               {category.eyebrow}
             </p>
 
-            <h3 className="mt-3 text-3xl font-black uppercase tracking-[-0.06em] text-white">
+            <h3 className="mt-3 text-5xl font-black uppercase tracking-[-0.06em] text-white">
               {category.title}
             </h3>
           </div>

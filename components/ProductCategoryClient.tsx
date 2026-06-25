@@ -768,8 +768,8 @@ export default function ProductCategoryClient({
           </div>
 
           {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-2 items-start gap-x-3 gap-y-8 px-3 py-4 sm:gap-x-5 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-6 lg:px-0 lg:py-0">
-              {filteredProducts.slice(0, 4).map((product, index) => (
+            <div className="grid grid-cols-2 items-start gap-x-3 gap-y-8 px-3 py-4 sm:gap-x-5 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-6 lg:px-0 lg:py-0 2xl:grid-cols-5">
+              {filteredProducts.map((product, index) => (
                 <CatalogProductCard
                   key={product.slug}
                   product={product}

@@ -36,7 +36,7 @@ export default function CatalogProductCard({
   const price = 499 + ((index * 47) % 700);
   const mrp = price + 900 + ((index * 23) % 700);
   const discount = Math.round(((mrp - price) / mrp) * 100);
-  const hasEmbeddedFrame = imageSrc.startsWith("/catalogue-women/");
+  const hasCatalogueFrame = imageSrc.startsWith("/catalogue-");
 
   if (variant === "myntra") {
     return (
@@ -53,8 +53,8 @@ export default function CatalogProductCard({
               sizes="(max-width: 768px) 50vw, (max-width: 1280px) 25vw, 18vw"
               onError={() => setImageSrc(fallbackImage)}
               className={`object-bottom transition duration-500 ${
-                hasEmbeddedFrame
-                  ? "object-contain scale-[1.14] group-hover:scale-[1.15]"
+                hasCatalogueFrame
+                  ? "object-contain group-hover:scale-[1.015]"
                   : "object-cover group-hover:scale-[1.015]"
               }`}
             />
@@ -64,7 +64,7 @@ export default function CatalogProductCard({
           </div>
         </Link>
 
-        <div className="px-3 pb-3 pt-3">
+        <div className="min-h-[118px] px-3 pb-3 pt-3">
           <Link href={`/products/${product.categorySlug}/${product.slug}`}>
             <p className="truncate text-[15px] font-black leading-5 text-[#282c3f]">
               Lotus Impex
