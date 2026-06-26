@@ -24,7 +24,7 @@ const heroSlides = [
     tone: "dark",
   },
   {
-    image: "/new_2.jpg",
+    image: "/new_4.jpg",
     alt: "Women seasonal fashion styles",
     position: "center",
     eyebrow: "Fresh Drop",
