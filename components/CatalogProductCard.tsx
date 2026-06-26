@@ -69,7 +69,7 @@ export default function CatalogProductCard({
             <p className="truncate text-[15px] font-black leading-5 text-[#282c3f]">
               Lotus Impex
             </p>
-            <h3 className="mt-1 truncate text-sm font-normal leading-5 text-[#535766]">
+            <h3 className="mt-1 truncate text-sm font-semibold leading-5 text-[#535766]">
               {product.shortName || product.name}
             </h3>
             <p className="mt-2 truncate text-sm font-black leading-5 text-[#282c3f]">
@@ -143,7 +143,7 @@ export default function CatalogProductCard({
             {product.type}
           </p>
 
-          <h3 className="mt-2 text-2xl uppercase leading-[0.95] tracking-[-0.04em] text-black">
+          <h3 className="mt-2 text-3xl uppercase leading-none text-black">
             {product.name}
           </h3>
 

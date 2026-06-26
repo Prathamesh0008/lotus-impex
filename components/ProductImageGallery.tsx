@@ -117,7 +117,7 @@ export default function ProductImageGallery({
           {images.map((item, index) => (
             <div
               key={`${item.src}-mobile-${index}`}
-              className="relative h-[min(128vw,620px)] w-full shrink-0 snap-start overflow-hidden bg-[#f5f5f6]"
+              className="relative h-[min(128vw,620px)] w-full shrink-0 snap-start overflow-hidden rounded-b-[28px] bg-[#f5f5f6]"
             >
               <SafeImage
                 src={item.src}
@@ -126,13 +126,22 @@ export default function ProductImageGallery({
                 priority={index === 0}
                 fill
               />
+              <div className="absolute bottom-5 left-5 rounded-[10px] bg-white px-3 py-2 text-sm font-black text-[#282c3f] shadow-sm">
+                View Similar
+              </div>
+              <div className="absolute bottom-5 right-5 rounded-[10px] bg-white px-3 py-2 text-sm font-black text-[#282c3f] shadow-sm">
+                4.3 <span className="text-[#14958f]">★</span>
+                <span className="ml-2 border-l border-black/15 pl-2 font-normal">
+                  5.3k
+                </span>
+              </div>
             </div>
           ))}
         </div>
 
         {images.length > 1 ? (
           <>
-            <div className="mt-3 flex justify-center gap-1.5">
+            <div className="mt-2 flex justify-center gap-1.5">
               {images.map((item, index) => (
                 <button
                   key={`${item.src}-dot-${index}`}
@@ -150,11 +159,11 @@ export default function ProductImageGallery({
         ) : null}
       </div>
 
-      <div className="hidden gap-3 sm:grid sm:grid-cols-2">
+      <div className="hidden gap-4 sm:grid sm:grid-cols-2">
         {images.slice(0, 4).map((item, index) => (
           <div
             key={`${item.src}-${index}`}
-            className="group relative min-h-[360px] overflow-hidden bg-[#f5f5f6] sm:min-h-[520px]"
+            className="group relative min-h-[360px] overflow-hidden bg-[#f5f5f6] sm:min-h-[560px]"
           >
             <SafeImage
               src={item.src}

@@ -103,32 +103,34 @@ export default function HomeCategoryShowcase() {
             <Link
               key={item.title}
               href={item.href}
-              className="group block w-full max-w-[275px] min-w-0 border-[5px] border-[#ffc891] bg-[#fff8ef] p-[6px] text-center transition hover:-translate-y-1 hover:shadow-xl"
+              className="group block w-full max-w-[275px] min-w-0 overflow-hidden border-[5px] border-[#d6b85a] bg-[#fffaf4] p-[5px] text-center shadow-[0_6px_16px_rgba(40,44,63,0.05)] transition hover:-translate-y-1 hover:shadow-[0_10px_22px_rgba(40,44,63,0.08)]"
             >
-              <div className="relative aspect-[1/1.18] overflow-hidden bg-[#f7efe5]">
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  sizes="(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 275px"
-                  className={`object-center transition duration-700 group-hover:scale-[1.02] ${
-                    item.image.startsWith("/catalogue-")
-                      ? "object-contain"
-                      : "object-cover"
-                  }`}
-                />
-              </div>
+              <div className="bg-[#fffaf4] p-[6px]">
+                <div className="relative aspect-[1/1.18] overflow-hidden border border-[#ffe0bf] bg-white">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 275px"
+                    className={`object-center transition duration-700 group-hover:scale-[1.02] ${
+                      item.image.startsWith("/catalogue-")
+                        ? "object-contain"
+                        : "object-cover"
+                    }`}
+                  />
+                </div>
 
-              <div className="grid min-h-[112px] content-center bg-[#fff8ef] px-1 py-2">
-                <h3 className="text-base font-black leading-tight text-black sm:text-[20px]">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-[24px] font-black leading-none text-black sm:text-[30px]">
-                  {item.offer}
-                </p>
-                <p className="mt-1 text-base font-black leading-tight text-black sm:text-[20px]">
-                  Shop Now
-                </p>
+                <div className="grid min-h-[112px] content-center bg-[linear-gradient(180deg,#fffaf4_0%,#fff0df_100%)] px-1 py-2">
+                  <h3 className="text-base font-black leading-tight text-black sm:text-[20px]">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-[24px] font-black leading-none text-black sm:text-[30px]">
+                    {item.offer}
+                  </p>
+                  <p className="mt-1 text-base font-black leading-tight text-black sm:text-[20px]">
+                    Shop Now
+                  </p>
+                </div>
               </div>
             </Link>
           ))}

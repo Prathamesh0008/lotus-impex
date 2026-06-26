@@ -51,35 +51,14 @@ export default function WishlistLoginButton({ label = false }: WishlistLoginButt
           />
 
           <div className="relative mx-auto mt-16 w-full max-w-[430px] overflow-hidden bg-white text-[#282c3f] shadow-2xl sm:mt-20">
-            <div className="relative border border-[#d6b85a]/40 bg-[#fff4df] px-4 py-4">
               <button
                 type="button"
                 aria-label="Close login form"
                 onClick={() => setOpen(false)}
-                className="absolute right-3 top-3 grid size-8 place-items-center rounded-full bg-white/85 text-xl leading-none text-black/60 transition hover:text-black"
+                className="absolute right-4 top-4 z-10 grid size-8 place-items-center rounded-full bg-[#f5f5f6] text-xl leading-none text-black/60 transition hover:text-black"
               >
                 x
               </button>
-
-              <div className="flex min-h-24 items-center gap-4">
-                <div className="grid size-20 shrink-0 place-items-center rounded-full bg-[#d6b85a] text-center text-xs font-black uppercase leading-tight text-black">
-                  Lotus
-                  <br />
-                  Offer
-                </div>
-                <div>
-                  <p className="text-xs font-black uppercase tracking-[0.16em] text-[#6b3f24]">
-                    Welcome to Lotus
-                  </p>
-                  <p className="mt-1 text-2xl font-black uppercase leading-none text-[#c9a16b]">
-                    Flat 300 Off
-                  </p>
-                  <p className="mt-2 text-xs font-black uppercase text-[#282c3f]">
-                    Only on export checkout
-                  </p>
-                </div>
-              </div>
-            </div>
 
             <div className="px-8 py-10">
               <h2 className="text-2xl font-black leading-tight">

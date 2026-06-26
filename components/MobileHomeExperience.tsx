@@ -2,7 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type FormEvent,
+  type PointerEvent,
+} from "react";
 import { exportProducts } from "@/data/products";
 
 const topCategories = [
@@ -127,8 +134,19 @@ const quickCategories = [
   },
 ];
 
+function normalizeSearch(value: string) {
+  return value.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, " ").trim();
+}
+
 export default function MobileHomeExperience() {
+  const router = useRouter();
   const [activeBanner, setActiveBanner] = useState(0);
+  const [bannerDragOffset, setBannerDragOffset] = useState(0);
+  const [isBannerDragging, setIsBannerDragging] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const bannerDragStartX = useRef(0);
+  const bannerDragDeltaX = useRef(0);
+  const isBannerPointerDown = useRef(false);
   const products = exportProducts
     .filter((product) =>
       ["ladies-garments", "mens-garments"].includes(product.categorySlug)
@@ -136,17 +154,119 @@ export default function MobileHomeExperience() {
     .slice(0, 6);
 
   useEffect(() => {
+    if (isBannerDragging) {
+      return;
+    }
+
     const interval = window.setInterval(() => {
       setActiveBanner((current) => (current + 1) % mobileBanners.length);
     }, 3000);
 
     return () => window.clearInterval(interval);
-  }, []);
+  }, [isBannerDragging]);
+
+  function handleBannerPointerDown(event: PointerEvent<HTMLDivElement>) {
+    if (event.pointerType === "mouse" && event.button !== 0) {
+      return;
+    }
+
+    isBannerPointerDown.current = true;
+    bannerDragStartX.current = event.clientX;
+    bannerDragDeltaX.current = 0;
+    setIsBannerDragging(true);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }
+
+  function handleBannerPointerMove(event: PointerEvent<HTMLDivElement>) {
+    if (!isBannerPointerDown.current) {
+      return;
+    }
+
+    const delta = event.clientX - bannerDragStartX.current;
+    bannerDragDeltaX.current = delta;
+    setBannerDragOffset(delta);
+  }
+
+  function handleBannerPointerUp(event: PointerEvent<HTMLDivElement>) {
+    if (!isBannerPointerDown.current) {
+      return;
+    }
+
+    const width = event.currentTarget.clientWidth;
+    const threshold = Math.min(80, width * 0.2);
+    const delta = bannerDragDeltaX.current;
+
+    if (delta <= -threshold) {
+      setActiveBanner((current) => (current + 1) % mobileBanners.length);
+    } else if (delta >= threshold) {
+      setActiveBanner(
+        (current) => (current - 1 + mobileBanners.length) % mobileBanners.length
+      );
+    }
+
+    isBannerPointerDown.current = false;
+    bannerDragDeltaX.current = 0;
+    setBannerDragOffset(0);
+    setIsBannerDragging(false);
+    event.currentTarget.releasePointerCapture(event.pointerId);
+  }
+
+  function handleSearchSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const query = searchQuery.trim();
+
+    if (!query) {
+      router.push("/products");
+      return;
+    }
+
+    const normalizedQuery = normalizeSearch(query);
+    const matchedProduct = exportProducts
+      .map((product) => {
+        const name = normalizeSearch(product.name);
+        const shortName = normalizeSearch(product.shortName);
+        const type = normalizeSearch(product.type);
+        const searchable = normalizeSearch(
+          `${product.name} ${product.shortName} ${product.type} ${product.summary} ${product.availableOptions.join(" ")}`
+        );
+
+        let score = 0;
+        if (
+          name === normalizedQuery ||
+          shortName === normalizedQuery ||
+          type === normalizedQuery
+        ) {
+          score = 100;
+        } else if (
+          name.startsWith(normalizedQuery) ||
+          shortName.startsWith(normalizedQuery)
+        ) {
+          score = 80;
+        } else if (name.includes(normalizedQuery) || shortName.includes(normalizedQuery)) {
+          score = 60;
+        } else if (searchable.includes(normalizedQuery)) {
+          score = 30;
+        }
+
+        return { product, score };
+      })
+      .filter((item) => item.score > 0)
+      .sort((a, b) => b.score - a.score)[0]?.product;
+
+    if (matchedProduct) {
+      router.push(`/products/${matchedProduct.categorySlug}/${matchedProduct.slug}`);
+    } else {
+      router.push("/products");
+    }
+  }
 
   return (
     <main className="min-h-screen bg-[#f5f5f6] pt-16 text-[#282c3f]">
       <section className="bg-white px-3 pb-3 pt-5">
-        <label className="flex h-11 items-center gap-2 rounded-full border border-black/10 bg-white px-4 text-[#535766] shadow-[0_8px_22px_rgba(0,0,0,0.08)]">
+        <form
+          onSubmit={handleSearchSubmit}
+          className="flex h-11 items-center gap-2 rounded-full border border-black/10 bg-white px-4 text-[#535766] shadow-[0_8px_22px_rgba(0,0,0,0.08)]"
+        >
           <svg
             aria-hidden="true"
             viewBox="0 0 24 24"
@@ -160,10 +280,22 @@ export default function MobileHomeExperience() {
           </svg>
           <input
             type="search"
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
             placeholder="Search for brands and products"
             className="min-w-0 flex-1 bg-transparent text-[15px] font-medium outline-none placeholder:text-[#535766]"
           />
-        </label>
+          {searchQuery ? (
+            <button
+              type="button"
+              aria-label="Clear search"
+              onClick={() => setSearchQuery("")}
+              className="grid size-7 place-items-center text-xl font-black leading-none text-[#557199]"
+            >
+              ×
+            </button>
+          ) : null}
+        </form>
       </section>
 
       <section className="overflow-x-auto bg-white px-3 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -202,10 +334,23 @@ export default function MobileHomeExperience() {
       </section>
 
       <section className="relative bg-white px-1 pb-3">
-        <div className="relative h-[164px] overflow-hidden rounded-[10px] bg-[#f5f5f6]">
+        <div
+          className={`relative h-[164px] cursor-grab touch-pan-y overflow-hidden rounded-[10px] bg-[#f5f5f6] active:cursor-grabbing ${
+            isBannerDragging ? "select-none" : ""
+          }`}
+          onPointerDown={handleBannerPointerDown}
+          onPointerMove={handleBannerPointerMove}
+          onPointerUp={handleBannerPointerUp}
+          onPointerCancel={handleBannerPointerUp}
+          onPointerLeave={handleBannerPointerUp}
+        >
           <div
-            className="flex h-full transition-transform duration-700 ease-out"
-            style={{ transform: `translateX(-${activeBanner * 100}%)` }}
+            className={`flex h-full ${
+              isBannerDragging ? "" : "transition-transform duration-700 ease-out"
+            }`}
+            style={{
+              transform: `translateX(calc(-${activeBanner * 100}% + ${bannerDragOffset}px))`,
+            }}
           >
             {mobileBanners.map((banner, index) => (
               <div key={banner.image} className="relative h-full min-w-full">
@@ -217,6 +362,7 @@ export default function MobileHomeExperience() {
                   sizes="100vw"
                   className="object-cover object-center"
                   style={{ objectPosition: banner.position }}
+                  draggable={false}
                 />
                 <div className="hidden">
                   <div className="max-w-[150px]">
@@ -230,7 +376,7 @@ export default function MobileHomeExperience() {
                       {banner.offer}
                     </p>
                     <span className="mt-2 inline-flex min-h-7 items-center rounded bg-black px-3 text-[10px] font-black uppercase tracking-[0.08em] text-white shadow">
-                      Shop Now &gt;
+                      Shop Now
                     </span>
                   </div>
                 </div>
@@ -313,7 +459,7 @@ export default function MobileHomeExperience() {
                 <p className="truncate text-[13px] font-black text-[#282c3f]">
                   Lotus Impex
                 </p>
-                <p className="truncate text-xs text-[#535766]">
+                <p className="truncate text-xs font-semibold leading-4 text-[#535766]">
                   {product.shortName || product.name}
                 </p>
                 <p className="mt-1 truncate text-xs font-black text-[#282c3f]">

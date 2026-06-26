@@ -120,7 +120,27 @@ export default function HomeProductScroller() {
   }
 
   function handlePointerUp(event: PointerEvent<HTMLDivElement>) {
-    scrollerRef.current?.releasePointerCapture(event.pointerId);
+    const scroller = scrollerRef.current;
+
+    if (scroller) {
+      const distance = event.clientX - dragState.current.startX;
+      const cardScrollAmount = getCardScrollAmount(scroller);
+      const threshold = Math.min(90, cardScrollAmount * 0.25);
+      let targetLeft = dragState.current.left;
+
+      if (distance <= -threshold) {
+        targetLeft = dragState.current.left + cardScrollAmount;
+      } else if (distance >= threshold) {
+        targetLeft = dragState.current.left - cardScrollAmount;
+      }
+
+      scroller.scrollTo({
+        left: targetLeft,
+        behavior: "smooth",
+      });
+      scroller.releasePointerCapture(event.pointerId);
+    }
+
     setIsDragging(false);
     pauseThenRestart();
   }
@@ -166,7 +186,7 @@ export default function HomeProductScroller() {
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
-          className={`grid auto-cols-[calc((100%_-_64px)_/_5)] grid-flow-col snap-x snap-mandatory gap-4 overflow-x-auto pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-xl:auto-cols-[calc((100%_-_48px)_/_4)] max-lg:auto-cols-[260px] max-sm:auto-cols-[100%] ${
+          className={`grid auto-cols-[calc((100%_-_64px)_/_5)] grid-flow-col snap-x snap-mandatory gap-4 overflow-x-auto pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-lg:auto-cols-[calc((100%_-_48px)_/_4)] max-md:auto-cols-[calc((100%_-_16px)_/_2)] max-sm:auto-cols-[100%] ${
             isDragging ? "cursor-grabbing" : "cursor-grab"
           }`}
         >
@@ -214,7 +234,7 @@ export default function HomeProductScroller() {
                     <p className="truncate text-[15px] font-black leading-5 text-[#282c3f]">
                       Lotus Impex
                     </p>
-                    <h3 className="mt-1 truncate text-sm font-normal leading-5 text-[#535766]">
+                    <h3 className="mt-1 truncate text-sm font-semibold leading-5 text-[#535766]">
                       {product.shortName || product.name}
                     </h3>
                     <p className="mt-2 truncate text-sm font-black leading-5 text-[#282c3f]">

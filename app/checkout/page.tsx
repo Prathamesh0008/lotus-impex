@@ -57,7 +57,7 @@ function loadSignedInUser() {
 export default function CheckoutPage() {
   const [items, setItems] = useState<CartItem[]>(loadCart);
   const [signedInUser] = useState<SignedInUser | null>(loadSignedInUser);
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("card");
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("bank");
   const [orderNumber, setOrderNumber] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -183,39 +183,37 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f4efe7] px-5 py-12 text-black sm:px-8 lg:px-10">
-      <section className="mx-auto max-w-[1500px]">
-        <div className="mb-10">
-          <p className="mb-4 text-xs font-black uppercase tracking-[0.3em] text-[#b58a52]">
+    <main className="min-h-screen bg-[#f4efe7] px-4 py-6 text-black sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-[1240px]">
+        <div className="mb-5">
+          <p className="mb-2 text-[11px] font-black uppercase tracking-[0.22em] text-[#b58a52]">
             Secure Checkout
           </p>
-          <h1 className="text-6xl leading-[0.86] tracking-[-0.06em] sm:text-7xl lg:text-8xl">
+          <h1 className="text-3xl font-black leading-tight text-[#282c3f] sm:text-4xl">
             Checkout & Payment
           </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-black/60">
-            Enter buyer details, select payment mode and submit your export
-            order request. Final payable amount is confirmed after supplier and
-            shipment review.
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-black/55">
+            Enter delivery and payment details to submit your order request.
           </p>
         </div>
 
         {items.length > 0 ? (
           <form
             onSubmit={placeOrder}
-            className="grid gap-8 lg:grid-cols-[1fr_420px]"
+            className="grid gap-5 lg:grid-cols-[1fr_360px]"
           >
-            <div className="grid gap-6">
-              <section className="rounded-[8px] border border-black/10 bg-white p-6 shadow-sm">
-                <p className="mb-5 text-xs font-black uppercase tracking-[0.24em] text-[#b58a52]">
+            <div className="grid gap-4">
+              <section className="rounded-[8px] border border-black/10 bg-white p-4 shadow-sm">
+                <p className="mb-3 text-xs font-black uppercase tracking-[0.18em] text-[#b58a52]">
                   Buyer Information
                 </p>
-                <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid gap-3 md:grid-cols-2">
                   <input
                     required
                     name="name"
                     defaultValue={signedInUser?.name || ""}
                     placeholder="Full name"
-                    className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-5 py-4 text-sm font-bold outline-none focus:border-black focus:bg-white"
+                    className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-4 py-3 text-sm font-bold outline-none focus:border-black focus:bg-white"
                   />
                   <input
                     required
@@ -223,50 +221,50 @@ export default function CheckoutPage() {
                     name="email"
                     defaultValue={signedInUser?.email || ""}
                     placeholder="Email address"
-                    className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-5 py-4 text-sm font-bold outline-none focus:border-black focus:bg-white"
+                    className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-4 py-3 text-sm font-bold outline-none focus:border-black focus:bg-white"
                   />
                   <input
                     required
                     name="company"
                     placeholder="Company name"
-                    className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-5 py-4 text-sm font-bold outline-none focus:border-black focus:bg-white"
+                    className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-4 py-3 text-sm font-bold outline-none focus:border-black focus:bg-white"
                   />
                   <input
                     required
                     name="phone"
                     placeholder="Phone / WhatsApp"
-                    className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-5 py-4 text-sm font-bold outline-none focus:border-black focus:bg-white"
+                    className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-4 py-3 text-sm font-bold outline-none focus:border-black focus:bg-white"
                   />
                 </div>
               </section>
 
-              <section className="rounded-[8px] border border-black/10 bg-white p-6 shadow-sm">
-                <p className="mb-5 text-xs font-black uppercase tracking-[0.24em] text-[#b58a52]">
+              <section className="rounded-[8px] border border-black/10 bg-white p-4 shadow-sm">
+                <p className="mb-3 text-xs font-black uppercase tracking-[0.18em] text-[#b58a52]">
                   Delivery Details
                 </p>
-                <div className="grid gap-4">
+                <div className="grid gap-3">
                   <textarea
                     required
                     name="address"
                     placeholder="Shipping address"
-                    rows={4}
-                    className="resize-none rounded-[8px] border border-black/10 bg-[#f4efe7] px-5 py-4 text-sm font-bold outline-none focus:border-black focus:bg-white"
+                    rows={3}
+                    className="resize-none rounded-[8px] border border-black/10 bg-[#f4efe7] px-4 py-3 text-sm font-bold outline-none focus:border-black focus:bg-white"
                   />
-                  <div className="grid gap-4 md:grid-cols-3">
+                  <div className="grid gap-3 md:grid-cols-3">
                     <input
                       required
                       name="country"
                       placeholder="Country"
-                      className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-5 py-4 text-sm font-bold outline-none focus:border-black focus:bg-white"
+                      className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-4 py-3 text-sm font-bold outline-none focus:border-black focus:bg-white"
                     />
                     <input
                       name="port"
                       placeholder="Destination port"
-                      className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-5 py-4 text-sm font-bold outline-none focus:border-black focus:bg-white"
+                      className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-4 py-3 text-sm font-bold outline-none focus:border-black focus:bg-white"
                     />
                     <select
                       name="terms"
-                      className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-5 py-4 text-sm font-bold outline-none focus:border-black focus:bg-white"
+                      className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-4 py-3 text-sm font-bold outline-none focus:border-black focus:bg-white"
                     >
                       <option>FOB</option>
                       <option>CIF</option>
@@ -277,11 +275,11 @@ export default function CheckoutPage() {
                 </div>
               </section>
 
-              <section className="rounded-[8px] border border-black/10 bg-white p-6 shadow-sm">
-                <p className="mb-5 text-xs font-black uppercase tracking-[0.24em] text-[#b58a52]">
+              <section className="rounded-[8px] border border-black/10 bg-white p-4 shadow-sm">
+                <p className="mb-3 text-xs font-black uppercase tracking-[0.18em] text-[#b58a52]">
                   Payment Method
                 </p>
-                <div className="grid gap-3 md:grid-cols-3">
+                <div className="grid gap-2 md:grid-cols-3">
                   {[
                     ["card", "Card Payment"],
                     ["bank", "Bank Transfer"],
@@ -291,7 +289,7 @@ export default function CheckoutPage() {
                       key={value}
                       type="button"
                       onClick={() => setPaymentMethod(value as PaymentMethod)}
-                      className={`rounded-[8px] border px-5 py-4 text-left text-sm font-black transition ${
+                      className={`rounded-[8px] border px-4 py-3 text-left text-sm font-black transition ${
                         paymentMethod === value
                           ? "border-black bg-black text-white"
                           : "border-black/10 bg-[#f4efe7] text-black hover:border-black"
@@ -303,30 +301,30 @@ export default function CheckoutPage() {
                 </div>
 
                 {paymentMethod === "card" ? (
-                  <div className="mt-5 grid gap-4 md:grid-cols-2">
+                  <div className="mt-3 grid gap-3 md:grid-cols-2">
                     <input
                       required
                       name="cardNumber"
                       placeholder="Card number"
                       inputMode="numeric"
-                      className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-5 py-4 text-sm font-bold outline-none focus:border-black focus:bg-white md:col-span-2"
+                      className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-4 py-3 text-sm font-bold outline-none focus:border-black focus:bg-white md:col-span-2"
                     />
                     <input
                       required
                       name="expiry"
                       placeholder="MM / YY"
-                      className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-5 py-4 text-sm font-bold outline-none focus:border-black focus:bg-white"
+                      className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-4 py-3 text-sm font-bold outline-none focus:border-black focus:bg-white"
                     />
                     <input
                       required
                       name="cvv"
                       placeholder="CVV"
                       inputMode="numeric"
-                      className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-5 py-4 text-sm font-bold outline-none focus:border-black focus:bg-white"
+                      className="rounded-[8px] border border-black/10 bg-[#f4efe7] px-4 py-3 text-sm font-bold outline-none focus:border-black focus:bg-white"
                     />
                   </div>
                 ) : (
-                  <div className="mt-5 rounded-[8px] border border-black/10 bg-[#f4efe7] p-5 text-sm leading-7 text-black/60">
+                  <div className="mt-3 rounded-[8px] border border-black/10 bg-[#f4efe7] p-4 text-sm leading-6 text-black/60">
                     Payment instructions will be shared after order review and
                     final quotation confirmation.
                   </div>
@@ -334,17 +332,17 @@ export default function CheckoutPage() {
               </section>
             </div>
 
-            <aside className="h-fit rounded-[8px] border border-black/10 bg-white p-6 shadow-sm lg:sticky lg:top-28">
-              <p className="text-xs font-black uppercase tracking-[0.24em] text-[#b58a52]">
+            <aside className="h-fit rounded-[8px] border border-black/10 bg-white p-4 shadow-sm lg:sticky lg:top-28">
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#b58a52]">
                 Cart Summary
               </p>
-              <div className="mt-5 grid gap-4">
+              <div className="mt-3 grid gap-3">
                 {items.map((item) => (
                   <div
                     key={`${item.categorySlug}-${item.slug}`}
-                    className="grid grid-cols-[72px_1fr] gap-4 rounded-[8px] bg-[#f4efe7] p-3"
+                    className="grid grid-cols-[58px_1fr] gap-3 rounded-[8px] bg-[#f4efe7] p-2.5"
                   >
-                    <div className="relative h-20 overflow-hidden rounded-[8px] bg-black">
+                    <div className="relative h-16 overflow-hidden rounded-[8px] bg-black">
                       <Image
                         src={item.image}
                         alt={item.name}
@@ -354,10 +352,10 @@ export default function CheckoutPage() {
                       />
                     </div>
                     <div>
-                      <p className="text-sm font-black leading-5">
+                      <p className="line-clamp-2 text-sm font-black leading-5">
                         {item.name}
                       </p>
-                      <p className="mt-2 text-xs font-bold text-black/50">
+                      <p className="mt-1 text-xs font-bold text-black/50">
                         Qty {item.quantity ?? 1} / MOQ {item.minOrder}
                       </p>
                     </div>
@@ -365,7 +363,7 @@ export default function CheckoutPage() {
                 ))}
               </div>
 
-              <div className="mt-6 grid gap-3 border-y border-black/10 py-5 text-sm font-bold">
+              <div className="mt-4 grid gap-2 border-y border-black/10 py-4 text-sm font-bold">
                 <div className="flex justify-between">
                   <span className="text-black/55">Subtotal</span>
                   <span>${totals.subtotal.toLocaleString()}</span>
@@ -380,11 +378,11 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              <div className="mt-5 flex items-end justify-between gap-4">
+              <div className="mt-4 flex items-end justify-between gap-4">
                 <span className="text-xs font-black uppercase tracking-[0.22em] text-black/40">
                   Payable Estimate
                 </span>
-                <span className="text-3xl font-black">
+                <span className="text-2xl font-black">
                   ${totals.grandTotal.toLocaleString()}
                 </span>
               </div>
@@ -392,7 +390,7 @@ export default function CheckoutPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="mt-7 inline-flex w-full items-center justify-center rounded-full bg-black px-6 py-4 text-xs font-black uppercase tracking-[0.16em] text-white transition hover:bg-[#6b3f24] disabled:cursor-not-allowed disabled:bg-black/40"
+                className="mt-5 inline-flex w-full items-center justify-center rounded-full bg-black px-6 py-3.5 text-xs font-black uppercase tracking-[0.16em] text-white transition hover:bg-[#6b3f24] disabled:cursor-not-allowed disabled:bg-black/40"
               >
                 {isSubmitting ? "Saving Order..." : "Place Order"}
               </button>
@@ -405,7 +403,7 @@ export default function CheckoutPage() {
 
               <Link
                 href="/enquiry-basket"
-                className="mt-3 inline-flex w-full items-center justify-center rounded-full border border-black/15 px-6 py-4 text-xs font-black uppercase tracking-[0.16em] text-black transition hover:bg-black hover:text-white"
+                className="mt-3 inline-flex w-full items-center justify-center rounded-full border border-black/15 px-6 py-3.5 text-xs font-black uppercase tracking-[0.16em] text-black transition hover:bg-black hover:text-white"
               >
                 Back To Cart
               </Link>

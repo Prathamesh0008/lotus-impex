@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Logo from "@/components/Logo";
 import { exportCategories, navLinks } from "@/data/site";
 import { exportProducts } from "@/data/products";
@@ -172,6 +172,24 @@ function CartIcon() {
   );
 }
 
+function SearchIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="size-6"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+    >
+      <circle cx="11" cy="11" r="7" />
+      <path d="m16.5 16.5 4 4" />
+    </svg>
+  );
+}
+
 function UserIcon() {
   return (
     <svg
@@ -208,6 +226,19 @@ function BackIcon() {
   );
 }
 
+function DrawerArrow({ rotated = false }: { rotated?: boolean }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`grid size-6 place-items-center text-xl font-normal leading-none text-[#94969f] transition ${
+        rotated ? "rotate-90" : ""
+      }`}
+    >
+      {">"}
+    </span>
+  );
+}
+
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -216,7 +247,10 @@ export default function Navbar() {
   const [user, setUser] = useState<SignedInUser | null>(null);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const [desktopProductsOpen, setDesktopProductsOpen] = useState(false);
-  const showMobileBackButton = pathname !== "/";
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const isProductDetailPage = /^\/products\/[^/]+\/[^/]+/.test(pathname);
+  const showMobileBackButton = pathname !== "/" && !isProductDetailPage;
 
   useEffect(() => {
     function updateCartCount() {
@@ -267,19 +301,88 @@ export default function Navbar() {
     },
   ];
 
+  function submitSearch(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const query = searchQuery.trim();
+
+    if (!query) {
+      router.push("/products");
+      setSearchOpen(false);
+      return;
+    }
+
+    const normalizedQuery = normalizeLabel(query);
+    const scoredProducts = exportProducts
+      .map((product) => {
+        const name = normalizeLabel(product.name);
+        const shortName = normalizeLabel(product.shortName);
+        const type = normalizeLabel(product.type);
+        const searchable = normalizeLabel(
+          `${product.name} ${product.shortName} ${product.type} ${product.summary} ${product.availableOptions.join(" ")}`
+        );
+
+        let score = 0;
+        if (
+          name === normalizedQuery ||
+          shortName === normalizedQuery ||
+          type === normalizedQuery
+        ) {
+          score = 100;
+        } else if (
+          name.startsWith(normalizedQuery) ||
+          shortName.startsWith(normalizedQuery)
+        ) {
+          score = 80;
+        } else if (name.includes(normalizedQuery) || shortName.includes(normalizedQuery)) {
+          score = 60;
+        } else if (searchable.includes(normalizedQuery)) {
+          score = 30;
+        }
+
+        return { product, score };
+      })
+      .filter((item) => item.score > 0)
+      .sort((a, b) => b.score - a.score);
+    const matchedProduct = scoredProducts[0]?.product;
+
+    if (matchedProduct) {
+      router.push(
+        `/products/${matchedProduct.categorySlug}/${matchedProduct.slug}`
+      );
+    } else {
+      router.push("/products");
+    }
+
+    setSearchOpen(false);
+  }
+
   return (
     <>
       <header
-        className="fixed left-0 right-0 top-0 z-[100] border-b border-white/10 bg-black/95 text-white backdrop-blur-2xl"
+        className={`fixed left-0 right-0 top-0 z-[100] backdrop-blur-2xl ${
+          isProductDetailPage
+            ? "border-b border-white/10 bg-black/95 text-white"
+            : "border-b border-white/10 bg-black/95 text-white"
+        }`}
       >
-        <nav className="mx-auto grid h-16 max-w-[1500px] grid-cols-[44px_minmax(0,1fr)_88px] items-center gap-2 px-4 sm:h-20 sm:grid-cols-[52px_minmax(0,1fr)_112px] sm:px-6 xl:h-24 xl:grid-cols-[minmax(300px,0.8fr)_minmax(420px,1fr)_auto] xl:gap-8 xl:px-10">
+        <nav
+          className={`mx-auto grid h-16 max-w-[1500px] items-center gap-2 px-4 sm:h-20 sm:px-6 xl:h-24 xl:grid-cols-[minmax(300px,0.8fr)_minmax(420px,1fr)_auto] xl:gap-8 xl:px-10 ${
+            isProductDetailPage
+              ? "grid-cols-[44px_minmax(150px,1fr)_96px] gap-2 px-4 sm:grid-cols-[52px_minmax(190px,1fr)_120px] sm:gap-3 sm:px-5"
+              : "grid-cols-[44px_minmax(0,1fr)_132px] sm:grid-cols-[52px_minmax(0,1fr)_156px]"
+          }`}
+        >
           <div className="flex items-center xl:hidden">
             {showMobileBackButton ? (
               <button
                 type="button"
                 aria-label="Go back"
                 onClick={() => router.back()}
-                className="grid h-10 w-10 place-items-center rounded-full border border-white/25 bg-transparent text-white transition hover:bg-white/10 sm:h-12 sm:w-12 xl:hidden"
+                className={`grid h-8 w-8 place-items-center rounded-full border bg-transparent transition sm:h-10 sm:w-10 xl:hidden ${
+                  isProductDetailPage
+                    ? "border-transparent text-white hover:bg-white/10"
+                    : "border-white/25 text-white hover:bg-white/10"
+                }`}
               >
                 <BackIcon />
               </button>
@@ -289,7 +392,11 @@ export default function Navbar() {
                 aria-label={open ? "Close navigation menu" : "Open navigation menu"}
                 aria-expanded={open}
                 onClick={() => setOpen((value) => !value)}
-                className="grid h-10 w-10 place-items-center rounded-full border border-white/25 bg-transparent text-white transition hover:bg-white/10 sm:h-12 sm:w-12 xl:hidden"
+                className={`grid h-10 w-10 place-items-center rounded-full border bg-transparent transition sm:h-12 sm:w-12 xl:hidden ${
+                  isProductDetailPage
+                    ? "border-white/25 text-white hover:bg-white/10"
+                    : "border-white/25 text-white hover:bg-white/10"
+                }`}
               >
                 <span className="relative block h-4 w-5">
                   <span
@@ -313,7 +420,15 @@ export default function Navbar() {
           </div>
 
           <div className="flex min-w-0 items-center justify-center xl:justify-start">
-            <Logo />
+            <div
+              className={
+                isProductDetailPage
+                  ? "flex min-w-0 justify-start overflow-visible [&_a]:!h-12 [&_a]:!w-[170px] [&_a]:!max-w-[170px] sm:[&_a]:!h-14 sm:[&_a]:!w-[220px] sm:[&_a]:!max-w-[220px]"
+                  : "flex min-w-0 justify-center"
+              }
+            >
+              <Logo />
+            </div>
           </div>
 
           <div className="hidden min-w-0 items-center justify-center gap-8 xl:flex">
@@ -443,6 +558,16 @@ export default function Navbar() {
 
           <div className="flex min-w-0 items-center justify-end gap-3">
             <div className="hidden items-center gap-3 xl:flex">
+              <button
+                type="button"
+                aria-label="Search products"
+                title="Search"
+                onClick={() => setSearchOpen((value) => !value)}
+                className="grid h-12 w-12 place-items-center rounded-full border border-white/20 bg-black text-white transition hover:bg-white hover:text-black"
+              >
+                <SearchIcon />
+              </button>
+
               {iconLinks.map((item) => {
                 const active = pathname === item.href;
 
@@ -481,28 +606,100 @@ export default function Navbar() {
               </Link>
             </div>
 
-            <div className="flex shrink-0 items-center justify-end gap-2 xl:hidden">
-              {iconLinks.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  aria-label={item.label}
-                  title={item.label}
-                  className="relative grid h-10 w-10 place-items-center rounded-full border border-white/25 bg-transparent text-white transition hover:bg-white/10 sm:h-12 sm:w-12"
-                >
-                  {item.icon}
-                  {item.count > 0 ? (
-                    <span className="absolute -right-1 -top-1 grid min-w-5 place-items-center rounded-full bg-[#c9a16b] px-1.5 py-0.5 text-[10px] font-black leading-none text-black">
-                      {item.count > 99 ? "99+" : item.count}
-                    </span>
-                  ) : null}
-                </Link>
-              ))}
+            <div className="flex shrink-0 items-center justify-end gap-0.5 [&_svg]:size-4 xl:hidden">
+              {isProductDetailPage ? (
+                <>
+                  <button
+                    type="button"
+                    aria-label="Search products"
+                    title="Search"
+                    onClick={() => setSearchOpen((value) => !value)}
+                    className="grid h-6 w-6 place-items-center text-white transition hover:text-[#c9a16b] sm:h-8 sm:w-8"
+                  >
+                    <SearchIcon />
+                  </button>
+                  <Link
+                    href="/enquiry-basket"
+                    aria-label="Cart"
+                    title="Cart"
+                    className="relative grid h-6 w-6 place-items-center text-white transition hover:text-[#c9a16b] sm:h-8 sm:w-8"
+                  >
+                    <CartIcon />
+                    {cartCount > 0 ? (
+                      <span className="absolute -right-0.5 -top-0.5 grid min-w-5 place-items-center rounded-full bg-[#ff3f6c] px-1.5 py-0.5 text-[10px] font-black leading-none text-white">
+                        {cartCount > 99 ? "99+" : cartCount}
+                      </span>
+                    ) : null}
+                  </Link>
+                  <Link
+                    href={user ? "/sign-in" : "/sign-up"}
+                    aria-label={user ? user.name : "Sign up"}
+                    title={user ? user.name : "Sign up"}
+                    className="grid h-6 w-6 place-items-center text-white transition hover:text-[#c9a16b] sm:h-8 sm:w-8"
+                  >
+                    <UserIcon />
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    aria-label="Search products"
+                    title="Search"
+                    onClick={() => setSearchOpen((value) => !value)}
+                    className="relative grid h-10 w-10 place-items-center rounded-full border border-white/25 bg-transparent text-white transition hover:bg-white/10 sm:h-12 sm:w-12"
+                  >
+                    <SearchIcon />
+                  </button>
+                  {iconLinks.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      aria-label={item.label}
+                      title={item.label}
+                      className="relative grid h-10 w-10 place-items-center rounded-full border border-white/25 bg-transparent text-white transition hover:bg-white/10 sm:h-12 sm:w-12"
+                    >
+                      {item.icon}
+                      {item.count > 0 ? (
+                        <span className="absolute -right-1 -top-1 grid min-w-5 place-items-center rounded-full bg-[#c9a16b] px-1.5 py-0.5 text-[10px] font-black leading-none text-black">
+                          {item.count > 99 ? "99+" : item.count}
+                        </span>
+                      ) : null}
+                    </Link>
+                  ))}
+                </>
+              )}
             </div>
           </div>
         </nav>
 
       </header>
+
+      {searchOpen ? (
+        <div className="fixed inset-x-0 top-16 z-[95] border-b border-black/10 bg-white px-4 py-3 shadow-lg shadow-black/10 sm:top-20 sm:px-8 xl:top-24">
+          <form
+            onSubmit={submitSearch}
+            className="mx-auto flex max-w-[1600px] items-center overflow-hidden rounded-[8px] border border-black/20 bg-white"
+          >
+            <input
+              type="search"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              autoFocus
+              placeholder="Search products or categories..."
+              className="min-h-12 min-w-0 flex-1 px-4 text-base text-[#282c3f] outline-none placeholder:text-[#7e818c] sm:px-5"
+            />
+            <button
+              type="button"
+              aria-label="Close search"
+              onClick={() => setSearchOpen(false)}
+              className="grid min-h-12 w-12 place-items-center text-2xl font-black text-[#7e818c] transition hover:text-[#282c3f]"
+            >
+              ×
+            </button>
+          </form>
+        </div>
+      ) : null}
 
       <div
         className={`fixed inset-x-0 bottom-0 top-16 z-[120] block transition ${
@@ -541,7 +738,7 @@ export default function Navbar() {
                     }`}
                   >
                     <span>{link.label}</span>
-                    <span className="text-lg font-normal text-[#94969f]">&gt;</span>
+                    <DrawerArrow />
                   </Link>
                 );
               })}
@@ -554,13 +751,7 @@ export default function Navbar() {
                 className="flex min-h-14 w-full items-center justify-between px-6 py-4 text-left text-[15px] font-medium text-[#282c3f] transition hover:bg-[#f5f5f6]"
               >
                 Product Categories
-                <span
-                  className={`text-lg font-normal text-[#94969f] transition ${
-                    mobileProductsOpen ? "rotate-90" : ""
-                  }`}
-                >
-                  &gt;
-                </span>
+                <DrawerArrow rotated={mobileProductsOpen} />
               </button>
 
               {mobileProductsOpen ? (
@@ -573,7 +764,7 @@ export default function Navbar() {
                       className="flex min-h-12 items-center justify-between px-8 py-3 text-sm font-medium text-[#3e4152] transition hover:bg-white"
                     >
                       <span>{category.title}</span>
-                      <span className="text-base font-normal text-[#94969f]">&gt;</span>
+                      <DrawerArrow />
                     </Link>
                   ))}
                 </div>
@@ -593,7 +784,7 @@ export default function Navbar() {
                     className="flex min-h-12 items-center justify-between px-6 py-3 text-[15px] font-medium text-[#3e4152] transition hover:bg-[#f5f5f6]"
                   >
                     <span>{category.title}</span>
-                    <span className="text-lg font-normal text-[#94969f]">&gt;</span>
+                    <DrawerArrow />
                   </Link>
                 ))}
               </div>

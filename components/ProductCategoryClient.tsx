@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import CatalogProductCard from "@/components/CatalogProductCard";
 import { exportCategories, type ExportCategory } from "@/data/site";
 import type { ExportProduct } from "@/data/products";
@@ -313,6 +313,32 @@ export default function ProductCategoryClient({
     setMobileSortOpen(false);
   };
 
+  function submitSearch(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const searchValue = normalize(search);
+
+    if (!searchValue) {
+      router.push("/products");
+      return;
+    }
+
+    const matchedProduct = [...sourceProducts]
+      .map((product) => ({
+        product,
+        score: getSearchScore(product, searchValue),
+      }))
+      .filter((item) => item.score > 0)
+      .sort((a, b) => b.score - a.score)[0]?.product;
+
+    if (matchedProduct) {
+      router.push(
+        `/products/${matchedProduct.categorySlug}/${matchedProduct.slug}`
+      );
+    } else {
+      router.push("/products");
+    }
+  }
+
   const quickActions = [
     {
       label: "Top Brands",
@@ -485,14 +511,14 @@ export default function ProductCategoryClient({
 
       <section className="mx-auto grid max-w-[1800px] lg:grid-cols-[310px_1fr]">
         <aside className="hidden border-r border-black/10 bg-white lg:block">
-          <div className="border-b border-black/10 p-5">
+          <form onSubmit={submitSearch} className="border-b border-black/10 p-5">
             <input
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               placeholder="Search products"
               className="w-full rounded-full border border-black/15 bg-[#f5f5f6] px-4 py-3 text-sm font-semibold outline-none focus:border-black"
             />
-          </div>
+          </form>
 
           <div className="border-b border-black/10 p-5">
             {genderOptions.map((option) => (
@@ -931,14 +957,14 @@ export default function ProductCategoryClient({
           </div>
 
           <div className="h-[calc(100vh-128px)] overflow-y-auto">
-            <div className="border-b border-black/10 p-5">
+            <form onSubmit={submitSearch} className="border-b border-black/10 p-5">
               <input
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
                 placeholder="Search products"
                 className="w-full rounded-full border border-black/15 bg-[#f5f5f6] px-4 py-3 text-sm font-semibold outline-none focus:border-black"
               />
-            </div>
+            </form>
 
             <div className="border-b border-black/10 p-5">
               {genderOptions.map((option) => (

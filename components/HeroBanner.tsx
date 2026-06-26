@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type PointerEvent } from "react";
 
 const heroSlides = [
   {
@@ -45,22 +45,90 @@ const heroSlides = [
 
 export default function HeroBanner() {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStartX = useRef(0);
+  const dragDeltaX = useRef(0);
+  const isPointerDown = useRef(false);
   const safeActiveSlide = activeSlide % heroSlides.length;
 
   useEffect(() => {
+    if (isDragging) {
+      return;
+    }
+
     const interval = window.setInterval(() => {
       setActiveSlide((current) => (current + 1) % heroSlides.length);
     }, 3500);
 
     return () => window.clearInterval(interval);
-  }, []);
+  }, [isDragging]);
+
+  function handlePointerDown(event: PointerEvent<HTMLDivElement>) {
+    if (event.pointerType === "mouse" && event.button !== 0) {
+      return;
+    }
+
+    isPointerDown.current = true;
+    dragStartX.current = event.clientX;
+    dragDeltaX.current = 0;
+    setIsDragging(true);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }
+
+  function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
+    if (!isPointerDown.current) {
+      return;
+    }
+
+    const delta = event.clientX - dragStartX.current;
+    dragDeltaX.current = delta;
+    setDragOffset(delta);
+  }
+
+  function handlePointerUp(event: PointerEvent<HTMLDivElement>) {
+    if (!isPointerDown.current) {
+      return;
+    }
+
+    const width = event.currentTarget.clientWidth;
+    const threshold = Math.min(120, width * 0.18);
+    const delta = dragDeltaX.current;
+
+    if (delta <= -threshold) {
+      setActiveSlide((current) => (current + 1) % heroSlides.length);
+    } else if (delta >= threshold) {
+      setActiveSlide(
+        (current) => (current - 1 + heroSlides.length) % heroSlides.length
+      );
+    }
+
+    isPointerDown.current = false;
+    dragDeltaX.current = 0;
+    setDragOffset(0);
+    setIsDragging(false);
+    event.currentTarget.releasePointerCapture(event.pointerId);
+  }
 
   return (
     <section className="relative w-full overflow-hidden bg-white pt-16 sm:pt-20 xl:pt-24">
-      <div className="relative h-[240px] w-full overflow-hidden bg-[#f5f5f6] sm:h-[360px] md:h-[460px] lg:h-[560px] xl:h-[640px]">
+      <div
+        className={`relative h-[240px] w-full cursor-grab touch-pan-y overflow-hidden bg-[#f5f5f6] active:cursor-grabbing sm:h-[360px] md:h-[460px] lg:h-[560px] xl:h-[640px] ${
+          isDragging ? "select-none" : ""
+        }`}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+        onPointerLeave={handlePointerUp}
+      >
         <div
-          className="flex h-full transition-transform duration-700 ease-out"
-          style={{ transform: `translateX(-${safeActiveSlide * 100}%)` }}
+          className={`flex h-full ${
+            isDragging ? "" : "transition-transform duration-700 ease-out"
+          }`}
+          style={{
+            transform: `translateX(calc(-${safeActiveSlide * 100}% + ${dragOffset}px))`,
+          }}
         >
           {heroSlides.map((slide, index) => (
             <div key={slide.image} className="relative h-full min-w-full">
@@ -72,6 +140,7 @@ export default function HeroBanner() {
                 sizes="100vw"
                 className="object-cover object-center"
                 style={{ objectPosition: slide.position }}
+                draggable={false}
               />
               <div className="absolute inset-y-0 left-0 z-10 hidden w-full items-center justify-start bg-gradient-to-r from-[#f7d7dd]/90 via-white/20 to-transparent px-5 sm:px-8 lg:flex lg:px-14 xl:px-20">
                 <div className="max-w-[285px] text-center text-black sm:max-w-sm lg:max-w-[520px]">
@@ -88,7 +157,7 @@ export default function HeroBanner() {
                     href="/products"
                     className="mt-5 inline-flex min-h-10 items-center rounded-md bg-black px-6 text-xs font-black uppercase tracking-[0.12em] text-white shadow-lg transition hover:bg-[#c9a16b] hover:text-black sm:mt-7 sm:min-h-14 sm:px-9 sm:text-base"
                   >
-                    Shop Now &gt;
+                    Shop Now
                   </Link>
                 </div>
               </div>
