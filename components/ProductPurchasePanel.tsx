@@ -56,7 +56,7 @@ export default function ProductPurchasePanel({
 
   return (
     <>
-      <div className="mt-10 lg:mt-8">
+      <div className="mt-6 lg:mt-5">
         <div className="flex items-center justify-between gap-5">
           <p className="text-xl font-black text-[#282c3f] lg:text-base lg:uppercase">
             <span className="lg:hidden">Select Size</span>
@@ -64,13 +64,13 @@ export default function ProductPurchasePanel({
           </p>
           <button
             type="button"
-            className="text-sm font-black text-[#ff3f6c] lg:uppercase"
+            className="text-sm font-black text-[#D4AF36] lg:uppercase"
           >
             Size Chart &gt;
           </button>
         </div>
 
-        <div className="mt-5 flex flex-wrap gap-2.5 lg:mt-5 lg:gap-3">
+        <div className="mt-3 flex flex-wrap gap-2.5 lg:mt-3 lg:gap-3">
           {allSizes.map((size) => {
             const available = true;
             const selected = selectedSize === size;
@@ -94,13 +94,13 @@ export default function ProductPurchasePanel({
                   selected
                     ? "border-[#282c3f] bg-[#282c3f] text-white"
                     : available
-                      ? "border-black/20 hover:border-[#ff3f6c] hover:text-[#ff3f6c]"
+                      ? "border-black/20 hover:border-[#D4AF36] hover:text-[#D4AF36]"
                       : "cursor-not-allowed border-black/10 bg-[#f5f5f6] text-black/25 line-through"
                 }`}
               >
                 {size}
                 {lowStockLabel ? (
-                  <span className="absolute -bottom-1 rounded-sm bg-[#ff905a] px-2 py-0.5 text-[10px] font-black leading-none text-white">
+                  <span className="absolute -bottom-1 rounded-sm bg-[#D4AF36] px-2 py-0.5 text-[10px] font-black leading-none text-black">
                     {lowStockLabel}
                   </span>
                 ) : null}
@@ -114,10 +114,10 @@ export default function ProductPurchasePanel({
         <div className="hidden">
           <p className="text-base font-black text-[#282c3f]">
             <span className="font-normal text-[#7e818c] line-through">â‚¹1699</span>{" "}
-            â‚¹667 <span className="text-[#ff905a]">(61% OFF)</span>
+            â‚¹667 <span className="text-[#D4AF36]">(61% OFF)</span>
           </p>
           <p className="mt-1 text-base text-[#282c3f]">
-            Seller: <span className="font-black text-[#ff3f6c]">LOTUS IMPEX</span>
+            Seller: <span className="font-black text-[#D4AF36]">LOTUS IMPEX</span>
           </p>
         </div>
         {fixedButtonVisible ? (
@@ -131,7 +131,6 @@ export default function ProductPurchasePanel({
                 disabled={addDisabled}
                 disabledLabel={disabledLabel}
                 label="Add To Bag"
-                redirectTo="/checkout"
               />
             </div>
           </div>
@@ -148,7 +147,6 @@ export default function ProductPurchasePanel({
                 disabled={addDisabled}
                 disabledLabel={disabledLabel}
                 label="Add To Bag"
-                redirectTo="/checkout"
               />
             </div>
           </div>
@@ -162,7 +160,6 @@ export default function ProductPurchasePanel({
             disabled={addDisabled}
             disabledLabel={disabledLabel}
             label="Add To Bag"
-            redirectTo="/checkout"
           />
         </div>
         <div className="hidden lg:block">
@@ -206,12 +203,12 @@ export default function ProductPurchasePanel({
               }
             }}
             placeholder="Enter PIN Code"
-            className="min-h-12 min-w-0 flex-1 px-4 text-base font-semibold outline-none placeholder:text-[#ff3f6c] lg:font-normal lg:placeholder:text-[#7e818c]"
+            className="min-h-12 min-w-0 flex-1 px-4 text-base font-semibold outline-none placeholder:text-[#D4AF36] lg:font-normal lg:placeholder:text-[#7e818c]"
           />
           <button
             type="button"
             onClick={checkDelivery}
-            className="px-4 text-sm font-black text-[#ff3f6c]"
+            className="px-4 text-sm font-black text-[#D4AF36]"
           >
             Check
           </button>
@@ -222,7 +219,7 @@ export default function ProductPurchasePanel({
           </p>
         ) : null}
         {deliveryStatus === "invalid" ? (
-          <p className="mt-3 text-sm font-black text-[#ff3f6c]">
+          <p className="mt-3 text-sm font-black text-[#D4AF36]">
             Please enter a valid 6 digit PIN code.
           </p>
         ) : null}

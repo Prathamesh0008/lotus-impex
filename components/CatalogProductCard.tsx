@@ -43,9 +43,9 @@ export default function CatalogProductCard({
       <article className="group min-w-0 self-start bg-white transition hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)]">
         <Link
           href={`/products/${product.categorySlug}/${product.slug}`}
-          className="block"
+          className="block cursor-pointer"
         >
-          <div className="relative aspect-[3/4] overflow-hidden bg-[#f5f5f6]">
+          <div className="relative aspect-[3/4] overflow-hidden bg-white">
             <Image
               src={imageSrc}
               alt={product.imageAlt}
@@ -54,7 +54,7 @@ export default function CatalogProductCard({
               onError={() => setImageSrc(fallbackImage)}
               className={`object-bottom transition duration-500 ${
                 hasCatalogueFrame
-                  ? "object-contain group-hover:scale-[1.015]"
+                  ? "object-cover group-hover:scale-[1.015]"
                   : "object-cover group-hover:scale-[1.015]"
               }`}
             />
@@ -65,7 +65,10 @@ export default function CatalogProductCard({
         </Link>
 
         <div className="min-h-[118px] px-3 pb-3 pt-3">
-          <Link href={`/products/${product.categorySlug}/${product.slug}`}>
+          <Link
+            href={`/products/${product.categorySlug}/${product.slug}`}
+            className="cursor-pointer"
+          >
             <p className="truncate text-[15px] font-black leading-5 text-[#282c3f]">
               Lotus Impex
             </p>
@@ -88,9 +91,9 @@ export default function CatalogProductCard({
   }
 
   return (
-    <article className="group overflow-hidden rounded-[22px] border border-black/10 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/10">
+    <article className="group overflow-hidden bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/10">
       <Link href={`/products/${product.categorySlug}/${product.slug}`}>
-       <div className="relative aspect-[4/3] overflow-hidden bg-[#f3f3f3]">
+       <div className="relative aspect-[4/3] overflow-hidden bg-white">
           <Image
             src={imageSrc}
             alt=""
@@ -106,7 +109,7 @@ export default function CatalogProductCard({
             fill
             sizes="(max-width: 768px) 100vw, 33vw"
             onError={() => setImageSrc(fallbackImage)}
-          className="object-contain object-center p-4 transition duration-700"
+          className="object-cover object-center transition duration-700"
           />
 
           <button

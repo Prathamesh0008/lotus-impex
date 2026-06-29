@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import CompanyScrollMotion from "@/components/CompanyScrollMotion";
 import InternalLinkSection from "@/components/InternalLinkSection";
 import { exportCategories, processSteps, siteConfig } from "@/data/site";
 
@@ -116,7 +117,8 @@ const solutionSections = [
 
 export default function CompanyPage() {
   return (
-    <main className="bg-[#f4efe7] text-black">
+    <main className="company-motion bg-[#f4efe7] text-black">
+      <CompanyScrollMotion />
       <section className="relative min-h-[620px] overflow-hidden bg-black">
         <Image
           src="/online-marketing.jpg"
@@ -130,7 +132,7 @@ export default function CompanyPage() {
         <div className="absolute inset-0 image-overlay" />
 
         <div className="relative z-10 mx-auto flex min-h-[620px] max-w-[1500px] items-end px-5 py-12 sm:px-8 lg:px-10">
-          <div className="max-w-6xl">
+          <div className="max-w-6xl" data-reveal>
             <p className="mb-5 text-xs font-black uppercase tracking-[0.34em] text-white/65">
               About Lotus Impex
             </p>
@@ -150,7 +152,7 @@ export default function CompanyPage() {
 
       <section className="px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
         <div className="mx-auto grid max-w-[1500px] gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <div>
+          <div data-reveal="left">
             <p className="mb-4 text-xs font-black uppercase tracking-[0.3em] text-black/45">
               Who We Are
             </p>
@@ -160,7 +162,7 @@ export default function CompanyPage() {
             </h2>
           </div>
 
-          <div>
+          <div data-reveal="right" data-delay="120">
             <p className="text-xl leading-9 text-black/65">
               {siteConfig.name} helps overseas buyers coordinate product
               sourcing from India with a practical, transparent and
@@ -179,9 +181,11 @@ export default function CompanyPage() {
                 "Multi-category exports",
                 "Clear buyer communication",
                 "Export-ready coordination",
-              ].map((item) => (
+              ].map((item, index) => (
                 <div
                   key={item}
+                  data-reveal="zoom"
+                  data-delay={String(index * 90)}
                   className="border border-black/10 bg-[#ebe3d7] p-5 text-sm font-black uppercase tracking-[0.14em]"
                 >
                   {item}
@@ -194,7 +198,7 @@ export default function CompanyPage() {
 
       <section className="border-y border-black/10 bg-[#f7f7f5]">
         <div className="mx-auto max-w-[1500px] px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
-          <div className="mb-10 flex items-center gap-5">
+          <div className="mb-10 flex items-center gap-5" data-reveal>
             <span className="hidden h-px flex-1 bg-[#0f351c]/45 sm:block" />
             <h2 className="text-center font-serif text-4xl italic leading-tight text-black sm:text-5xl">
               Over a Decade of Ethical Manufacturing Excellence
@@ -203,8 +207,8 @@ export default function CompanyPage() {
           </div>
 
           <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-            <div className="grid min-h-[460px] grid-cols-2 gap-3">
-              <div className="relative row-span-2 overflow-hidden">
+            <div className="grid min-h-[460px] grid-cols-2 gap-3" data-reveal="left">
+              <div className="motion-image float-stack-card relative row-span-2 overflow-hidden" data-reveal="zoom">
                 <Image
                   src="https://images.unsplash.com/photo-1673201229733-69d19c5c4a87?auto=format&fit=crop&w=900&q=85"
                   alt="Garment stitching on an industrial sewing machine"
@@ -213,7 +217,7 @@ export default function CompanyPage() {
                   className="object-cover"
                 />
               </div>
-              <div className="relative overflow-hidden">
+              <div className="motion-image float-stack-card relative overflow-hidden" data-reveal="zoom" data-delay="120">
                 <Image
                   src="https://images.unsplash.com/photo-1610891015188-5369212db097?auto=format&fit=crop&w=900&q=85"
                   alt="Industrial textile factory with production machinery"
@@ -222,7 +226,7 @@ export default function CompanyPage() {
                   className="object-cover"
                 />
               </div>
-              <div className="relative overflow-hidden">
+              <div className="motion-image float-stack-card relative overflow-hidden" data-reveal="zoom" data-delay="220">
                 <Image
                   src="https://images.unsplash.com/photo-1476683874822-744764a2438f?auto=format&fit=crop&w=900&q=85"
                   alt="Thread spools arranged inside a textile factory"
@@ -233,7 +237,7 @@ export default function CompanyPage() {
               </div>
             </div>
 
-            <div className="lg:pl-6">
+            <div className="lg:pl-6" data-reveal="right" data-delay="120">
               <p className="text-lg font-black leading-7 text-[#1f2937]">
                 Built on experience. Trusted for manufacturing, sourcing and
                 export execution.
@@ -288,7 +292,7 @@ export default function CompanyPage() {
               className="border-b border-black/10 px-5 py-16 sm:px-8 lg:px-10 lg:py-24"
             >
               <div className="mx-auto grid max-w-[1500px] gap-10 lg:grid-cols-[0.9fr_1fr] lg:items-center">
-                <div className={reverse ? "lg:order-2" : ""}>
+                <div className={reverse ? "lg:order-2" : ""} data-reveal={reverse ? "right" : "left"}>
                   <p className="mb-4 font-serif text-4xl italic leading-tight text-[#0f351c] sm:text-5xl">
                     {section.eyebrow}
                   </p>
@@ -327,9 +331,11 @@ export default function CompanyPage() {
                   className={`grid min-h-[420px] grid-cols-3 gap-3 ${
                     reverse ? "lg:order-1" : ""
                   }`}
+                  data-reveal={reverse ? "left" : "right"}
+                  data-delay="120"
                 >
                   {section.images.map((image) => (
-                    <div key={image.src} className="relative overflow-hidden">
+                    <div key={image.src} className="motion-image float-stack-card relative overflow-hidden" data-reveal="zoom">
                       <Image
                         src={image.src}
                         alt={image.alt}
@@ -349,7 +355,7 @@ export default function CompanyPage() {
       <section className="bg-[#fffaf2] px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
         <div className="mx-auto max-w-[1500px]">
           <div className="mb-14 grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
-            <div>
+            <div data-reveal="left">
               <p className="mb-4 text-xs font-black uppercase tracking-[0.3em] text-black/45">
                 Manufacturing Divisions
               </p>
@@ -359,7 +365,7 @@ export default function CompanyPage() {
               </h2>
             </div>
 
-            <p className="max-w-3xl text-lg leading-8 text-black/60 lg:justify-self-end">
+            <p className="max-w-3xl text-lg leading-8 text-black/60 lg:justify-self-end" data-reveal="right" data-delay="120">
               Lotus Impex works across apparel, textiles, accessories,
               machinery and multi-category goods with export-focused planning,
               buyer communication and quality control.
@@ -377,9 +383,11 @@ export default function CompanyPage() {
                 <article
                   key={division.slug}
                   className="grid overflow-hidden border border-black/10 bg-[#f4efe7] lg:grid-cols-2"
+                  data-reveal={reverse ? "right" : "left"}
+                  data-delay={String((index % 3) * 80)}
                 >
                   <div
-                    className={`relative min-h-[360px] ${
+                    className={`motion-image relative min-h-[360px] ${
                       reverse ? "lg:order-2" : ""
                     }`}
                   >
@@ -411,7 +419,7 @@ export default function CompanyPage() {
 
                     <Link
                       href={`/products/${division.slug}`}
-                      className="mt-8 inline-flex w-fit items-center gap-4 bg-black px-6 py-4 text-xs font-black uppercase tracking-[0.18em] text-white transition hover:bg-[#b4884d]"
+                      className="mt-8 inline-flex w-fit items-center gap-3 bg-black px-4 py-2.5 text-[11px] font-black uppercase tracking-[0.14em] text-white transition hover:bg-[#b4884d]"
                     >
                       View Products
                       <span aria-hidden="true">→</span>
@@ -426,7 +434,7 @@ export default function CompanyPage() {
 
       <section className="px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
         <div className="mx-auto max-w-[1500px]">
-          <div className="mb-12 max-w-4xl">
+          <div className="mb-12 max-w-4xl" data-reveal>
             <p className="mb-4 text-xs font-black uppercase tracking-[0.3em] text-black/45">
               Working Method
             </p>
@@ -440,6 +448,8 @@ export default function CompanyPage() {
             {processSteps.map((step, index) => (
               <div
                 key={step.title}
+                data-reveal="zoom"
+                data-delay={String(index * 75)}
                 className="border-b border-black/10 p-6 transition hover:bg-black hover:text-white md:border-b-0 md:border-r last:md:border-r-0"
               >
                 <span className="text-sm font-black opacity-30">
@@ -474,8 +484,13 @@ export default function CompanyPage() {
               title: "For Project Buyers",
               text: "Requirement-based sourcing for machinery, parts and general export goods.",
             },
-          ].map((card) => (
-            <div key={card.title} className="border border-black/10 bg-[#ebe3d7] p-7">
+          ].map((card, index) => (
+            <div
+              key={card.title}
+              data-reveal="zoom"
+              data-delay={String(index * 90)}
+              className="border border-black/10 bg-[#ebe3d7] p-7"
+            >
               <h3 className="text-3xl font-black uppercase tracking-[-0.06em]">
                 {card.title}
               </h3>

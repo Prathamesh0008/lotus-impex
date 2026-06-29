@@ -235,7 +235,7 @@ function PromoSection({
                 alt={item.title}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
-                className="object-contain object-center transition duration-700 group-hover:scale-105"
+                className="object-cover object-center transition duration-700 group-hover:scale-105"
               />
 
               {item.badge ? (
@@ -284,7 +284,7 @@ function EditorialSection({
                 alt={item.title}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
-                className="object-contain object-center"
+                className="object-cover object-center"
               />
             </div>
             <div className="px-1 pt-3 sm:px-3 sm:pt-4">
@@ -302,4 +302,3 @@ function EditorialSection({
     </section>
   );
 }
-

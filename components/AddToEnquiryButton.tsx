@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { ExportProduct } from "@/data/products";
 
@@ -22,6 +21,15 @@ type AddToEnquiryButtonProps = {
 const STORAGE_KEY = "lotus_impex_enquiry_basket";
 const CART_UPDATED_EVENT = "lotus-impex-cart-updated";
 
+type BasketItem = Pick<
+  ExportProduct,
+  "slug" | "categorySlug" | "name" | "image" | "summary" | "minOrder"
+> & {
+  quantity?: number;
+  selectedSize?: string;
+  addedAt?: string;
+};
+
 export default function AddToEnquiryButton({
   product,
   fullWidth = false,
@@ -34,54 +42,58 @@ export default function AddToEnquiryButton({
 }: AddToEnquiryButtonProps) {
   const router = useRouter();
   const [added, setAdded] = useState(false);
+  const addedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (addedTimerRef.current) {
+        clearTimeout(addedTimerRef.current);
+      }
+    };
+  }, []);
 
   function addToBasket() {
     const existingRaw = window.localStorage.getItem(STORAGE_KEY);
-    const existing = existingRaw ? JSON.parse(existingRaw) : [];
+    const existing = existingRaw ? (JSON.parse(existingRaw) as BasketItem[]) : [];
 
-    const alreadyExists = existing.some(
-      (item: { slug: string; categorySlug: string; selectedSize?: string }) =>
+    const existingIndex = existing.findIndex(
+      (item) =>
         item.slug === product.slug &&
         item.categorySlug === product.categorySlug &&
         item.selectedSize === selectedSize
     );
 
-    if (!alreadyExists) {
-      const nextItems = [
-        ...existing,
+    const nextItems =
+      existingIndex >= 0
+        ? existing.map((item, index) =>
+            index === existingIndex
+              ? { ...item, quantity: (item.quantity ?? 1) + 1 }
+              : item
+          )
+        : [
+            ...existing,
         {
           ...product,
+          quantity: 1,
           selectedSize,
           addedAt: new Date().toISOString(),
         },
-      ];
+          ];
 
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextItems));
-    }
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextItems));
 
     window.dispatchEvent(new Event(CART_UPDATED_EVENT));
     setAdded(true);
+    if (addedTimerRef.current) {
+      clearTimeout(addedTimerRef.current);
+    }
+    addedTimerRef.current = setTimeout(() => {
+      setAdded(false);
+    }, 1400);
 
     if (redirectTo) {
       router.push(redirectTo);
     }
-  }
-
-  if (added) {
-    return (
-      <Link
-        href="/enquiry-basket"
-        className={`inline-flex min-h-12 items-center justify-center whitespace-nowrap ${
-          tone === "myntra"
-            ? "rounded-[12px] bg-[#ff3f6c] px-8 py-4 text-base font-black text-white shadow-sm transition hover:bg-[#ff527b] sm:rounded-[4px]"
-            : "rounded-full bg-[#c9a16b] px-6 py-3 text-xs font-bold tracking-[0.1em] text-black transition hover:bg-[#d4b38a]"
-        } uppercase ${
-          fullWidth ? "w-full" : ""
-        }`}
-      >
-        View Cart
-      </Link>
-    );
   }
 
   return (
@@ -91,7 +103,7 @@ export default function AddToEnquiryButton({
       disabled={disabled}
       className={`inline-flex min-h-12 items-center justify-center whitespace-nowrap ${
         tone === "myntra"
-          ? "rounded-[12px] bg-[#ff3f6c] px-8 py-4 text-base font-black text-white shadow-sm transition hover:bg-[#ff527b] disabled:bg-[#ff3f6c] sm:rounded-[4px]"
+          ? "rounded-[12px] bg-[#D4AF36] px-8 py-4 text-base font-black text-black shadow-sm transition hover:bg-[#D4AF36] disabled:bg-[#D4AF36] sm:rounded-[4px]"
           : "rounded-full bg-[#c9a16b] px-6 py-3 text-xs font-bold tracking-[0.1em] text-black transition hover:bg-[#d4b38a] disabled:bg-gray-300"
       } uppercase disabled:cursor-not-allowed ${
         fullWidth ? "w-full" : ""
@@ -119,7 +131,13 @@ export default function AddToEnquiryButton({
           />
         </svg>
       ) : null}
-      {tone === "myntra" ? label ?? "Add To Bag" : disabled ? disabledLabel : label ?? "Add To Cart"}
+      {added
+        ? "Added To Bag"
+        : tone === "myntra"
+          ? label ?? "Add To Bag"
+          : disabled
+            ? disabledLabel
+            : label ?? "Add To Cart"}
     </button>
   );
 }

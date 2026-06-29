@@ -144,7 +144,7 @@ export default function CheckoutPage() {
 
   if (orderNumber) {
     return (
-      <main className="grid min-h-[calc(100vh-74px)] place-items-center bg-[#f4efe7] px-5 py-10 text-black sm:min-h-[calc(100vh-80px)] sm:px-8 xl:min-h-[calc(100vh-96px)]">
+      <main className="grid min-h-screen place-items-center bg-[#f4efe7] px-5 pb-10 pt-28 text-black sm:px-8 sm:pt-32 xl:pt-36">
         <section className="w-full max-w-[900px]">
           <div className="rounded-[8px] border border-black/10 bg-white px-6 py-12 text-center shadow-md shadow-black/10 sm:px-12 sm:py-16">
             <p className="mx-auto grid size-16 place-items-center rounded-full bg-[#c9a16b] text-2xl font-black text-black sm:size-20">
@@ -183,7 +183,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f4efe7] px-4 py-6 text-black sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-[#f4efe7] px-4 pb-6 pt-28 text-black sm:px-6 sm:pt-32 lg:px-8 xl:pt-36">
       <section className="mx-auto max-w-[1240px]">
         <div className="mb-5">
           <p className="mb-2 text-[11px] font-black uppercase tracking-[0.22em] text-[#b58a52]">

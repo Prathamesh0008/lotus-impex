@@ -115,7 +115,7 @@ export default function HomeProductScroller() {
     if (!scroller || !isDragging) return;
 
     const distance = event.clientX - dragState.current.startX;
-    didDrag.current = Math.abs(distance) > 6;
+    didDrag.current = Math.abs(distance) > 18;
     scroller.scrollLeft = dragState.current.left - distance;
   }
 
@@ -210,9 +210,9 @@ export default function HomeProductScroller() {
                       didDrag.current = false;
                     }
                   }}
-                  className="block"
+                  className="block cursor-pointer"
                 >
-                  <div className="relative aspect-[3/4] overflow-hidden bg-[#f5f5f6]">
+                  <div className="relative aspect-[3/4] overflow-hidden bg-white">
                     <Image
                       src={imageSrc}
                       alt={product.imageAlt}

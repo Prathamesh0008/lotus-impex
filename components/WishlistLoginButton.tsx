@@ -21,10 +21,10 @@ export default function WishlistLoginButton({ label = false }: WishlistLoginButt
         className={
           label
             ? "flex min-h-12 w-full items-center justify-center gap-3 rounded-[4px] border border-[#d4d5d9] bg-white px-6 py-4 text-base font-black uppercase text-[#282c3f] transition hover:border-[#282c3f]"
-            : "grid size-12 shrink-0 place-items-center rounded-[8px] border border-[#d4d5d9] bg-white text-[#282c3f] transition hover:border-[#282c3f]"
+            : "grid size-9 shrink-0 place-items-center rounded-[8px] border border-[#d4d5d9] bg-white text-[#282c3f] transition hover:border-[#282c3f]"
         }
       >
-        <svg aria-hidden="true" viewBox="0 0 24 24" className="size-7">
+        <svg aria-hidden="true" viewBox="0 0 24 24" className={label ? "size-7" : "size-5"}>
           <path
             d="M12 20.25S4.75 16.2 3.05 10.9C1.9 7.35 4.2 4.5 7.45 4.5c1.85 0 3.35 1 4.55 2.45C13.2 5.5 14.7 4.5 16.55 4.5c3.25 0 5.55 2.85 4.4 6.4C19.25 16.2 12 20.25 12 20.25Z"
             fill="none"

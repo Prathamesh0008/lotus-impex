@@ -373,8 +373,8 @@ export default function ProductCategoryClient({
   }
 
   return (
-    <main className="bg-white pb-16 pt-16 text-[#111827] sm:pt-20 lg:pb-0 xl:pt-24">
-      <section className="hidden border-b border-black/10 bg-white px-5 py-5 sm:px-8 lg:block lg:px-10">
+    <main className="bg-white pb-16 pt-20 text-[#111827] sm:pt-20 lg:pb-0 xl:pt-24">
+      <section className="hidden bg-white px-5 py-5 sm:px-8 lg:block lg:px-10">
         <div className="mx-auto max-w-[1800px]">
           <div className="flex flex-wrap items-center gap-2 text-sm text-[#282c3f]">
             <Link href="/" className="hover:text-black">
@@ -734,14 +734,14 @@ export default function ProductCategoryClient({
                   <Link
                     key={item.slug}
                     href={`/products/${item.slug}`}
-                    className="group overflow-hidden border border-black/10 bg-white transition hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10"
+                    className="group overflow-hidden bg-white transition hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10"
                   >
-                    <div className="relative aspect-[4/3] overflow-hidden bg-[#f5f5f6]">
+                    <div className="relative aspect-[4/3] overflow-hidden bg-white">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={item.image}
                         alt={item.imageAlt}
-                        className="h-full w-full object-contain object-center p-3 transition duration-500 group-hover:scale-105"
+                        className="h-full w-full object-cover object-center transition duration-500 group-hover:scale-105"
                       />
                     </div>
                     <div className="p-4">
@@ -794,7 +794,7 @@ export default function ProductCategoryClient({
           </div>
 
           {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-2 items-start gap-x-3 gap-y-8 px-3 py-4 sm:gap-x-5 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-6 lg:px-0 lg:py-0 2xl:grid-cols-5">
+            <div className="grid grid-cols-2 items-start gap-x-3 gap-y-8 px-3 pb-4 pt-0 sm:gap-x-5 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-6 lg:px-0 lg:py-0 2xl:grid-cols-5">
               {filteredProducts.map((product, index) => (
                 <CatalogProductCard
                   key={product.slug}

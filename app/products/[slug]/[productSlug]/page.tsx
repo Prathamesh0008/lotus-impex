@@ -158,7 +158,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
   };
 
   return (
-    <main className="bg-white pb-6 pt-16 text-[#111827] sm:pt-20 lg:pb-0 lg:pt-24">
+    <main className="bg-white pb-6 pt-20 text-[#111827] sm:pt-20 lg:pb-0 lg:pt-24">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -208,9 +208,10 @@ export default async function ProductDetailPage({ params }: PageProps) {
           categorySlug={product.categorySlug}
           type={product.type}
           galleryImages={galleryImages}
+          similarProducts={relatedProducts.slice(0, 8)}
         />
 
-        <aside className="h-fit bg-white px-5 py-2 lg:sticky lg:top-28 lg:p-0">
+        <aside className="h-fit min-w-0 max-w-full overflow-hidden bg-white px-5 py-2 lg:sticky lg:top-28 lg:p-0">
           <div className="hidden">
             <div>
               <h1 className="text-2xl font-normal leading-tight text-[#535766]">
@@ -248,9 +249,9 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
           <h1 className="sr-only">{product.name}</h1>
 
-          <div className="-mt-4 border-b border-black/10 pb-4 lg:mt-0 lg:pb-5">
+          <div className="mt-0 min-w-0 border-b border-black/10 pb-4 lg:pb-5">
             <div className="flex items-start justify-between gap-4 lg:block">
-              <div className="text-[25px] font-semibold normal-case leading-[1.08] text-[#282c3f] lg:text-3xl lg:font-semibold lg:normal-case lg:leading-tight">
+              <div className="pt-1 text-xl font-semibold normal-case leading-[1.25] text-[#282c3f] lg:pt-0 lg:text-3xl lg:font-semibold lg:normal-case lg:leading-tight">
                 <span className="lg:hidden">{product.name}</span>
                 <span className="hidden lg:inline">{product.name}</span>
               </div>
@@ -280,13 +281,13 @@ export default async function ProductDetailPage({ params }: PageProps) {
           </div>
           </div>
 
-          <div className="mt-2 lg:mt-5">
-            <p className="text-xl font-black text-[#282c3f] lg:text-3xl">
+          <div className="mt-2 min-w-0 lg:mt-5">
+            <p className="text-lg font-black text-[#282c3f] min-[380px]:text-xl lg:text-3xl">
               ₹667{" "}
               <span className="text-lg font-normal text-[#7e818c] line-through lg:text-xl">
                 MRP ₹1699
               </span>{" "}
-              <span className="text-xl font-black text-[#ff905a]">
+              <span className="text-lg font-black text-[#D4AF36] min-[380px]:text-xl">
                 (61% OFF)
               </span>
             </p>
@@ -295,42 +296,42 @@ export default async function ProductDetailPage({ params }: PageProps) {
             </p>
           </div>
 
-          <div className="mt-5 overflow-hidden rounded-[16px] border border-[#d4d5d9] bg-white lg:hidden">
-            <div className="flex items-center gap-3 px-3 py-3">
-              <div className="grid size-12 shrink-0 place-items-center rounded-full bg-[#ff3f6c] text-center text-[10px] font-black uppercase leading-[0.85] text-white">
+          <div className="mt-5 max-w-full overflow-hidden rounded-[16px] border border-[#d4d5d9] bg-white lg:hidden">
+            <div className="flex min-w-0 items-center gap-3 px-3 py-3">
+              <div className="grid size-12 shrink-0 place-items-center rounded-full bg-[#D4AF36] text-center text-[10px] font-black uppercase leading-[0.85] text-black">
                 <span>
                   Mega
                   <br />
                   Deal
                 </span>
               </div>
-              <p className="min-w-0 flex-1 text-lg font-black text-[#282c3f]">
-                Get at <span className="underline decoration-[#ff905a] decoration-2 underline-offset-4">₹257</span>
+              <p className="min-w-0 flex-1 truncate text-base font-black text-[#282c3f] min-[380px]:text-lg">
+                Get at <span className="underline decoration-[#D4AF36] decoration-2 underline-offset-4">₹257</span>
               </p>
-              <span className="shrink-0 rounded-[8px] bg-[#2dbb7f] px-3 py-2 text-sm font-black text-white">
+              <span className="max-w-[116px] shrink-0 truncate rounded-[8px] bg-[#2dbb7f] px-2.5 py-2 text-xs font-black text-white min-[380px]:max-w-[136px] min-[380px]:px-3 min-[380px]:text-sm">
                 Extra ₹139 Off
               </span>
             </div>
-            <div className="flex items-center justify-between border-t border-black/10 px-4 py-3 text-sm text-[#535766]">
+            <div className="flex min-w-0 items-center justify-between gap-3 border-t border-black/10 px-4 py-3 text-sm text-[#535766] [&>span:first-child]:min-w-0 [&>span:first-child]:truncate">
               <span>With Coupon + 🏦 Bank Offer</span>
-              <span className="font-black text-[#ff3f6c]">Details &gt;</span>
+              <span className="shrink-0 font-black text-[#D4AF36]">Details &gt;</span>
             </div>
           </div>
 
-          <div className="mt-5 lg:mt-7">
+          <div className="mt-5 min-w-0 lg:mt-7">
             <p className="text-xl font-black text-[#282c3f] lg:text-base lg:uppercase">
               <span className="lg:hidden">
                 Colour <span className="font-normal">Green</span>
               </span>
               <span className="hidden lg:inline">More Colors</span>
             </p>
-            <div className="mt-4 flex flex-wrap gap-3 lg:hidden">
+            <div className="-mx-5 mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-2 lg:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {mobileColorImages.map((image, index) => (
                 <Link
                   key={`${image}-${index}`}
                   href="#product-actions"
-                  className={`relative size-[72px] overflow-hidden rounded-[14px] bg-[#f5f5f6] ${
-                    index === 0 ? "ring-1 ring-[#ff3f6c]" : ""
+                  className={`relative size-[72px] shrink-0 snap-start overflow-hidden rounded-[14px] bg-[#f5f5f6] ${
+                    index === 0 ? "ring-1 ring-[#D4AF36]" : ""
                   }`}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}

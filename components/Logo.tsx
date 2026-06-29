@@ -23,7 +23,7 @@ export default function Logo({ dark = false, size = "nav" }: LogoProps) {
         className={`relative h-full w-full`}
       >
         <Image
-          src="/Lotus_Final_Logo1.png"
+          src="/Artboard_7.png"
           alt="Lotus Impex Global Exporters"
           fill
           priority

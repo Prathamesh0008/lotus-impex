@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import Logo from "@/components/Logo";
 import { exportCategories, navLinks } from "@/data/site";
 import { exportProducts } from "@/data/products";
@@ -228,20 +228,21 @@ function BackIcon() {
 
 function DrawerArrow({ rotated = false }: { rotated?: boolean }) {
   return (
-    <span
-      aria-hidden="true"
-      className={`grid size-6 place-items-center text-xl font-normal leading-none text-[#94969f] transition ${
-        rotated ? "rotate-90" : ""
-      }`}
-    >
-      {">"}
-    </span>
+  <span
+  aria-hidden="true"
+  className="grid size-4 place-items-center text-sm font-normal leading-none text-[#94969f]"
+>
+  {">"}
+</span>
   );
 }
 
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
+  const headerRef = useRef<HTMLElement>(null);
+  const mobileDrawerRef = useRef<HTMLElement>(null);
+  const searchPanelRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [user, setUser] = useState<SignedInUser | null>(null);
@@ -250,7 +251,7 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const isProductDetailPage = /^\/products\/[^/]+\/[^/]+/.test(pathname);
-  const showMobileBackButton = pathname !== "/" && !isProductDetailPage;
+  const showMobileBackButton = pathname !== "/";
 
   useEffect(() => {
     function updateCartCount() {
@@ -285,6 +286,31 @@ export default function Navbar() {
       window.removeEventListener("focus", updateUser);
     };
   }, []);
+
+  useEffect(() => {
+    function closeOpenPanels(event: MouseEvent) {
+      const target = event.target as Node;
+      const clickedHeader = headerRef.current?.contains(target);
+      const clickedDrawer = mobileDrawerRef.current?.contains(target);
+      const clickedSearch = searchPanelRef.current?.contains(target);
+
+      if (open && !clickedHeader && !clickedDrawer) {
+        setOpen(false);
+      }
+
+      if (searchOpen && !clickedHeader && !clickedSearch) {
+        setSearchOpen(false);
+      }
+    }
+
+    if (!open && !searchOpen) return;
+
+    document.addEventListener("pointerdown", closeOpenPanels);
+
+    return () => {
+      document.removeEventListener("pointerdown", closeOpenPanels);
+    };
+  }, [open, searchOpen]);
 
   const iconLinks = [
     {
@@ -358,31 +384,18 @@ export default function Navbar() {
 
   return (
     <>
-      <header
-        className={`fixed left-0 right-0 top-0 z-[100] backdrop-blur-2xl ${
-          isProductDetailPage
-            ? "border-b border-white/10 bg-black/95 text-white"
-            : "border-b border-white/10 bg-black/95 text-white"
-        }`}
-      >
-        <nav
-          className={`mx-auto grid h-16 max-w-[1500px] items-center gap-2 px-4 sm:h-20 sm:px-6 xl:h-24 xl:grid-cols-[minmax(300px,0.8fr)_minmax(420px,1fr)_auto] xl:gap-8 xl:px-10 ${
-            isProductDetailPage
-              ? "grid-cols-[44px_minmax(150px,1fr)_96px] gap-2 px-4 sm:grid-cols-[52px_minmax(190px,1fr)_120px] sm:gap-3 sm:px-5"
-              : "grid-cols-[44px_minmax(0,1fr)_132px] sm:grid-cols-[52px_minmax(0,1fr)_156px]"
-          }`}
-        >
+     <header
+  ref={headerRef}
+  className="fixed left-0 right-0 top-0 z-[100] border-b border-black/10 bg-white text-black shadow-sm"
+>
+      <nav className="relative mx-auto grid h-20 max-w-[1500px] grid-cols-[46px_minmax(135px,1fr)_120px] items-center gap-1 px-3 sm:grid-cols-[52px_minmax(190px,1fr)_150px] sm:px-6 xl:h-24 xl:grid-cols-[minmax(300px,0.8fr)_minmax(420px,1fr)_auto] xl:gap-8 xl:px-10">
           <div className="flex items-center xl:hidden">
             {showMobileBackButton ? (
               <button
                 type="button"
                 aria-label="Go back"
                 onClick={() => router.back()}
-                className={`grid h-8 w-8 place-items-center rounded-full border bg-transparent transition sm:h-10 sm:w-10 xl:hidden ${
-                  isProductDetailPage
-                    ? "border-transparent text-white hover:bg-white/10"
-                    : "border-white/25 text-white hover:bg-white/10"
-                }`}
+                className="grid h-10 w-10 place-items-center rounded-full border border-black/20 bg-transparent text-black transition hover:bg-black hover:text-white sm:h-12 sm:w-12 xl:hidden"
               >
                 <BackIcon />
               </button>
@@ -391,11 +404,14 @@ export default function Navbar() {
                 type="button"
                 aria-label={open ? "Close navigation menu" : "Open navigation menu"}
                 aria-expanded={open}
-                onClick={() => setOpen((value) => !value)}
+                onClick={() => {
+                  setSearchOpen(false);
+                  setOpen((value) => !value);
+                }}
                 className={`grid h-10 w-10 place-items-center rounded-full border bg-transparent transition sm:h-12 sm:w-12 xl:hidden ${
                   isProductDetailPage
-                    ? "border-white/25 text-white hover:bg-white/10"
-                    : "border-white/25 text-white hover:bg-white/10"
+                    ? "border-black/20 text-black hover:bg-black hover:text-white"
+                    : "border-black/20 text-black hover:bg-black hover:text-white"
                 }`}
               >
                 <span className="relative block h-4 w-5">
@@ -418,18 +434,19 @@ export default function Navbar() {
               </button>
             )}
           </div>
+<div className="flex min-w-0 items-center justify-center overflow-hidden xl:justify-start">
+ <Link href="/" className="block -translate-x-9 xl:hidden">
+  <img
+    src="/Artboard_1.png"
+    alt="Lotus Impex"
+    className="h-13 w-auto sm:h-11"
+  />
+</Link>
 
-          <div className="flex min-w-0 items-center justify-center xl:justify-start">
-            <div
-              className={
-                isProductDetailPage
-                  ? "flex min-w-0 justify-start overflow-visible [&_a]:!h-12 [&_a]:!w-[170px] [&_a]:!max-w-[170px] sm:[&_a]:!h-14 sm:[&_a]:!w-[220px] sm:[&_a]:!max-w-[220px]"
-                  : "flex min-w-0 justify-center"
-              }
-            >
-              <Logo />
-            </div>
-          </div>
+  <div className="hidden xl:block">
+    <Logo />
+  </div>
+</div>
 
           <div className="hidden min-w-0 items-center justify-center gap-8 xl:flex">
             {navLinks.map((link) => {
@@ -450,7 +467,7 @@ export default function Navbar() {
                     aria-expanded={desktopProductsOpen}
                     onClick={() => setDesktopProductsOpen(true)}
                     className={`text-sm font-semibold uppercase tracking-[0.14em] transition ${
-                      active ? "text-white" : "text-white/60 hover:text-white"
+               active ? "text-black" : "text-black/70 hover:text-black"
                     }`}
                   >
                     {link.label}
@@ -547,7 +564,7 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={`text-sm font-semibold uppercase tracking-[0.14em] transition ${
-                    active ? "text-white" : "text-white/60 hover:text-white"
+                active ? "text-black" : "text-black/70 hover:text-black"
                   }`}
                 >
                   {link.label}
@@ -556,15 +573,22 @@ export default function Navbar() {
             })}
           </div>
 
-          <div className="flex min-w-0 items-center justify-end gap-3">
-            <div className="hidden items-center gap-3 xl:flex">
+          <div className="flex min-w-0 items-center justify-end gap-5">
+        <div className="flex items-center gap-2 sm:gap-3 xl:gap-5">
               <button
                 type="button"
                 aria-label="Search products"
                 title="Search"
-                onClick={() => setSearchOpen((value) => !value)}
-                className="grid h-12 w-12 place-items-center rounded-full border border-white/20 bg-black text-white transition hover:bg-white hover:text-black"
-              >
+                onClick={() => {
+                  setOpen(false);
+                  setSearchOpen((value) => !value);
+                }}
+
+               
+               
+className="grid h-9 w-9 sm:h-10 sm:w-10 xl:h-12 xl:w-12 place-items-center rounded-full border border-black/20 bg-transparent text-black transition hover:bg-black hover:text-white"             
+             >
+
                 <SearchIcon />
               </button>
 
@@ -577,36 +601,44 @@ export default function Navbar() {
                     href={item.href}
                     aria-label={item.label}
                     title={item.label}
-                    className={`relative inline-flex h-12 items-center justify-center gap-2 rounded-full border text-lg transition ${
-                      active
-                        ? "border-white bg-white text-black"
-                        : "border-white/20 bg-black text-white hover:bg-white hover:text-black"
-                    } ${user && item.href === "/sign-in" ? "px-4" : "w-12"}`}
+                  className={`relative inline-flex h-9 w-9 sm:h-10 sm:w-10 xl:h-12 ${
+  user && item.href === "/sign-in"
+    ? "xl:w-auto xl:px-4"
+    : ""
+} items-center justify-center gap-2 rounded-full border transition ${
+  active
+    ? "border-black bg-black text-white"
+    : "border-black/20 bg-transparent text-black hover:bg-black hover:text-white"
+}`}
                   >
-                    {item.icon}
-                    {user && item.href === "/sign-in" ? (
-                      <span className="max-w-28 truncate text-xs font-semibold uppercase tracking-[0.12em]">
-                        {user.name}
-                      </span>
-                    ) : null}
-                    {item.count > 0 ? (
-                      <span className="absolute -right-1 -top-1 grid min-w-5 place-items-center rounded-full bg-[#c9a16b] px-1.5 py-0.5 text-[10px] font-black leading-none text-black ring-2 ring-black">
-                        {item.count > 99 ? "99+" : item.count}
-                      </span>
-                    ) : null}
+                  {item.icon}
+
+{user && item.href === "/sign-in" ? (
+  <span className="hidden max-w-28 truncate text-xs font-semibold uppercase tracking-[0.12em] xl:block">
+    {user.name}
+  </span>
+) : null}
+
+{item.count > 0 ? (
+  <span className="absolute -right-1 -top-1 grid min-w-5 place-items-center rounded-full bg-[#c9a16b] px-1.5 py-0.5 text-[10px] font-black leading-none text-black ring-2 ring-white">
+    {item.count > 99 ? "99+" : item.count}
+  </span>
+) : null}
                   </Link>
                 );
               })}
 
               <Link
                 href="/contact"
-                className="rounded-full bg-white px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.14em] text-black transition hover:bg-[#c9a16b]"
-              >
+
+className="hidden md:flex rounded-full bg-white px-5 xl:px-7 py-2.5 xl:py-3.5 text-xs font-semibold uppercase tracking-[0.14em] text-black border border-black/20 hover:bg-black hover:text-white transition"             
+             >
+
                 Enquire
               </Link>
             </div>
 
-            <div className="flex shrink-0 items-center justify-end gap-0.5 [&_svg]:size-4 xl:hidden">
+        {/* <div className="flex shrink-0 items-center gap-2 xl:hidden">
               {isProductDetailPage ? (
                 <>
                   <button
@@ -647,8 +679,8 @@ export default function Navbar() {
                     aria-label="Search products"
                     title="Search"
                     onClick={() => setSearchOpen((value) => !value)}
-                    className="relative grid h-10 w-10 place-items-center rounded-full border border-white/25 bg-transparent text-white transition hover:bg-white/10 sm:h-12 sm:w-12"
-                  >
+className="relative grid h-10 w-10 place-items-center rounded-full border border-black/25 bg-transparent text-black transition hover:bg-black hover:text-white"
+              >
                     <SearchIcon />
                   </button>
                   {iconLinks.map((item) => (
@@ -657,7 +689,7 @@ export default function Navbar() {
                       href={item.href}
                       aria-label={item.label}
                       title={item.label}
-                      className="relative grid h-10 w-10 place-items-center rounded-full border border-white/25 bg-transparent text-white transition hover:bg-white/10 sm:h-12 sm:w-12"
+                      className="relative grid h-10 w-10 place-items-center rounded-full border border-transparent text-black hover:bg-black/5 transition hover:bg-white/10 sm:h-12 sm:w-12"
                     >
                       {item.icon}
                       {item.count > 0 ? (
@@ -669,14 +701,17 @@ export default function Navbar() {
                   ))}
                 </>
               )}
-            </div>
+            </div> */}
           </div>
         </nav>
 
       </header>
 
       {searchOpen ? (
-        <div className="fixed inset-x-0 top-16 z-[95] border-b border-black/10 bg-white px-4 py-3 shadow-lg shadow-black/10 sm:top-20 sm:px-8 xl:top-24">
+        <div
+          ref={searchPanelRef}
+          className="fixed inset-x-0 top-16 z-[95] border-b border-black/10 bg-white px-4 py-3 shadow-lg shadow-black/10 sm:top-20 sm:px-8 xl:top-24"
+        >
           <form
             onSubmit={submitSearch}
             className="mx-auto flex max-w-[1600px] items-center overflow-hidden rounded-[8px] border border-black/20 bg-white"
@@ -716,6 +751,7 @@ export default function Navbar() {
           />
 
           <aside
+            ref={mobileDrawerRef}
             className={`absolute left-0 top-0 h-full w-[88vw] max-w-sm overflow-y-auto bg-white text-[#282c3f] shadow-2xl shadow-black/30 transition-transform duration-300 ease-out ${
               open ? "translate-x-0" : "-translate-x-full"
             }`}

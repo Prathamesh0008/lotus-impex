@@ -1,7 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRef, useState } from "react";
+import AddToEnquiryButton from "@/components/AddToEnquiryButton";
+import type { ExportProduct } from "@/data/products";
 
 type ProductImageGalleryProps = {
   image: string;
@@ -14,6 +17,10 @@ type ProductImageGalleryProps = {
     alt: string;
     caption?: string;
   }[];
+  similarProducts?: Pick<
+    ExportProduct,
+    "slug" | "categorySlug" | "name" | "shortName" | "image" | "imageAlt" | "summary" | "minOrder"
+  >[];
 };
 
 const fallbackImages: Record<string, string> = {
@@ -77,9 +84,11 @@ export default function ProductImageGallery({
   categorySlug,
   type,
   galleryImages = [],
+  similarProducts = [],
 }: ProductImageGalleryProps) {
   const mobileScrollerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [similarOpen, setSimilarOpen] = useState(false);
   const fallback = fallbackImages[categorySlug] || "/product_category.jpg";
   const images =
     galleryImages.length > 0
@@ -117,7 +126,7 @@ export default function ProductImageGallery({
           {images.map((item, index) => (
             <div
               key={`${item.src}-mobile-${index}`}
-              className="relative h-[min(128vw,620px)] w-full shrink-0 snap-start overflow-hidden rounded-b-[28px] bg-[#f5f5f6]"
+              className="relative h-[min(128vw,620px)] w-full shrink-0 snap-start overflow-hidden rounded-b-[28px] bg-white"
             >
               <SafeImage
                 src={item.src}
@@ -126,9 +135,13 @@ export default function ProductImageGallery({
                 priority={index === 0}
                 fill
               />
-              <div className="absolute bottom-5 left-5 rounded-[10px] bg-white px-3 py-2 text-sm font-black text-[#282c3f] shadow-sm">
+              <button
+                type="button"
+                onClick={() => setSimilarOpen(true)}
+                className="absolute bottom-5 left-5 rounded-[10px] bg-white px-3 py-2 text-sm font-black text-[#282c3f] shadow-sm"
+              >
                 View Similar
-              </div>
+              </button>
               <div className="absolute bottom-5 right-5 rounded-[10px] bg-white px-3 py-2 text-sm font-black text-[#282c3f] shadow-sm">
                 4.3 <span className="text-[#14958f]">★</span>
                 <span className="ml-2 border-l border-black/15 pl-2 font-normal">
@@ -157,13 +170,87 @@ export default function ProductImageGallery({
 
           </>
         ) : null}
+
+        {similarOpen ? (
+          <div className="fixed inset-0 z-[190] bg-black/40">
+            <div className="absolute inset-x-0 bottom-0 max-h-[78vh] overflow-hidden rounded-t-[22px] bg-white shadow-2xl">
+              <div className="flex items-center justify-between px-5 py-4">
+                <h2 className="text-xl font-black text-[#10182f]">
+                  Similar Products
+                </h2>
+                <button
+                  type="button"
+                  onClick={() => setSimilarOpen(false)}
+                  className="grid size-9 place-items-center text-3xl font-light leading-none text-black"
+                  aria-label="Close similar products"
+                >
+                  x
+                </button>
+              </div>
+
+              <div className="flex gap-3 overflow-x-auto px-5 pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {(similarProducts.length > 0
+                  ? similarProducts
+                  : []
+                ).slice(0, 8).map((product) => (
+                  <div
+                    key={`${product.categorySlug}-${product.slug}`}
+                    className="w-[148px] shrink-0"
+                  >
+                    <Link
+                      href={`/products/${product.categorySlug}/${product.slug}`}
+                      onClick={() => setSimilarOpen(false)}
+                      className="block"
+                    >
+                      <div className="relative h-[200px] overflow-hidden rounded-[14px] bg-[#f5f5f6]">
+                        <Image
+                          src={product.image}
+                          alt={product.imageAlt}
+                          fill
+                          sizes="148px"
+                          className="object-cover"
+                        />
+                        <div className="absolute bottom-2 left-2 rounded bg-white/90 px-2 py-1 text-xs font-black text-[#282c3f]">
+                          4.3 <span className="text-[#14958f]">★</span>
+                        </div>
+                      </div>
+                      <p className="mt-2 truncate text-base font-black text-[#282c3f]">
+                        {product.shortName || product.name}
+                      </p>
+                      <p className="truncate text-sm text-[#94969f]">
+                        {product.summary}
+                      </p>
+                      <p className="mt-1 text-sm font-black text-[#282c3f]">
+                        $874 <span className="font-normal text-[#94969f] line-through">$1,749</span>{" "}
+                        <span className="text-[#D4AF36]">50%...</span>
+                      </p>
+                    </Link>
+                    <div className="mt-3">
+                      <AddToEnquiryButton
+                        product={product}
+                        fullWidth
+                        label="Add to Bag"
+                      />
+                    </div>
+                  </div>
+                ))}
+
+                {similarProducts.length === 0 ? (
+                  <p className="pb-8 text-sm font-semibold text-black/55">
+                    Similar products are not available right now.
+                  </p>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        ) : null}
       </div>
 
       <div className="hidden gap-4 sm:grid sm:grid-cols-2">
         {images.slice(0, 4).map((item, index) => (
           <div
             key={`${item.src}-${index}`}
-            className="group relative min-h-[360px] overflow-hidden bg-[#f5f5f6] sm:min-h-[560px]"
+            className="group relative min-h-[360px] overflow-hidden bg-white sm:min-h-[560px]"
           >
             <SafeImage
               src={item.src}

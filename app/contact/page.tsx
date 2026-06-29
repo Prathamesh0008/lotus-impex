@@ -50,7 +50,7 @@ export default function ContactPage() {
       </section>
 
       {/* CONTACT FORM SECTION */}
-      <section className="px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
+      <section className="px-5 pb-16 pt-6 sm:px-8 sm:pt-10 lg:px-10 lg:py-24">
         <div className="mx-auto grid max-w-[1500px] gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
           {/* LEFT INFO CARD */}
           <aside className="rounded-[28px] border border-black/10 bg-white p-6 shadow-xl shadow-black/5 lg:sticky lg:top-28 lg:p-8">

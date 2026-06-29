@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FormEvent, ReactNode, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useState } from "react";
 
 const USER_STORAGE_KEY = "lotus_impex_user";
 const USER_UPDATED_EVENT = "lotus-impex-user-updated";
@@ -67,6 +67,31 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [signedInUser, setSignedInUser] = useState<SignedInUser | null>(null);
+
+  useEffect(() => {
+    const rawUser = window.localStorage.getItem(USER_STORAGE_KEY);
+
+    if (!rawUser) {
+      setSignedInUser(null);
+      return;
+    }
+
+    try {
+      setSignedInUser(JSON.parse(rawUser) as SignedInUser);
+    } catch {
+      window.localStorage.removeItem(USER_STORAGE_KEY);
+      setSignedInUser(null);
+    }
+  }, []);
+
+  function handleLogout() {
+    window.localStorage.removeItem(USER_STORAGE_KEY);
+    window.dispatchEvent(new Event(USER_UPDATED_EVENT));
+    setSignedInUser(null);
+    setError("");
+    setMessage("You have been logged out.");
+  }
 
   async function handleAuthSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -124,6 +149,7 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
 
       window.localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(result.user));
       window.dispatchEvent(new Event(USER_UPDATED_EVENT));
+      setSignedInUser(result.user);
       setMessage("Login successful.");
     } catch (submitError) {
       setError(
@@ -210,6 +236,42 @@ export default function SignInForm({ authView = "signIn" }: { authView?: AuthVie
 
         <AuthMessage error={error} message={message} />
       </form>
+    );
+  }
+
+  if (signedInUser) {
+    return (
+      <div className="mx-auto w-full max-w-[760px] min-w-0 overflow-hidden rounded-[22px] border border-black/10 bg-white p-4 shadow-xl shadow-black/5 sm:rounded-[28px] sm:p-6 lg:p-8">
+        <div className="border-b border-black/10 pb-5 sm:pb-6">
+          <p className="text-[11px] font-black uppercase tracking-[0.22em] text-[#b58a52] sm:text-xs sm:tracking-[0.3em]">
+            Signed In
+          </p>
+          <h2 className="mt-3 font-serif text-3xl uppercase leading-[1] text-black sm:text-5xl">
+            {signedInUser.name}
+          </h2>
+          <p className="mt-4 break-all text-sm font-semibold leading-7 text-black/55">
+            {signedInUser.email}
+          </p>
+        </div>
+
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+          <Link
+            href="/"
+            className="inline-flex justify-center rounded-full bg-black px-5 py-3.5 text-center text-xs font-black uppercase tracking-[0.14em] text-white transition hover:bg-[#6b3f24] sm:px-8 sm:py-4 sm:tracking-[0.18em]"
+          >
+            Continue Shopping
+          </Link>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="rounded-full border border-black/15 px-5 py-3.5 text-xs font-black uppercase tracking-[0.12em] text-black transition hover:border-black hover:bg-black hover:text-white sm:px-8 sm:py-4 sm:tracking-[0.18em]"
+          >
+            Logout
+          </button>
+        </div>
+
+        <AuthMessage error={error} message={message} />
+      </div>
     );
   }
 

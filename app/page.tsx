@@ -12,7 +12,7 @@ function HomeLowerContent() {
   return (
     <>
       <HomeProductScroller />
-      <HomeShoppingShowcase />
+      {/* <HomeShoppingShowcase /> */}
       <HomePremiumSections />
 
       <section className="bg-white px-5 py-16 text-black sm:px-8 lg:px-10 xl:py-24">
@@ -46,17 +46,17 @@ function HomeLowerContent() {
               focused on buyer confidence.
             </p>
 
-            <div className="mt-10 grid gap-4 sm:grid-cols-2">
+            <div className="mt-10 grid grid-cols-2 gap-4">
               {exportCategories.slice(0, 4).map((category) => (
                 <Link
                   key={category.slug}
                   href={`/products/${category.slug}`}
-                  className="group border border-black/10 p-5 transition hover:bg-black hover:text-white"
+                  className="group flex min-h-[120px] flex-col justify-between border border-black/10 p-4 transition hover:bg-black hover:text-white sm:min-h-[122px] sm:p-5"
                 >
-                  <p className="text-sm font-black uppercase tracking-[0.16em]">
+                  <p className="text-[11px] font-black uppercase tracking-[0.14em] sm:text-sm sm:tracking-[0.16em]">
                     {category.title}
                   </p>
-                  <span className="mt-5 inline-block text-black/45 transition group-hover:text-white/60">
+                  <span className="mt-5 inline-block text-sm text-black/45 transition group-hover:text-white/60 sm:text-base">
                     View -&gt;
                   </span>
                 </Link>

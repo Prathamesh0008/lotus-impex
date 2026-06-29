@@ -442,13 +442,13 @@ export default function MobileHomeExperience() {
               href={`/products/${product.categorySlug}/${product.slug}`}
               className="min-w-0 bg-white"
             >
-              <div className="relative aspect-[3/4] overflow-hidden rounded-sm bg-[#f5f5f6]">
+              <div className="relative aspect-[3/4] overflow-hidden bg-white">
                 <Image
                   src={product.image}
                   alt={product.imageAlt}
                   fill
                   sizes="50vw"
-                  className="object-contain object-bottom"
+                  className="object-cover object-bottom"
                 />
                 <span className="absolute bottom-2 left-2 rounded-sm bg-white/95 px-1.5 py-0.5 text-[10px] font-black text-[#282c3f] shadow-sm">
                   {(4 + (index % 5) / 10).toFixed(1)}{" "}

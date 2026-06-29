@@ -90,6 +90,51 @@ const categoryDeals: CategoryDeal[] = [
   },
 ];
 
+const machineryDeals: CategoryDeal[] = [
+  {
+    title: "Machinery",
+    offer: "Industrial Supply",
+    image:
+      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=900&q=85",
+    href: "/products/machinery?type=General%20machinery",
+  },
+  {
+    title: "Textile Machinery",
+    offer: "Export Ready",
+    image:
+      "https://images.unsplash.com/photo-1660980041852-230420b8f99f?auto=format&fit=crop&w=900&q=85",
+    href: "/products/machinery?type=Textile%20machinery",
+  },
+  {
+    title: "Machine Parts",
+    offer: "Project Supply",
+    image:
+      "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=900&q=85",
+    href: "/products/machinery?type=Machine%20parts",
+  },
+  {
+    title: "Workshop Tools",
+    offer: "Bulk Orders",
+    image:
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=900&q=85",
+    href: "/products/machinery?type=Workshop%20tools",
+  },
+  {
+    title: "Packaging Machinery",
+    offer: "Industrial Goods",
+    image:
+      "https://images.unsplash.com/photo-1496247749665-49cf5b1022e9?auto=format&fit=crop&w=900&q=85",
+    href: "/products/machinery?type=Packaging%20machinery",
+  },
+  {
+    title: "Custom Sourcing",
+    offer: "Requirement Based",
+    image:
+      "https://images.unsplash.com/photo-1610891015188-5369212db097?auto=format&fit=crop&w=900&q=85",
+    href: "/products/machinery?type=Custom%20industrial%20sourcing",
+  },
+];
+
 export default function HomeCategoryShowcase() {
   return (
     <section className="w-full max-w-full overflow-hidden bg-white px-4 py-12 text-[#282c3f] sm:px-8 sm:py-14 lg:px-10">
@@ -103,10 +148,10 @@ export default function HomeCategoryShowcase() {
             <Link
               key={item.title}
               href={item.href}
-              className="group block w-full max-w-[275px] min-w-0 overflow-hidden border-[5px] border-[#d6b85a] bg-[#fffaf4] p-[5px] text-center shadow-[0_6px_16px_rgba(40,44,63,0.05)] transition hover:-translate-y-1 hover:shadow-[0_10px_22px_rgba(40,44,63,0.08)]"
+              className="group block w-full max-w-[275px] min-w-0 overflow-hidden border-[5px] border-[#D4AF36] bg-white text-center shadow-[0_6px_16px_rgba(40,44,63,0.05)] transition hover:-translate-y-1 hover:shadow-[0_10px_22px_rgba(40,44,63,0.08)]"
             >
-              <div className="bg-[#fffaf4] p-[6px]">
-                <div className="relative aspect-[1/1.18] overflow-hidden border border-[#ffe0bf] bg-white">
+              <div className="bg-white">
+                <div className="relative aspect-[1/1.18] overflow-hidden bg-white">
                   <Image
                     src={item.image}
                     alt={item.title}
@@ -114,7 +159,7 @@ export default function HomeCategoryShowcase() {
                     sizes="(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 275px"
                     className={`object-center transition duration-700 group-hover:scale-[1.02] ${
                       item.image.startsWith("/catalogue-")
-                        ? "object-contain"
+                        ? "object-cover"
                         : "object-cover"
                     }`}
                   />
@@ -134,6 +179,46 @@ export default function HomeCategoryShowcase() {
               </div>
             </Link>
           ))}
+        </div>
+
+        <div className="mt-12 border-t border-black/10 pt-10">
+          <h2 className="mb-8 text-2xl font-black uppercase tracking-[0.22em] text-[#2f3548] sm:mb-12 sm:text-4xl">
+            Machinery Products
+          </h2>
+
+          <div className="grid grid-cols-2 justify-items-center gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-7 sm:gap-y-11 xl:grid-cols-6 xl:gap-x-5">
+            {machineryDeals.map((item) => (
+              <Link
+                key={item.title}
+                href={item.href}
+                className="group block w-full max-w-[275px] min-w-0 overflow-hidden border-[5px] border-[#D4AF36] bg-white text-center shadow-[0_6px_16px_rgba(40,44,63,0.05)] transition hover:-translate-y-1 hover:shadow-[0_10px_22px_rgba(40,44,63,0.08)]"
+              >
+                <div className="bg-white">
+                  <div className="relative aspect-[1/1.18] overflow-hidden bg-white">
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      sizes="(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 275px"
+                      className="object-cover object-center transition duration-700 group-hover:scale-[1.02]"
+                    />
+                  </div>
+
+                  <div className="grid min-h-[112px] content-center bg-[linear-gradient(180deg,#fffaf4_0%,#fff0df_100%)] px-1 py-2">
+                    <h3 className="text-base font-black leading-tight text-black sm:text-[20px]">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-[18px] font-black leading-none text-black sm:text-[24px]">
+                      {item.offer}
+                    </p>
+                    <p className="mt-1 text-base font-black leading-tight text-black sm:text-[20px]">
+                      Shop Now
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </section>

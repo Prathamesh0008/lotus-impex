@@ -58,7 +58,7 @@ export default function HomePremiumSections() {
   return (
     <>
       {/* STATS */}
-      <section className="border-y border-black/10 bg-white">
+      {/* <section className="border-y border-black/10 bg-white">
         <div className="mx-auto grid max-w-[1500px] gap-4 px-5 py-8 sm:px-8 md:grid-cols-4 lg:px-10">
           {[
             ["25+", "Product Lines"],
@@ -74,7 +74,7 @@ export default function HomePremiumSections() {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       {/* FEATURED COLLECTIONS */}
       <section className="bg-[#f4efe7] px-5 py-16 sm:px-8 lg:px-10">
