@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 
 const heroSlides = [
@@ -44,11 +45,13 @@ const heroSlides = [
 ];
 
 export default function HeroBanner() {
+  const router = useRouter();
   const [activeSlide, setActiveSlide] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const dragStartX = useRef(0);
   const dragDeltaX = useRef(0);
+  const suppressBannerClick = useRef(false);
   const isPointerDown = useRef(false);
   const safeActiveSlide = activeSlide % heroSlides.length;
 
@@ -94,6 +97,7 @@ export default function HeroBanner() {
     const width = event.currentTarget.clientWidth;
     const threshold = Math.min(120, width * 0.18);
     const delta = dragDeltaX.current;
+    suppressBannerClick.current = Math.abs(delta) >= threshold;
 
     if (delta <= -threshold) {
       setActiveSlide((current) => (current + 1) % heroSlides.length);
@@ -121,6 +125,14 @@ export default function HeroBanner() {
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
         onPointerLeave={handlePointerUp}
+        onClick={() => {
+          if (suppressBannerClick.current) {
+            suppressBannerClick.current = false;
+            return;
+          }
+
+          router.push("/products");
+        }}
       >
         <div
           className={`flex h-full ${

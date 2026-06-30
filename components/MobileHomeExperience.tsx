@@ -146,6 +146,7 @@ export default function MobileHomeExperience() {
   const [searchQuery, setSearchQuery] = useState("");
   const bannerDragStartX = useRef(0);
   const bannerDragDeltaX = useRef(0);
+  const suppressBannerClick = useRef(false);
   const isBannerPointerDown = useRef(false);
   const products = exportProducts
     .filter((product) =>
@@ -195,6 +196,7 @@ export default function MobileHomeExperience() {
     const width = event.currentTarget.clientWidth;
     const threshold = Math.min(80, width * 0.2);
     const delta = bannerDragDeltaX.current;
+    suppressBannerClick.current = Math.abs(delta) >= threshold;
 
     if (delta <= -threshold) {
       setActiveBanner((current) => (current + 1) % mobileBanners.length);
@@ -343,6 +345,14 @@ export default function MobileHomeExperience() {
           onPointerUp={handleBannerPointerUp}
           onPointerCancel={handleBannerPointerUp}
           onPointerLeave={handleBannerPointerUp}
+          onClick={() => {
+            if (suppressBannerClick.current) {
+              suppressBannerClick.current = false;
+              return;
+            }
+
+            router.push("/products");
+          }}
         >
           <div
             className={`flex h-full ${

@@ -397,7 +397,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
               <Link
                 href={`/products/${category.slug}`}
-                className="bg-black px-7 py-4 text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-[#b58a52]"
+                className="inline-flex w-fit items-center justify-center self-start bg-black px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-white transition hover:bg-[#b58a52] lg:self-auto"
               >
                 View All
               </Link>
