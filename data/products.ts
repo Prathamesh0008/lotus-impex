@@ -376,6 +376,16 @@ const womenCatalogueImages = [
   "/catalogue-women/18_Saree_Chiffon_Embroidered.png",
   "/catalogue-women/19_Dress_Floral_Midi.png",
   "/catalogue-women/20_Dress_Solid_Maxi.png",
+  "/catalogue-women/21_Catalogue_Dress_01.png",
+  "/catalogue-women/22_Catalogue_Dress_02.png",
+  "/catalogue-women/23_Catalogue_Dress_03.png",
+  "/catalogue-women/24_Catalogue_Dress_04.png",
+  "/catalogue-women/25_Catalogue_Dress_05.png",
+  "/catalogue-women/26_Catalogue_Dress_06.png",
+  "/catalogue-women/27_Catalogue_Dress_07.png",
+  "/catalogue-women/28_Catalogue_Dress_08.png",
+  "/catalogue-women/29_Catalogue_Dress_09.png",
+  "/catalogue-women/30_Catalogue_Dress_10.png",
 ];
 
 const womenSareeCatalogueImages = [
@@ -383,7 +393,50 @@ const womenSareeCatalogueImages = [
   "/catalogue-women/18_Saree_Chiffon_Embroidered.png",
 ];
 
+const womenOfficewearProducts: ExportProduct[] = [
+  ["white-shirt-trouser-set", "White Shirt Trouser Set", "White Shirt Set", "Women officewear", "/catalogue-women/21_Catalogue_Dress_01.png"],
+  ["blue-blouse-trouser-set", "Blue Blouse Trouser Set", "Blue Blouse Set", "Women officewear", "/catalogue-women/22_Catalogue_Dress_02.png"],
+  ["blazer-trouser-set", "Blazer Trouser Set", "Blazer Set", "Women officewear", "/catalogue-women/23_Catalogue_Dress_03.png"],
+  ["pink-tunic-trouser-set", "Pink Tunic Trouser Set", "Pink Tunic Set", "Tunic sets", "/catalogue-women/24_Catalogue_Dress_04.png"],
+  ["catalogue-officewear-look-05", "Catalogue Officewear Look 05", "Officewear Look 05", "Women officewear", "/catalogue-women/25_Catalogue_Dress_05.png"],
+  ["catalogue-officewear-look-06", "Catalogue Officewear Look 06", "Officewear Look 06", "Women officewear", "/catalogue-women/26_Catalogue_Dress_06.png"],
+  ["catalogue-tunic-look-07", "Catalogue Tunic Look 07", "Tunic Look 07", "Tunic sets", "/catalogue-women/27_Catalogue_Dress_07.png"],
+  ["catalogue-fashion-look-08", "Catalogue Fashion Look 08", "Fashion Look 08", "Seasonal collections", "/catalogue-women/28_Catalogue_Dress_08.png"],
+  ["catalogue-fashion-look-09", "Catalogue Fashion Look 09", "Fashion Look 09", "Seasonal collections", "/catalogue-women/29_Catalogue_Dress_09.png"],
+  ["catalogue-fashion-look-10", "Catalogue Fashion Look 10", "Fashion Look 10", "Seasonal collections", "/catalogue-women/30_Catalogue_Dress_10.png"],
+].map(([slug, name, shortName, type, image]) => ({
+  slug,
+  categorySlug: "ladies-garments",
+  name,
+  shortName,
+  type,
+  image,
+  imageAlt: `${name} from Lotus Impex women catalogue`,
+  summary: `${name} for women apparel buyers, boutiques and private-label sourcing.`,
+  description: `${name} can be sourced for export orders with buyer-specific colors, sizing, labels and packing.`,
+  minOrder: "300 - 1000 pieces",
+  leadTime: "25 - 45 days",
+  packaging: "Individual polybag / carton packing",
+  origin: "India",
+  applications: ["Retail fashion", "Boutiques", "Private label", "Wholesale"],
+  specifications: [
+    { label: "Product Type", value: type },
+    { label: "Fabric Options", value: "Cotton, viscose, polyester and blends" },
+    { label: "Size Range", value: "XS to XXL / buyer-specific sizing" },
+    { label: "Branding", value: "Custom label, tag and packing available" },
+    { label: "Export Use", value: "Retail, wholesale and private label" },
+  ],
+  availableOptions: [
+    name,
+    `Custom ${type}`,
+    `Bulk ${type}`,
+    `Private-label ${type}`,
+    `Export ${type}`,
+  ],
+}));
+
 const baseExportProducts: ExportProduct[] = [
+  ...womenOfficewearProducts,
   /* ===================== FORMAL SHIRTS ===================== */
   {
     slug: "classic-formal-shirts",
@@ -1725,6 +1778,13 @@ export const exportProducts: ExportProduct[] = baseExportProducts
         image: catalogueImage,
         imageAlt: `${product.name} from Lotus Impex mens catalogue`,
       };
+    }
+
+    if (
+      product.categorySlug === "ladies-garments" &&
+      product.image.startsWith("/catalogue-women/")
+    ) {
+      return product;
     }
 
     if (product.categorySlug === "ladies-garments" && product.type === "Sarees") {

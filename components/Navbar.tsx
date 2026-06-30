@@ -710,25 +710,25 @@ className="relative grid h-10 w-10 place-items-center rounded-full border border
       {searchOpen ? (
         <div
           ref={searchPanelRef}
-          className="fixed inset-x-0 top-16 z-[95] border-b border-black/10 bg-white px-4 py-3 shadow-lg shadow-black/10 sm:top-20 sm:px-8 xl:top-24"
+          className="fixed inset-x-0 top-20 z-[95] border-b border-black/10 bg-white px-3 py-2 shadow-lg shadow-black/10 sm:px-8 sm:py-3 xl:top-24"
         >
           <form
             onSubmit={submitSearch}
-            className="mx-auto flex max-w-[1600px] items-center overflow-hidden rounded-[8px] border border-black/20 bg-white"
+            className="mx-auto flex min-h-11 w-full max-w-[1600px] items-center overflow-hidden rounded-xl border border-black/15 bg-white shadow-sm focus-within:border-[#c9a16b] focus-within:ring-2 focus-within:ring-[#c9a16b]/20"
           >
             <input
               type="search"
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
               autoFocus
-              placeholder="Search products or categories..."
-              className="min-h-12 min-w-0 flex-1 px-4 text-base text-[#282c3f] outline-none placeholder:text-[#7e818c] sm:px-5"
+              placeholder="Search products"
+              className="h-11 min-w-0 flex-1 bg-transparent px-3 text-sm font-semibold text-[#282c3f] outline-none placeholder:text-[#7e818c] sm:h-12 sm:px-5 sm:text-base"
             />
             <button
               type="button"
               aria-label="Close search"
               onClick={() => setSearchOpen(false)}
-              className="grid min-h-12 w-12 place-items-center text-2xl font-black text-[#7e818c] transition hover:text-[#282c3f]"
+              className="grid h-11 w-11 shrink-0 place-items-center text-xl font-black text-[#7e818c] transition hover:text-[#282c3f] sm:h-12 sm:w-12 sm:text-2xl"
             >
               ×
             </button>
@@ -737,9 +737,9 @@ className="relative grid h-10 w-10 place-items-center rounded-full border border
       ) : null}
 
       <div
-        className={`fixed inset-x-0 bottom-0 top-16 z-[120] block transition ${
+        className={`fixed inset-x-0 bottom-0 top-20 z-[120] block transition ${
           open ? "pointer-events-auto" : "pointer-events-none"
-        } sm:top-20 xl:hidden`}
+        } xl:hidden`}
         aria-hidden={!open}
       >
           <div

@@ -142,12 +142,15 @@ export default function ProductImageGallery({
               >
                 View Similar
               </button>
-              <div className="absolute bottom-5 right-5 rounded-[10px] bg-white px-3 py-2 text-sm font-black text-[#282c3f] shadow-sm">
+              <Link
+                href="#mobile-ratings-reviews"
+                className="absolute bottom-5 right-5 rounded-[10px] bg-white px-3 py-2 text-sm font-black text-[#282c3f] shadow-sm"
+              >
                 4.3 <span className="text-[#14958f]">★</span>
                 <span className="ml-2 border-l border-black/15 pl-2 font-normal">
                   5.3k
                 </span>
-              </div>
+              </Link>
             </div>
           ))}
         </div>

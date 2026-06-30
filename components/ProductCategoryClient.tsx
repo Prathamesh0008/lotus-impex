@@ -31,6 +31,7 @@ const colorOptions = [
 ];
 const sizeOptions = ["XS", "S", "M", "L", "XL", "XXL", "Custom"];
 const genderOptions = ["Women", "Men", "Girls", "Boys"];
+const womenCatalogueHref = "/catalogues/zeriatex-ss-2021-fashion-catalogue.pdf";
 
 function getDefaultGenderFilter(categorySlug: string, storeMode: boolean) {
   if (storeMode) return "";
@@ -131,6 +132,7 @@ export default function ProductCategoryClient({
   const [pincodePromptOpen, setPincodePromptOpen] = useState(false);
   const [pincode, setPincode] = useState("");
   const [deliveryPincode, setDeliveryPincode] = useState("");
+  const hasWomenCatalogue = !storeMode && category.slug === "ladies-garments";
 
   useEffect(() => {
     // Reset catalogue controls when the route moves to another category.
@@ -392,12 +394,25 @@ export default function ProductCategoryClient({
             )}
           </div>
 
-          <h1 className="mt-5 text-2xl font-black leading-tight text-[#282c3f]">
-            {storeMode ? "Lotus Fashion Store" : category.title}{" "}
-            <span className="font-normal text-black/45">
-              - {filteredProducts.length} items
-            </span>
-          </h1>
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-4">
+            <h1 className="text-2xl font-black leading-tight text-[#282c3f]">
+              {storeMode ? "Lotus Fashion Store" : category.title}{" "}
+              <span className="font-normal text-black/45">
+                - {filteredProducts.length} items
+              </span>
+            </h1>
+
+            {hasWomenCatalogue ? (
+              <Link
+                href={womenCatalogueHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-10 items-center justify-center bg-black px-5 text-xs font-black uppercase tracking-[0.14em] text-white transition hover:bg-[#c9a16b] hover:text-black"
+              >
+                View Catalogue
+              </Link>
+            ) : null}
+          </div>
         </div>
       </section>
 
@@ -677,6 +692,16 @@ export default function ProductCategoryClient({
             </button>
 
             <div className="flex gap-2 overflow-x-auto border-b border-black/10 bg-white px-3 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {hasWomenCatalogue ? (
+                <Link
+                  href={womenCatalogueHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0 rounded-full border border-black bg-black px-4 py-2 text-xs font-black text-white transition hover:bg-[#c9a16b] hover:text-black"
+                >
+                  Catalogue
+                </Link>
+              ) : null}
               {quickActions.map((item) => (
                 <button
                   key={item.label}

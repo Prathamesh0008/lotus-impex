@@ -15,6 +15,35 @@ type ProductPurchasePanelProps = {
   allSizes: string[];
 };
 
+const ratingBreakdown = [
+  { label: "5", count: 134, width: "w-[150px]", color: "bg-[#14958f]" },
+  { label: "4", count: 27, width: "w-[58px]", color: "bg-[#14958f]" },
+  { label: "3", count: 9, width: "w-[24px]", color: "bg-[#14958f]/45" },
+  { label: "2", count: 5, width: "w-[14px]", color: "bg-[#D4AF36]" },
+  { label: "1", count: 18, width: "w-[36px]", color: "bg-[#ff6b6b]" },
+];
+
+const mobileReviews = [
+  {
+    date: "Oct 21, 2023",
+    size: "XL",
+    text: "Nice product, nice fabric",
+    name: "Sweta ramani",
+  },
+  {
+    date: "Mar 12, 2024",
+    size: "M",
+    text: "Size chart is small",
+    name: "Ashwini",
+  },
+  {
+    date: "Jun 04, 2024",
+    size: "L",
+    text: "Good quality and comfortable fit",
+    name: "Verified buyer",
+  },
+];
+
 export default function ProductPurchasePanel({
   product,
   availableSizes,
@@ -235,6 +264,184 @@ export default function ProductPurchasePanel({
           </p>
         </div>
       </div>
+
+      <section
+        id="mobile-ratings-reviews"
+        className="scroll-mt-24 border-t border-black/10 bg-white pt-5 lg:hidden"
+      >
+        <div className="text-[22px] font-bold leading-tight text-[#282c3f]">
+          Ratings &amp; Reviews
+        </div>
+
+        <div className="mt-4 flex min-w-0 items-center gap-2">
+          <span className="inline-flex min-h-11 shrink-0 items-center rounded-[9px] bg-[#1fa36f] px-3 text-xl font-bold text-white">
+            4.3 <span className="ml-1 text-lg">★</span>
+          </span>
+          <span className="inline-flex min-h-11 min-w-0 items-center gap-2 rounded-[9px] bg-[#f5f5f6] px-3 text-sm font-medium text-[#535766]">
+            <span>193 ratings</span>
+            <span className="h-4 w-px bg-black/15" />
+            <span>22 reviews</span>
+            <span className="shrink-0 text-xl leading-none text-[#7e818c]">›</span>
+          </span>
+        </div>
+
+        <div className="mt-4 flex gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {[0, 1].map((item) => (
+            <div
+              key={item}
+              className="relative size-[78px] shrink-0 overflow-hidden rounded-[12px] bg-[#f5f5f6]"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={product.image}
+                alt={`${product.name} customer photo ${item + 1}`}
+                className="h-full w-full object-cover object-center"
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-6 flex items-center justify-between gap-4">
+          <div className="text-[21px] font-bold leading-tight text-[#282c3f]">
+            Customer Reviews (22)
+          </div>
+          <button
+            type="button"
+            className="shrink-0 text-sm font-semibold text-[#282c3f] underline underline-offset-4"
+          >
+            View All
+          </button>
+        </div>
+
+        <div className="-mx-5 mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {mobileReviews.map((review) => (
+            <article
+              key={`${review.date}-${review.name}`}
+              className="min-h-[184px] w-[min(306px,calc(100vw-54px))] shrink-0 snap-start rounded-[14px] border border-black/10 bg-white p-3 shadow-[0_4px_14px_rgba(40,44,63,0.08)]"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex min-w-0 items-center gap-3">
+                  <span className="shrink-0 rounded-md bg-[#1fa36f] px-2 py-1 text-xs font-black text-white">
+                    5 ★
+                  </span>
+                  <span className="truncate text-sm font-semibold text-[#7e818c]">
+                    {review.date}
+                  </span>
+                </div>
+                <span className="shrink-0 rounded-[8px] bg-[#f5f5f6] px-3 py-1.5 text-sm font-black text-[#282c3f]">
+                  Size: {review.size}
+                </span>
+              </div>
+
+              <div className="mt-5 grid grid-cols-[1fr_72px] gap-3">
+                <p className="text-[15px] leading-6 text-[#282c3f]">
+                  {review.text}
+                </p>
+                <div className="relative size-[72px] overflow-hidden rounded-[12px] bg-[#f5f5f6] shadow-lg shadow-black/10">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={product.image}
+                    alt={`${product.name} review photo`}
+                    className="h-full w-full object-cover object-center"
+                  />
+                </div>
+              </div>
+
+              <p className="mt-6 flex items-center gap-2 text-sm font-semibold text-[#535766]">
+                <span className="grid size-4 place-items-center rounded-full border border-[#1fa36f] text-[10px] text-[#1fa36f]">
+                  ✓
+                </span>
+                {review.name}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-8 hidden border-t border-black/10 pt-7 lg:block">
+        <div className="flex items-center gap-2 text-base font-black uppercase text-[#282c3f]">
+          <span>Ratings</span>
+          <span className="text-xl font-normal leading-none">☆</span>
+        </div>
+
+        <div className="mt-8 flex items-center gap-10">
+          <div>
+            <div className="flex items-center gap-3">
+              <span className="text-6xl font-light leading-none text-[#282c3f]">
+                4.3
+              </span>
+              <span className="text-4xl leading-none text-[#14958f]">★</span>
+            </div>
+            <p className="mt-5 text-base text-[#282c3f]">
+              193 Verified Buyers
+            </p>
+          </div>
+
+          <div className="h-[118px] w-px bg-black/10" />
+
+          <div className="grid gap-2">
+            {ratingBreakdown.map((rating) => (
+              <div
+                key={rating.label}
+                className="grid grid-cols-[26px_150px_36px] items-center gap-2 text-sm text-[#535766]"
+              >
+                <span>
+                  {rating.label} <span className="text-[#bfc0c6]">★</span>
+                </span>
+                <span className="h-1.5 overflow-hidden bg-[#f5f5f6]">
+                  <span className={`block h-full ${rating.width} ${rating.color}`} />
+                </span>
+                <span className="text-[#282c3f]">{rating.count}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-8 border-t border-black/10 pt-7">
+          <h3 className="text-xl font-black text-[#282c3f]">
+            Customer Photos (2)
+          </h3>
+          <div className="mt-4 flex gap-3">
+            {[0, 1].map((item) => (
+              <div
+                key={item}
+                className="relative size-[94px] overflow-hidden bg-[#f5f5f6]"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={product.image}
+                  alt={`${product.name} customer photo ${item + 1}`}
+                  className="h-full w-full object-cover object-center"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-8 border-t border-black/10 pt-7">
+          <h3 className="text-xl font-black text-[#282c3f]">
+            Customer Reviews (22)
+          </h3>
+          <div className="mt-6 flex items-start gap-4">
+            <span className="mt-1 bg-[#14958f] px-1.5 py-0.5 text-xs font-black text-white">
+              5★
+            </span>
+            <div>
+              <p className="text-lg text-[#282c3f]">
+                Nice product, nice fabric
+              </p>
+              <div className="mt-3 relative size-[94px] overflow-hidden bg-[#f5f5f6]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={product.image}
+                  alt={`${product.name} review photo`}
+                  className="h-full w-full object-cover object-center"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

@@ -172,6 +172,10 @@ article h3 {
   transform: scale(0.94);
 }
 
+.company-motion [data-reveal="card"] {
+  transform: translate3d(0, 58px, 0) scale(0.96);
+}
+
 .company-motion [data-reveal].reveal-visible {
   opacity: 1;
   transform: translate3d(0, 0, 0) scale(1);
@@ -197,6 +201,56 @@ article h3 {
   animation-delay: -3.4s;
 }
 
+.company-smooth-cards {
+  perspective: 1400px;
+}
+
+.company-smooth-card {
+  position: relative;
+  min-height: 310px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.03)),
+    #171717;
+  padding: 2rem;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.5s ease,
+    background 0.5s ease,
+    box-shadow 0.5s ease;
+}
+
+.company-smooth-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(201, 161, 107, 0.22), transparent 48%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.company-smooth-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.company-smooth-card:hover {
+  border-color: rgba(201, 161, 107, 0.58);
+  background:
+    linear-gradient(145deg, rgba(201, 161, 107, 0.18), rgba(255, 255, 255, 0.04)),
+    #1c1c1c;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.42);
+  transform: translate3d(0, -12px, 0) scale(1.015);
+}
+
+.company-smooth-card:hover::before {
+  opacity: 1;
+}
+
 @keyframes company-float {
   0%,
   100% {
@@ -211,7 +265,8 @@ article h3 {
 @media (prefers-reduced-motion: reduce) {
   .company-motion [data-reveal],
   .company-motion .motion-image img,
-  .company-motion .float-stack-card {
+  .company-motion .float-stack-card,
+  .company-smooth-card {
     animation: none;
     opacity: 1;
     transform: none;

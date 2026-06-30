@@ -60,6 +60,29 @@ const manufacturingHighlights = [
   "Quality checkpoints for measurements, finishing, fabric feel and export readiness",
 ];
 
+const smoothMotionCards = [
+  {
+    title: "Manufacturing",
+    text: "Garment, fabric and accessory production support shaped around buyer specifications, finishing expectations and export packing.",
+    href: "/products/ladies-garments",
+  },
+  {
+    title: "Sourcing",
+    text: "Supplier coordination, sample alignment and category mapping for importers who need dependable India-based execution.",
+    href: "/contact",
+  },
+  {
+    title: "Quality",
+    text: "Measurement checks, fabric review, trims inspection and shipment-readiness tracking before goods move forward.",
+    href: "/company",
+  },
+  {
+    title: "Export",
+    text: "Documentation-focused planning for bulk orders, private-label packaging and international buyer communication.",
+    href: "/products",
+  },
+];
+
 const solutionSections = [
   {
     eyebrow: "Vendor Sourcing Solutions",
@@ -196,6 +219,52 @@ export default function CompanyPage() {
         </div>
       </section>
 
+      <section className="overflow-hidden bg-[#111111] px-5 py-16 text-white sm:px-8 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-[1500px]">
+          <div className="mb-10 grid gap-6 lg:grid-cols-[0.85fr_1fr] lg:items-end">
+            <div data-reveal="left">
+              <p className="mb-4 text-xs font-black uppercase tracking-[0.3em] text-white/45">
+                How We Move
+              </p>
+              <h2 className="text-5xl font-black leading-[0.92] text-white sm:text-6xl">
+                Smooth execution from brief to shipment.
+              </h2>
+            </div>
+
+            <p className="max-w-3xl text-lg leading-8 text-white/60 lg:justify-self-end" data-reveal="right" data-delay="120">
+              Each order is handled as a connected flow: understand the
+              requirement, align the right production path, check quality and
+              prepare the shipment with clean communication.
+            </p>
+          </div>
+
+          <div className="company-smooth-cards grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {smoothMotionCards.map((card, index) => (
+              <Link
+                key={card.title}
+                href={card.href}
+                data-reveal="card"
+                data-delay={String(index * 110)}
+                className="company-smooth-card group"
+              >
+                <span className="text-sm font-black text-white/30">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <h3 className="mt-10 text-3xl font-black leading-none text-white">
+                  {card.title}
+                </h3>
+                <p className="mt-5 text-sm leading-7 text-white/58">
+                  {card.text}
+                </p>
+                <span className="mt-8 inline-flex text-xs font-black uppercase tracking-[0.18em] text-[#c9a16b] transition group-hover:text-white">
+                  Explore
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="border-y border-black/10 bg-[#f7f7f5]">
         <div className="mx-auto max-w-[1500px] px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
           <div className="mb-10 flex items-center gap-5" data-reveal>
@@ -321,7 +390,7 @@ export default function CompanyPage() {
 
                   <Link
                     href={section.href}
-                    className="mt-9 inline-flex bg-black px-8 py-4 text-xs font-black uppercase tracking-[0.18em] text-white transition hover:bg-[#1f1f1f]"
+                    className="mt-9 inline-flex w-fit max-w-full items-center justify-center bg-black px-5 py-3 text-[11px] font-black uppercase tracking-[0.14em] text-white transition hover:bg-[#1f1f1f] sm:px-8 sm:py-4 sm:text-xs sm:tracking-[0.18em]"
                   >
                     {section.cta}
                   </Link>
