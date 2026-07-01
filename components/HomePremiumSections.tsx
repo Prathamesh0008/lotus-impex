@@ -81,9 +81,6 @@ export default function HomePremiumSections() {
         <div className="mx-auto max-w-[1500px]">
           <div className="mb-10 flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
             <div>
-              <p className="mb-3 text-xs font-black uppercase tracking-[0.28em] text-[#b58a52]">
-                Featured Collections
-              </p>
               <h2 className="max-w-3xl text-3xl leading-tight text-black sm:text-4xl lg:text-5xl">
                 Export categories buyers ask for most.
               </h2>

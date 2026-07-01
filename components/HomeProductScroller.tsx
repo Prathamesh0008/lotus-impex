@@ -150,9 +150,6 @@ export default function HomeProductScroller() {
       <div className="mx-auto w-full max-w-[1500px]">
         <div className="mb-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <div>
-            <p className="mb-3 text-xs font-black uppercase tracking-[0.28em] text-[#b58a52]">
-              All Products
-            </p>
             <h2 className="max-w-3xl text-3xl leading-tight text-black sm:text-4xl lg:text-5xl">
               Export catalogue products ready for enquiry.
             </h2>
@@ -197,21 +194,20 @@ export default function HomeProductScroller() {
             const hasEmbeddedFrame = imageSrc.startsWith("/catalogue-women/");
 
             return (
-              <article
+              <Link
                 key={`${product.categorySlug}-${product.slug}-${index}`}
-                className="group flex min-w-0 snap-start flex-col overflow-hidden bg-white shadow-[0_8px_24px_rgba(0,0,0,0.05)] transition hover:shadow-[0_14px_32px_rgba(0,0,0,0.12)]"
+                href={`/products/${product.categorySlug}/${product.slug}`}
+                draggable={false}
+                onPointerDown={(event) => event.stopPropagation()}
+                onClick={(event) => {
+                  if (didDrag.current) {
+                    event.preventDefault();
+                    didDrag.current = false;
+                  }
+                }}
+                className="group flex min-w-0 snap-start cursor-pointer flex-col overflow-hidden bg-white shadow-[0_8px_24px_rgba(0,0,0,0.05)] transition hover:shadow-[0_14px_32px_rgba(0,0,0,0.12)]"
               >
-                <Link
-                  href={`/products/${product.categorySlug}/${product.slug}`}
-                  draggable={false}
-                  onClick={(event) => {
-                    if (didDrag.current) {
-                      event.preventDefault();
-                      didDrag.current = false;
-                    }
-                  }}
-                  className="block cursor-pointer"
-                >
+                <article className="flex h-full min-w-0 flex-col">
                   <div className="relative aspect-[3/4] overflow-hidden bg-white">
                     <Image
                       src={imageSrc}
@@ -247,8 +243,8 @@ export default function HomeProductScroller() {
                       </span>
                     </p>
                   </div>
-                </Link>
-              </article>
+                </article>
+              </Link>
             )
           })}
         </div>

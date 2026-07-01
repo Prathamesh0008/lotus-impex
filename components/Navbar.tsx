@@ -158,16 +158,15 @@ function CartIcon() {
     <svg
       aria-hidden="true"
       viewBox="0 0 24 24"
-      className="size-5"
+      className="size-6"
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth="2.2"
+      strokeWidth="1.8"
     >
-      <path d="M5 6h16l-2 8H7L5 3H3" />
-      <circle cx="9" cy="20" r="1.5" />
-      <circle cx="18" cy="20" r="1.5" />
+      <path d="M6.5 8.5h11l.85 11H5.65l.85-11Z" />
+      <path d="M9 8.5a3 3 0 0 1 6 0" />
     </svg>
   );
 }
@@ -195,15 +194,32 @@ function UserIcon() {
     <svg
       aria-hidden="true"
       viewBox="0 0 24 24"
-      className="size-5"
+      className="size-6"
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth="2.2"
+      strokeWidth="1.8"
     >
       <circle cx="12" cy="8" r="4" />
       <path d="M4 21c1.6-4.2 4.2-6 8-6s6.4 1.8 8 6" />
+    </svg>
+  );
+}
+
+function HeartIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="size-6"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.8"
+    >
+      <path d="M12 20.25S4.75 16.2 3.05 10.9C1.9 7.35 4.2 4.5 7.45 4.5c1.85 0 3.35 1 4.55 2.45C13.2 5.5 14.7 4.5 16.55 4.5c3.25 0 5.55 2.85 4.4 6.4C19.25 16.2 12 20.25 12 20.25Z" />
     </svg>
   );
 }
@@ -314,16 +330,23 @@ export default function Navbar() {
 
   const iconLinks = [
     {
-      href: "/enquiry-basket",
-      label: "Cart",
-      icon: <CartIcon />,
-      count: cartCount,
-    },
-    {
       href: user ? "/sign-in" : "/sign-up",
-      label: user ? user.name : "Sign up",
+      label: "Profile",
       icon: <UserIcon />,
       count: 0,
+    },
+    {
+      href: "/wishlist",
+      label: "Wishlist",
+      icon: <HeartIcon />,
+      count: 0,
+      desktopOnly: true,
+    },
+    {
+      href: "/enquiry-basket",
+      label: "Bag",
+      icon: <CartIcon />,
+      count: cartCount,
     },
   ];
 
@@ -386,7 +409,7 @@ export default function Navbar() {
     <>
      <header
   ref={headerRef}
-  className="fixed left-0 right-0 top-0 z-[100] border-b border-black/10 bg-white text-black shadow-sm"
+  className="fixed left-0 right-0 top-0 z-[100] border-b border-black/10 bg-[#ffff] text-black "
 >
       <nav className="relative mx-auto grid h-20 max-w-[1500px] grid-cols-[46px_minmax(135px,1fr)_120px] items-center gap-1 px-3 sm:grid-cols-[52px_minmax(190px,1fr)_150px] sm:px-6 xl:h-24 xl:grid-cols-[minmax(300px,0.8fr)_minmax(420px,1fr)_auto] xl:gap-8 xl:px-10">
           <div className="flex items-center xl:hidden">
@@ -466,8 +489,8 @@ export default function Navbar() {
                     type="button"
                     aria-expanded={desktopProductsOpen}
                     onClick={() => setDesktopProductsOpen(true)}
-                    className={`text-sm font-semibold uppercase tracking-[0.14em] transition ${
-               active ? "text-black" : "text-black/70 hover:text-black"
+                    className={`text-sm font-semibold uppercase tracking-[0.14em] text-black transition ${
+               active ? "" : "hover:text-black"
                     }`}
                   >
                     {link.label}
@@ -563,8 +586,8 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-sm font-semibold uppercase tracking-[0.14em] transition ${
-                active ? "text-black" : "text-black/70 hover:text-black"
+                  className={`text-sm font-semibold uppercase tracking-[0.14em] text-black transition ${
+                active ? "" : "hover:text-black"
                   }`}
                 >
                   {link.label}
@@ -586,7 +609,7 @@ export default function Navbar() {
 
                
                
-className="grid h-9 w-9 sm:h-10 sm:w-10 xl:h-12 xl:w-12 place-items-center rounded-full border border-black/20 bg-transparent text-black transition hover:bg-black hover:text-white"             
+className="grid h-9 w-9 place-items-center bg-transparent text-black transition hover:text-black/65 sm:h-10 sm:w-10 xl:h-12 xl:w-12"             
              >
 
                 <SearchIcon />
@@ -601,26 +624,18 @@ className="grid h-9 w-9 sm:h-10 sm:w-10 xl:h-12 xl:w-12 place-items-center round
                     href={item.href}
                     aria-label={item.label}
                     title={item.label}
-                  className={`relative inline-flex h-9 w-9 sm:h-10 sm:w-10 xl:h-12 ${
-  user && item.href === "/sign-in"
-    ? "xl:w-auto xl:px-4"
-    : ""
-} items-center justify-center gap-2 rounded-full border transition ${
-  active
-    ? "border-black bg-black text-white"
-    : "border-black/20 bg-transparent text-black hover:bg-black hover:text-white"
-}`}
+                    className={`relative inline-flex min-h-10 min-w-10 flex-col items-center justify-center gap-0.5 bg-transparent text-black transition hover:text-black/65 sm:min-h-11 sm:min-w-11 xl:min-h-12 xl:min-w-[54px] ${
+                      item.desktopOnly ? "hidden xl:inline-flex" : ""
+                    } ${active ? "text-black" : ""}`}
                   >
                   {item.icon}
 
-{user && item.href === "/sign-in" ? (
-  <span className="hidden max-w-28 truncate text-xs font-semibold uppercase tracking-[0.12em] xl:block">
-    {user.name}
+                  <span className="hidden text-[12px] font-black leading-none xl:block">
+                    {item.label}
   </span>
-) : null}
 
 {item.count > 0 ? (
-  <span className="absolute -right-1 -top-1 grid min-w-5 place-items-center rounded-full bg-[#c9a16b] px-1.5 py-0.5 text-[10px] font-black leading-none text-black ring-2 ring-white">
+  <span className="absolute right-0 top-0 grid min-w-5 place-items-center rounded-full bg-[#ff5a66] px-1.5 py-0.5 text-[12px] font-black leading-none text-white ring-2 ring-white xl:right-1 xl:-top-1">
     {item.count > 99 ? "99+" : item.count}
   </span>
 ) : null}

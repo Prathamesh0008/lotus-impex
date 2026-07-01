@@ -20,8 +20,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/privacy",
     "/terms-condition",
     "/enquiry-basket",
+    "/wishlist",
     "/checkout",
     "/sign-in",
+    "/sign-up",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),

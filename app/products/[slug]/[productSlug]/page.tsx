@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import CatalogProductCard from "@/components/CatalogProductCard";
 import ProductImageGallery from "@/components/ProductImageGallery";
 import ProductPurchasePanel from "@/components/ProductPurchasePanel";
+import ProductShareButton from "@/components/ProductShareButton";
 import WishlistLoginButton from "@/components/WishlistLoginButton";
 import { exportCategories, siteConfig } from "@/data/site";
 import {
@@ -83,14 +84,21 @@ export async function generateMetadata({
       title: `${product.name} Export | Lotus Impex`,
       description: product.summary,
       url: `${siteConfig.url}/products/${product.categorySlug}/${product.slug}`,
+      siteName: "Lotus Impex",
       images: [
         {
-          url: product.image,
+          url: "/lotus-final-logo-wide.png",
           width: 1200,
           height: 630,
-          alt: product.imageAlt,
+          alt: "Lotus Impex logo",
         },
       ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${product.name} Export | Lotus Impex`,
+      description: product.summary,
+      images: ["/lotus-final-logo-wide.png"],
     },
   };
 }
@@ -260,8 +268,13 @@ export default async function ProductDetailPage({ params }: PageProps) {
                   {product.shortName}
                 </div>
               ) : null}
-              <div className="lg:hidden">
-                <WishlistLoginButton />
+              <div className="flex shrink-0 items-center gap-2 lg:hidden">
+                <ProductShareButton
+                  title={product.name}
+                  text={product.summary}
+                  path={`/products/${product.categorySlug}/${product.slug}`}
+                />
+                <WishlistLoginButton product={product} />
               </div>
             </div>
             <div className="mt-5 hidden items-center border border-black/10 px-3 py-1.5 text-base font-black text-[#282c3f] lg:inline-flex">

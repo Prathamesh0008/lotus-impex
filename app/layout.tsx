@@ -34,6 +34,27 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icon.svg",
   },
+  openGraph: {
+    title: "Lotus Impex | Export House",
+    description: siteConfig.description,
+    url: siteConfig.url,
+    siteName: "Lotus Impex",
+    images: [
+      {
+        url: "/lotus-final-logo-wide.png",
+        width: 1200,
+        height: 630,
+        alt: "Lotus Impex logo",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Lotus Impex | Export House",
+    description: siteConfig.description,
+    images: ["/lotus-final-logo-wide.png"],
+  },
 };
 
 export default function RootLayout({

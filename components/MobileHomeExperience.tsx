@@ -264,7 +264,7 @@ export default function MobileHomeExperience() {
 
   return (
     <main className="min-h-screen bg-[#f5f5f6] pt-16 text-[#282c3f]">
-      <section className="bg-white px-3 pb-3 pt-5">
+      <section className="hidden">
         <form
           onSubmit={handleSearchSubmit}
           className="flex h-11 items-center gap-2 rounded-full border border-black/10 bg-white px-4 text-[#535766] shadow-[0_8px_22px_rgba(0,0,0,0.08)]"
@@ -300,7 +300,7 @@ export default function MobileHomeExperience() {
         </form>
       </section>
 
-      <section className="overflow-x-auto bg-white px-3 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <section className="hidden">
         <div className="flex min-w-max gap-4">
           {topCategories.map((category) => (
             <Link
@@ -325,7 +325,7 @@ export default function MobileHomeExperience() {
         </div>
       </section>
 
-      <section className="bg-white px-1 pb-2">
+      <section className="bg-white px-1 pb-2 pt-2">
         <div className="flex min-h-12 items-center justify-center gap-3 bg-gradient-to-r from-[#fff3dc] via-[#ffe4e7] to-[#f7def2] px-3 text-center">
           <span className="text-xl font-black text-[#ff6f21]">Flat Rs.300 Off</span>
           <span className="rounded bg-white px-2 py-1 text-[9px] font-black uppercase leading-3 text-[#282c3f] shadow-sm">

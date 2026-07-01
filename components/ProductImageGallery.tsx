@@ -58,7 +58,7 @@ function SafeImage({
         sizes="(max-width: 768px) 100vw, 38vw"
         priority={priority}
         onError={() => setImageSrc(fallback)}
-        className="object-contain object-center p-4"
+        className="object-cover object-top"
       />
     );
   }
@@ -249,11 +249,11 @@ export default function ProductImageGallery({
         ) : null}
       </div>
 
-      <div className="hidden gap-4 sm:grid sm:grid-cols-2">
+      <div className="hidden gap-2 sm:grid sm:grid-cols-2">
         {images.slice(0, 4).map((item, index) => (
           <div
             key={`${item.src}-${index}`}
-            className="group relative min-h-[360px] overflow-hidden bg-white sm:min-h-[560px]"
+            className="group relative min-h-[360px] overflow-hidden bg-white sm:min-h-[500px]"
           >
             <SafeImage
               src={item.src}

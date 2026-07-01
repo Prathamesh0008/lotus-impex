@@ -101,9 +101,9 @@ export default function AddToEnquiryButton({
       type="button"
       onClick={addToBasket}
       disabled={disabled}
-      className={`inline-flex min-h-12 items-center justify-center whitespace-nowrap ${
+      className={`inline-flex min-h-9 items-center justify-center whitespace-nowrap ${
         tone === "myntra"
-          ? "rounded-[12px] bg-[#D4AF36] px-8 py-4 text-base font-black text-black shadow-sm transition hover:bg-[#D4AF36] disabled:bg-[#D4AF36] sm:rounded-[4px]"
+          ? "rounded-[10px] bg-[#D4AF36] px-4 py-2 text-xs font-black text-black shadow-sm transition hover:bg-[#D4AF36] disabled:bg-[#D4AF36] sm:rounded-[4px]"
           : "rounded-full bg-[#c9a16b] px-6 py-3 text-xs font-bold tracking-[0.1em] text-black transition hover:bg-[#d4b38a] disabled:bg-gray-300"
       } uppercase disabled:cursor-not-allowed ${
         fullWidth ? "w-full" : ""
